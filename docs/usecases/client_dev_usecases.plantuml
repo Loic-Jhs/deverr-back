@@ -1,0 +1,15 @@
+@startuml Client
+left to right direction
+
+:Client: as client
+:Developer: as dev
+
+package Application {
+    (Ask for a new mission) .> (Pays)
+    (Pays) .> (Receives a mail about the new mission)
+    (Ask for a new mission) <-- client
+    (Receives a mail about the new mission) --> dev
+    (Pays) .> (Receives a mail to confirm the payment)
+    (Receives a mail to confirm the payment) --> client
+}
+@enduml
