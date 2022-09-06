@@ -10,6 +10,7 @@ package Application {
     usecase "Add type of developer" as add_type_of_developer
     usecase "Add number of years as a developer" as add_number_of_years
     usecase see_profile as  "see his profile
+    usecase "Send message to admin" as send_message_to_admin
     --
     modify his profile"
 }
@@ -19,4 +20,5 @@ dev --> accept_mission
 dev --> add_type_of_developer
 dev -> add_number_of_years
 dev -> see_profile
+dev --> send_message_to_admin
 @enduml

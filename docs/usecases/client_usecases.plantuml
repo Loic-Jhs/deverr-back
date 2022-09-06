@@ -13,6 +13,7 @@ package Application {
     --
     modify his profile"
     usecase "Feedback (note + comment)" as feedback
+    usecase "Send message to admin" as send_message_to_admin
 }
 
 client --> inscription
@@ -20,4 +21,5 @@ client --> connection
 client --> see_devs
 client -> see_profile
 client --> feedback
+client --> send_message_to_admin
 @enduml
