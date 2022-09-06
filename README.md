@@ -1,27 +1,24 @@
 # Rôles des développeurs :
 
-## Product Owner :
-### Théo Hérédia
+Product Owner :
+- Théo Hérédia
 
-## Project Manager :
-### Giovanni Milet
+Project Manager :
+- Giovanni Milet
 
-## Front-end lead developer :
-### Loïc Jouhans
+Front-end lead developer :
+- Loïc Jouhans
 
-## Front-end developers:
-### Giovanni Milet
-### Théo Hérédia
+Front-end developers:
+- Giovanni Milet
+- Théo Hérédia
 
-## Lead developer back-end :
-### Donovan Basset
+Lead developer back-end :
+- Donovan Basset
 
-## Back-end developers :
-### Théo Hérédia
-### Ethan Eldib
+Back-end developers :
+- Théo Hérédia
+- Ethan Eldib
 
-## Git master :
-### Ethan Eldib
-
-_________________________________________________________
-
+Git master :
+- Ethan Eldib
