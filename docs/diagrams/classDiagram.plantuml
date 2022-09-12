@@ -107,6 +107,21 @@ class Review {
   updatedAt: datetime
 }
 
+class Message {
+  id: bigIntUnsigned
+  fromUserId: foreignId
+  toUserId: foreignId
+  createdAt: datetime
+  updatedAt: datetime
+}
+
+class Complaint {
+    id: bigIntUnsigned
+    userId: foreignId
+    createdAt: datetime
+    updatedAt: datetime
+}
+
 User "N " -- "1 " Role
 User "1 " -- "N " ForgotPasswordToken
 Order "0..N " -- "1..N " User
@@ -118,5 +133,5 @@ Review "1 " -- "0..N " User
 Review "0..1 " -- "1 " Order
 DevPrestation "1 " -- "N " Prestation
 DevPrestation "N " -- "1 " Dev
-
+User "1 " -- "0..N " Message
 @enduml
