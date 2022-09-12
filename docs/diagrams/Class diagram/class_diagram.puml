@@ -55,9 +55,11 @@ class DevPrestation {
 }
 
 class DevStack {
-  id: bigIntUnsigned
   dev_id: foreignId
-
+  stack_id: foreignId
+  stack_experience: int
+  createdAt: datetime
+  updatedAt: datetime
 }
 
 class Stack {
@@ -134,4 +136,6 @@ Review "0..1 " -- "1 " Order
 DevPrestation "1 " -- "N " Prestation
 DevPrestation "N " -- "1 " Dev
 User "1 " -- "0..N " Message
+Complaint "0..N " -- "1 " User
+
 @enduml
