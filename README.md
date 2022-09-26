@@ -22,3 +22,20 @@ Back-end developers :
 
 Git master :
 - Ethan Eldib
+
+Au clonage du projet:
+
+- `docker run --rm -it -v $PWD:/app loan91/tools:composer81 install` <== permet d'installer les dépendances sans avoir à se soucier de la version de composer
+- Copier le .env.example en .env 
+- modifier le .env avec: 
+    ```
+    DB_CONNECTION=mysql
+    DB_HOST=mariadb
+    DB_PORT=3306
+    DB_DATABASE=deverr
+    DB_USERNAME=root
+    DB_PASSWORD=password
+    ```
+- lancer la commande: `./vendor/bin/sail up -d` <== lance le conteneur avec l'application
+- lancer la commande: `./vendor/bin/sail artisan key:generate`
+- lancer la commande: `./vendor/bin/sail artisan migrate` <== lance les migrations
