@@ -39,4 +39,9 @@ Au clonage du projet:
 - lancer la commande: `./vendor/bin/sail build --no-cache` <== permet de build 
 - lancer la commande: `./vendor/bin/sail up -d` <== lance le conteneur avec l'application
 - lancer la commande: `./vendor/bin/sail artisan key:generate`
-- lancer la commande: `./vendor/bin/sail artisan migrate` <== lance les migrations
+- lancer la commande: `./vendor/bin/sail artisan migrate` <== lance les migrations 
+
+## au cas où si mariadb bug:
+    `./vendor/bin/sail down -v`
+ Essayer de re-build 
+ Relancer avec `./vendor/bin/sail up -d`
