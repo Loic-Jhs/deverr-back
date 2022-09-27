@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -19,9 +18,9 @@ class DeveloperPrestationSeeder extends Seeder
             'dev_id' => 1,
             'description' => "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
             'prestation_id' => 1,
-            'price' => "600.25",
-            'created_at' => "2022-09-25 10:50:12",
-            'updated_at' => "2022-09-26 15:25:52"
+            'price' => '600.25',
+            'created_at' => '2022-09-25 10:50:12',
+            'updated_at' => '2022-09-26 15:25:52',
         ]);
     }
 }
