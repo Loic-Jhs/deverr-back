@@ -7,7 +7,6 @@ use App\Http\Requests\LoginRegister\LoginUserRequest;
 use App\Http\Requests\LoginRegister\StoreNewUserRequest;
 use App\Models\Developer;
 use App\Models\User;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
