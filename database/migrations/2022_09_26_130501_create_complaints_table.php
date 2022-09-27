@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('dev_prestation_id');
-            $table->string('complaint',1000);
+            $table->string('complaint', 1000);
             $table->timestamps();
         });
     }

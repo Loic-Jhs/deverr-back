@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use http\Message;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

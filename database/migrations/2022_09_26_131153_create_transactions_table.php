@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->integer('number');
-            $table->enum('state',[1,2,3])->comment('1 : Validé | 2 : Annulé | 3 : Refusé')->default(1);
+            $table->enum('state', [1, 2, 3])->comment('1 : Validé | 2 : Annulé | 3 : Refusé')->default(1);
             $table->timestamps();
         });
     }
