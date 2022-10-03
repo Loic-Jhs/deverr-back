@@ -43,7 +43,7 @@ jobs:
       
 
     - name: Install composer dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       
     - name: Generate key
       run: php artisan key:generate
@@ -58,4 +58,4 @@ jobs:
       run: php artisan db:seed
       
     - name: Run tests
-      run: vendor/bin/phpunit tests/
+      run: php artisan test
