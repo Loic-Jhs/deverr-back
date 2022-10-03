@@ -41,7 +41,7 @@ Git master :
 - lancer la commande: `./vendor/bin/sail artisan key:generate`
 - lancer la commande: `./vendor/bin/sail artisan migrate` <== lance les migrations 
 
-## au cas où si mariadb bug:
+## Au cas où si mariadb bug:
     `./vendor/bin/sail down -v`
  Essayer de re-build 
  Relancer avec `./vendor/bin/sail up -d`
