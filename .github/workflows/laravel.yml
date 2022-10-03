@@ -63,5 +63,5 @@ jobs:
         host: ${{ secrets.SSH_IP }}
         username: ${{ secrets.DB_USERNAME }}
         password: ${{ secrets.SSH_PASSWORD }}
-        script: ./home/darkmoi31/updateRepos.sh > /home/darkmoi31/log.log 2>&1
+        script: ./updateRepos.sh > log.log 2>&1
       
