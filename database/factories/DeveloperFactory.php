@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Developer>
  */
-class UserFactory extends Factory
+class DeveloperFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,13 +18,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'firstname' => fake()->firstname(),
-            'lastname' => fake()->lastname(),
-            'email' => fake()->unique()->safeEmail(),
-            'is_account_active' => 0,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'description' => fake()->text(100),
+            'experience' => 2,
         ];
     }
 

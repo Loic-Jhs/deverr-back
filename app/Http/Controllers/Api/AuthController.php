@@ -67,7 +67,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token[1],
             'token_type' => 'Bearer',
-        ]);
+        ], 201);
     }
 
     public function login(LoginUserRequest $request): \Illuminate\Http\JsonResponse
