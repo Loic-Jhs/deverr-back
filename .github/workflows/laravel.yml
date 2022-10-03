@@ -31,7 +31,7 @@ jobs:
               DB_USERNAME: ${{secrets.DB_USERNAME}}
               DB_PASSWORD: ${{secrets.DB_PASSWORD}}
           - name: instanciate mariadb
-          - uses: getong/mariadb-action@v1.1
+            uses: getong/mariadb-action@v1.1
             with:
               host port: 3306 # Optional, default value is 3306. The port of host
               character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
