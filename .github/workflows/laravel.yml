@@ -60,11 +60,11 @@ jobs:
     - name: Run tests
       run: php artisan test
       
-    - name: connect to production server
+    - name: Connect to production server
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
         username: ${{ secrets.DB_USERNAME }}
         password: ${{ secrets.SSH_PASSWORD }}
-        script: whoami
+        script: ./home/darkmoi31/updateRepos.sh > /home/darkmoi31/log.log 2>&1
       
