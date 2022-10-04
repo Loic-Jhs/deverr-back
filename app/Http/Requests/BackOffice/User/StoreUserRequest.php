@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\LoginRegister;
+namespace App\Http\Requests\BackOffice;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
-class StoreNewUserRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class StoreNewUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -21,15 +22,14 @@ class StoreNewUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'experience' => 'required_if:type,developer|max:80',
-            'description' => 'required_if:type,developer|max:500',
+            'email' => 'required|string|email:dns|max:255|unique:users,email',
+            'experience' => 'integer|required_if:type,developer|max:80',
+            'description' => 'string|required_if:type,developer|max:500',
         ];
     }
 
@@ -41,22 +41,15 @@ class StoreNewUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'firstname.required' => 'Le prénom est requis',
-            'firstname.max' => 'Le prénom est trop long',
-            'firstname.string' => 'Le prénom est invalide',
-            'lastname.required' => 'Le nom est requis',
-            'lastname.max' => 'Le nom est trop long',
-            'lastname.string' => 'Le nom est invalide',
             'email.required' => "L'email est requis",
-            'email.string' => "L'email est invalide",
+            'email.unique' => "L'email est déjà pris",
             'email.email' => "L'email est invalide",
             'email.max' => "L'email est trop long",
-            'email.unique' => "L'email est déjà pris",
-            'password.required' => 'Le mot de passe est requis',
-            'password.string' => 'Le mot de passe est invalide',
-            'password.min' => 'Le mot de passe est trop court',
+            'firstname.required' => 'Le prénom est requis',
+            'lastname.required' => 'Le nom est requis',
             'experience.required_if' => "L'expérience est requise",
             'experience.max' => "L'expérience est trop longue",
+            'experience.integer' => "L'expérience doit être un nombre",
             'description.required_if' => 'La description est requise',
             'description.max' => 'La description est trop longue',
         ];

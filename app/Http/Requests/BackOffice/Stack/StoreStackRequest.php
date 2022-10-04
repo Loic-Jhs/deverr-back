@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Requests\LoginRegister;
+namespace App\Http\Requests\BackOffice;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
-class LoginUserRequest extends FormRequest
+class StoreStackRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize() :bool
     {
-        return true;
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -21,11 +22,10 @@ class LoginUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules() :array
     {
         return [
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required',
+            'name' => 'required|string|max:255',
         ];
     }
 
@@ -37,10 +37,9 @@ class LoginUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => "L'email est requis",
-            'email.email' => "L'email est invalide",
-            'email.exists' => "L'email n'existe pas",
-            'password.required' => 'Le mot de passe est requis',
+            'name.required' => "Le nom de la stack est requise",
+            'name.max'      => "Le nom de la stack est trop longue",
+            'name.string'   => "Le nom de la stack est invalide",
         ];
     }
 }

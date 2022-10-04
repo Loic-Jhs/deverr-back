@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\StackController;
+use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +16,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/logout',[AuthController::class,'logout']);
-});
-Route::middleware(['guest'])->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-});
+Route::middleware('jsonOnly')->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        // connected as admin
+        Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
+            // landing page for admins
+            Route::get('/', [UserController::class, 'index']);
+            // list of users
+            Route::group(['prefix' => 'users'], function () {
+                Route::get('/', [UserController::class, 'users']);
+                Route::post('/store', [UserController::class, 'storeUser']);
+                Route::put('/edit', [UserController::class, 'editUser']);
+                Route::delete('/delete/{id}', [UserController::class, 'deleteUser']);
+            });
 
+            Route::group(['prefix' => 'stacks'], function () {
+                Route::get('/', [StackController::class, 'index']);
+                Route::post('/store', [StackController::class, 'storeStack']);
+                Route::put('/edit', [StackController::class, 'editStack']);
+                Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
+            });
+        });
+        // logout
+        Route::get('/logout', [AuthController::class, 'logout']);
+    });
+
+    // not connected
+    Route::middleware(['guest'])->group(function () {
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login']);
+    });
+});
