@@ -14,8 +14,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            abort(403,"Vous n'êtes pas connecté.");
-        }
+        abort(403,"Vous n'êtes pas connecté.");
     }
 }
