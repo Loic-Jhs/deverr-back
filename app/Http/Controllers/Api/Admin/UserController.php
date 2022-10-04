@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\StoreUserRequest;
@@ -12,7 +12,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     public function index(): JsonResponse
     {
@@ -82,7 +82,7 @@ class AdminController extends Controller
         $user->update();
 
         return response()->json([
-            'message' => 'Utilisateur '.$user->lastname.' '.$user->firstname.' modifié avec succès',
+            "message" => sprintf("L'utilisateur %s à été modifié", $user->firstname.' '.$user->lastname),
         ], 200);
     }
 

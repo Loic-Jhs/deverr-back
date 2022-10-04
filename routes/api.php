@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\Admin\StackController;
+use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,19 +17,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('jsonOnly')->group(function () {
-    Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        // connected as admin
+        Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
+            // landing page for admins
+            Route::get('/', [UserController::class, 'index']);
+            // list of users
+            Route::group(['prefix' => 'users'], function () {
+                Route::get('/', [UserController::class, 'users']);
+                Route::post('/store', [UserController::class, 'storeUser']);
+                Route::put('/edit', [UserController::class, 'editUser']);
+                Route::delete('/delete/{id}', [UserController::class, 'deleteUser']);
+            });
+
+            Route::group(['prefix' => 'stacks'], function () {
+                Route::get('/', [StackController::class, 'index']);
+                Route::post('/store', [StackController::class, 'storeStack']);
+                Route::put('/edit', [StackController::class, 'editStack']);
+                Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
+            });
+        });
         // logout
         Route::get('/logout', [AuthController::class, 'logout']);
-        // connected as admin
-        Route::group(['prefix' => 'admin'], function () {
-            // landing page for admins
-            Route::get('/', [AdminController::class, 'index']);
-            // list of users
-            Route::get('/users', [AdminController::class, 'users']);
-            Route::post('/users/store', [AdminController::class, 'storeUser']);
-            Route::put('/users/edit', [AdminController::class, 'editUser']);
-            Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser']);
-        });
     });
 
     // not connected
