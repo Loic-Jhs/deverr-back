@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\BackOffice;
+namespace App\Http\Requests\BackOffice\Stack;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
