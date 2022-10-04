@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +15,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/logout',[AuthController::class,'logout']);
-});
-Route::middleware(['guest'])->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-});
+Route::middleware('jsonOnly')->group(function () {
+    Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
+        // logout
+        Route::get('/logout', [AuthController::class, 'logout']);
+        // connected as admin
+        Route::group(['prefix' => 'admin'], function () {
+            // landing page for admins
+            Route::get('/', [AdminController::class, 'index']);
+            // list of users
+            Route::get('/users', [AdminController::class, 'users']);
+            Route::post('/users/store', [AdminController::class, 'storeUser']);
+            Route::put('/users/edit', [AdminController::class, 'editUser']);
+            Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser']);
+        });
+    });
 
+    // not connected
+    Route::middleware(['guest'])->group(function () {
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login']);
+    });
+});
