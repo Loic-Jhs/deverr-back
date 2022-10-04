@@ -54,10 +54,13 @@ jobs:
     - name: Migrate database
       run: php artisan migrate
       
+    - name: Run PHP code style fixer
+      run: ./vendor/bin/pint
+      
     - name: Run tests
       run: php artisan test
       
-    - name: Connect to production server
+    - name: Connect to production server and update production
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
