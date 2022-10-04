@@ -31,7 +31,7 @@ Route::middleware('jsonOnly')->group(function () {
             });
 
             Route::group(['prefix' => 'stacks'], function () {
-                Route::get('/', [StackController::class, 'index']);
+                Route::get('/', [StackController::class, 'stacks']);
                 Route::post('/store', [StackController::class, 'storeStack']);
                 Route::put('/edit', [StackController::class, 'editStack']);
                 Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);

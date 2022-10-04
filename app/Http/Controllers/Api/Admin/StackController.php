@@ -11,18 +11,6 @@ use Illuminate\Http\JsonResponse;
 class StackController extends Controller
 {
     /**
-     * @return JsonResponse
-     */
-    public function index(): JsonResponse
-    {
-        $nb_stacks = Stack::select('id')->count();
-
-        return response()->json([
-            'nb_stacks' => $nb_stacks,
-        ], 200);
-    }
-
-    /**
      * @param int|null $id
      * @return JsonResponse
      */
