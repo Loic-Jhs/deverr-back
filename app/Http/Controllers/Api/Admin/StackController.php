@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Stack\UpdateStackRequest;
-use App\Http\Requests\BackOffice\StoreStackRequest;
+use App\Http\Requests\BackOffice\Stack\StoreStackRequest;
 use App\Models\Stack;
 use Illuminate\Http\JsonResponse;
 
