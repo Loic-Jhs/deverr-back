@@ -82,7 +82,7 @@ class UserController extends Controller
         $user->update();
 
         return response()->json([
-            "message" => sprintf("L'utilisateur %s à été modifié", $user->firstname.' '.$user->lastname),
+            'message' => sprintf("L'utilisateur %s à été modifié", $user->firstname.' '.$user->lastname),
         ], 200);
     }
 

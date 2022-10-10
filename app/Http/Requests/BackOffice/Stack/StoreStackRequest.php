@@ -12,7 +12,7 @@ class StoreStackRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() :bool
+    public function authorize(): bool
     {
         return Gate::allows('isAdmin');
     }
@@ -22,7 +22,7 @@ class StoreStackRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules() :array
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
@@ -37,9 +37,9 @@ class StoreStackRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => "Le nom de la stack est requise",
-            'name.max'      => "Le nom de la stack est trop longue",
-            'name.string'   => "Le nom de la stack est invalide",
+            'name.required' => 'Le nom de la stack est requise',
+            'name.max' => 'Le nom de la stack est trop longue',
+            'name.string' => 'Le nom de la stack est invalide',
         ];
     }
 }

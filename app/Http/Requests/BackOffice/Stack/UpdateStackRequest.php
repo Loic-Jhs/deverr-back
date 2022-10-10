@@ -37,9 +37,9 @@ class UpdateStackRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => "Le nom de la stack est requise",
-            'name.max'      => "Le nom de la stack est trop longue",
-            'name.string'   => "Le nom de la stack est invalide",
+            'name.required' => 'Le nom de la stack est requise',
+            'name.max' => 'Le nom de la stack est trop longue',
+            'name.string' => 'Le nom de la stack est invalide',
         ];
     }
 }
