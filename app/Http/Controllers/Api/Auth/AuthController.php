@@ -16,6 +16,7 @@ class AuthController extends Controller
 {
     public function register(StoreNewUserRequest $request): \Illuminate\Http\JsonResponse
     {
+        dd($request->all());
         if ($request->type == 'client' && $request->experience == null && $request->description == null) {
             $user = User::create([
                 'firstname' => $request->firstname,
