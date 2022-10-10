@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRegister\LoginUserRequest;
@@ -16,7 +16,6 @@ class AuthController extends Controller
 {
     public function register(StoreNewUserRequest $request): \Illuminate\Http\JsonResponse
     {
-        dd($request->all());
         if ($request->type == 'client' && $request->experience == null && $request->description == null) {
             $user = User::create([
                 'firstname' => $request->firstname,
