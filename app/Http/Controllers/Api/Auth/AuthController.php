@@ -16,40 +16,52 @@ class AuthController extends Controller
 {
     public function register(StoreNewUserRequest $request): \Illuminate\Http\JsonResponse
     {
-        if ($request->type == 'client' && $request->experience == null && $request->description == null) {
-            $user = User::create([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => 1,
-            ]);
-        } else if ($request->type == 'developer' && $request->experience != '' && $request->description != '') {
-            $user = User::create([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => 2,
-            ]);
+        switch ($request->type) {
+            case 'client':
+                if ($request->experience == null && $request->description == null) {
+                    $user = User::create([
+                        'firstname' => $request->firstname,
+                        'lastname' => $request->lastname,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'role_id' => 1,
+                    ]);
+                } else {
+                    return response()->json([
+                        'error' => "L'expérience et la description ne doivent pas être renseignés.",
+                    ], 400);
+                }
+                break;
+            case 'developer':
+                if ($request->experience != '' && $request->description != '') {
+                    $user = User::create([
+                        'firstname' => $request->firstname,
+                        'lastname' => $request->lastname,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'role_id' => 2,
+                    ]);
 
-            $developer = Developer::create([
-                'user_id' => $user->id,
-                'description' => $request->description,
-                'experience' => $request->experience,
-            ]);
+                    $developer = Developer::create([
+                        'user_id' => $user->id,
+                        'description' => $request->description,
+                        'experience' => $request->experience,
+                    ]);
 
-            if (!$developer->id) {
-                User::destroy($user->id);
+                    // if the developer is not created, delete the user
+                    if (!$developer->id) {
+                        User::destroy($user->id);
 
+                        return response()->json([
+                            'error' => "Une erreur s'est produite veuillez essayer ultérieument.",
+                        ], 500);
+                    }
+                }
+                break;
+            default:
                 return response()->json([
-                    'error' => '2.',
+                    'error' => "Le type d'utilisateur est incorrect.",
                 ], 400);
-            }
-        } else {
-            return response()->json([
-                'error' => 'invalid data.',
-            ], 400);
         }
 
         $token = explode('|', $user->createToken('auth_token')->plainTextToken);
