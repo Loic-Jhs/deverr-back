@@ -16,51 +16,39 @@ class AuthController extends Controller
 {
     public function register(StoreNewUserRequest $request): \Illuminate\Http\JsonResponse
     {
-        if ($request->type == 'client') {
-            if ($request->experience == '' || $request->description == '') {
-                $user = User::create([
-                    'firstname' => $request->firstname,
-                    'lastname' => $request->lastname,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                    'role_id' => 1,
-                ]);
-            } else {
+        if ($request->type == 'client' && $request->experience == null && $request->description == null) {
+            $user = User::create([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role_id' => 1,
+            ]);
+        } else if ($request->type == 'developer' && $request->experience != '' && $request->description != '') {
+            $user = User::create([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role_id' => 2,
+            ]);
+
+            $developer = Developer::create([
+                'user_id' => $user->id,
+                'description' => $request->description,
+                'experience' => $request->experience,
+            ]);
+
+            if (!$developer->id) {
+                User::destroy($user->id);
+
                 return response()->json([
-                    'error' => 'Invalid data.',
-                ], 400);
-            }
-        } elseif ($request->type == 'developer') {
-            if ($request->exeperience != '' || $request->description != '') {
-                $user = User::create([
-                    'firstname' => $request->firstname,
-                    'lastname' => $request->lastname,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                    'role_id' => 2,
-                ]);
-
-                $developer = Developer::create([
-                    'user_id' => $user->id,
-                    'description' => $request->description,
-                    'experience' => $request->experience,
-                ]);
-
-                if (! $developer->id) {
-                    User::destroy($user->id);
-
-                    return response()->json([
-                        'error' => 'Invalid data.',
-                    ], 400);
-                }
-            } else {
-                return response()->json([
-                    'error' => 'Invalid data.',
+                    'error' => '2.',
                 ], 400);
             }
         } else {
             return response()->json([
-                'error' => 'Invalid data.',
+                'error' => 'invalid data.',
             ], 400);
         }
 
