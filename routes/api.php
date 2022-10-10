@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
