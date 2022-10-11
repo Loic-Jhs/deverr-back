@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|email:dns|max:255|unique:users,email',
-            'experience' => 'integer|required_if:type,developer|max:80',
+            'experience' => 'integer|required_if:type,developer|max:35',
             'description' => 'string|required_if:type,developer|max:500',
         ];
     }
