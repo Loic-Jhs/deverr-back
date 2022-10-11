@@ -45,7 +45,7 @@ class ReviewSeeder extends Seeder
                 $reviewsData[] = [
                     'client_id'  => $clientsId[array_rand($clientsId, 1)],
                     'order_id'   => $ordersId[array_rand($ordersId, 1)],
-                    'dev_id'    => $developersId[array_rand($developersId, 1)],
+                    'developer_id'    => $developersId[array_rand($developersId, 1)],
                     'comment'    => $comments[array_rand($comments, 1)],
                     'rating'     => rand(0, 5),
                     'created_at' => '2022-09-25 10:50:12',

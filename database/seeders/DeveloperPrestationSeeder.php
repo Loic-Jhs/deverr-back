@@ -29,7 +29,7 @@ class DeveloperPrestationSeeder extends Seeder
         $devPrestationsData = [];
         for ($i = 1; $i <= self::$NB_DEV_PRESTATIONS_IN_DB; $i++) {
             $devPrestationsData[] = [
-                'dev_id'        => $developerId[array_rand($developerId, 1)],
+                'developer_id'        => $developerId[array_rand($developerId, 1)],
                 'description'   => fake()->realTextBetween(35, 65),
                 'prestation_id' => rand(1, $nbPrestationsInDB),
                 'price'         => fake()->randomFloat(2, 100, 900),

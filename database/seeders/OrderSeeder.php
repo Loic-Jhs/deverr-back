@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Prestation;
+use App\Models\DeveloperPrestation;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +18,8 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        $nbPrestationsInDB = Prestation::select('id')->count();
-        $isPayed = [0, 1,];
+        $nbPrestationsInDB = DeveloperPrestation::select('id')->count();
+        $isPayed = [0, 1];
 
         $clients = User::where('role_id', 1)->get();
         $clientsId = [];
