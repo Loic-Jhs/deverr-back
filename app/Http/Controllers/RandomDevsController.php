@@ -10,16 +10,21 @@ class RandomDevsController extends Controller
     public function recoversSixRandomUsers(): \Illuminate\Http\JsonResponse
     {
         $developers = DB::select(
-            DB::raw('SELECT DISTINCT developers.*,
+            DB::raw('SELECT DISTINCT developers.id,
+                                           developers.avatar,
                                            (
-                                                SELECT AVG(reviews.rating)
+                                                SELECT ROUND(AVG(reviews.rating), 0)
                                                 FROM reviews
                                                 WHERE reviews.dev_id = developers.id
                                            ) as avg,
-                                           users.
-
+                                           stacks.logo,
+                                           stacks.name,
+                                           CONCAT(users.firstname, " ", users.lastname) AS user_info
                             FROM developers
+                            INNER JOIN developer_stacks ON developer_stacks.developer_id = developers.id AND developer_stacks.is_primary = 1
+                            INNER JOIN stacks ON stacks.id = developer_stacks.stack_id
                             INNER JOIN reviews ON reviews.dev_id = developers.id
+                            INNER JOIN users ON users.id = developers.user_id
                                 WHERE (
                                         SELECT COUNT(complaints.user_id)
                                         FROM complaints
@@ -46,8 +51,7 @@ class RandomDevsController extends Controller
                                 )
             ')
         );
-        //
-        //$developrs = Developer::with('reviews')->avg();
+
         $devs = [];
         $old_keys = [];
         if(sizeof($developers) >= 6){
