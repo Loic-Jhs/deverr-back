@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\HomeController;
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -22,7 +23,7 @@ Route::middleware('jsonOnly')->group(function () {
         // connected as admin
         Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
             // landing page for admins
-            Route::get('/', [UserController::class, 'index']);
+            Route::get('/', [HomeController::class, 'index']);
             // list of users
             Route::group(['prefix' => 'users'], function () {
                 Route::get('/', [UserController::class, 'users']);

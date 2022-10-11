@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Developer;
 use Illuminate\Support\Facades\DB;
 
 class RandomDevsController extends Controller
@@ -42,6 +43,8 @@ class RandomDevsController extends Controller
                                 )
             ')
         );
+        //
+        //$developrs = Developer::with('reviews')->avg();
         $devs = [];
         $old_keys = [];
         if(sizeof($developers) >= 6){

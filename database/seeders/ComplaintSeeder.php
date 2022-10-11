@@ -36,6 +36,7 @@ class ComplaintSeeder extends Seeder
                 'user_id'           => $clientsId[array_rand($clientsId, 1)],
                 'dev_prestation_id' => $developerPrestationsId[array_rand($developerPrestationsId, 1)],
                 'complaint'         => fake()->realTextBetween(15, 100),
+                'status'            => rand(1, 2),
                 'created_at'        => '2022-09-25 10:50:12',
                 'updated_at'        => '2022-09-26 15:25:52',
             ];
