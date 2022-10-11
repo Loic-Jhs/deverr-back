@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -32,6 +33,9 @@ class UpdateUserRequest extends FormRequest
             'email' => ['required', 'string', 'email:rfc,dns', 'max:255', Rule::unique('users')->ignore($request->email, 'email')],
             'experience' => 'required_if:type,developer|max:80',
             'description' => 'required_if:type,developer|max:500',
+            'avatar' => [
+                File::types(['png', 'jpg', 'svg'])
+            ]
         ];
     }
 

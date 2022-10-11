@@ -4,6 +4,7 @@ namespace App\Http\Requests\BackOffice;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rules\File;
 
 class StoreUserRequest extends FormRequest
 {
@@ -30,6 +31,9 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|string|email:dns|max:255|unique:users,email',
             'experience' => 'integer|required_if:type,developer|max:35',
             'description' => 'string|required_if:type,developer|max:500',
+            'avatar' => [
+                File::types(['png', 'jpg', 'svg'])
+            ]
         ];
     }
 

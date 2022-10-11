@@ -36,7 +36,7 @@ class StoreRequestPrestation extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => "Le nom de la prestation est requise",
+            'name.required' => "Le nom de la prestation est requis",
             'name.max'      => "Le nom de la prestation est trop long",
             'name.string'   => "Le nom de la prestation est invalide",
         ];
