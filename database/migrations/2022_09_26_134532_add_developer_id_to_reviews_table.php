@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,8 +12,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('developer_prestations', function (Blueprint $table) {
-            $table->foreign('dev_id')->references('id')->on('developers');
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->foreign('developer_id')->references('id')->on('developers');
         });
     }
 
@@ -25,8 +24,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('developer_prestations', function (Blueprint $table) {
-            $table->dropForeign(['dev_id']);
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->dropForeign(['developer_id']);
         });
     }
 };
