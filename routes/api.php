@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\HomeController;
+use App\Http\Controllers\Api\Admin\PrestationController;
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -31,12 +32,19 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::put('/edit', [UserController::class, 'editUser']);
                 Route::delete('/delete/{id}', [UserController::class, 'deleteUser']);
             });
-
+            // Stacks CRUD
             Route::group(['prefix' => 'stacks'], function () {
                 Route::get('/', [StackController::class, 'stacks']);
                 Route::post('/store', [StackController::class, 'storeStack']);
                 Route::put('/edit', [StackController::class, 'editStack']);
                 Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
+            });
+            // Prestations CRUD
+            Route::group(['prefix' => 'prestations'], function () {
+                Route::get('/', [PrestationController::class, 'prestations']);
+                Route::post('/store', [PrestationController::class, 'storePrestation']);
+                Route::put('/edit', [PrestationController::class, 'editPrestation']);
+                Route::delete('/delete/{id}', [PrestationController::class, 'deletePrestation']);
             });
         });
         // logout
