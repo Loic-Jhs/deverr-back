@@ -10,11 +10,14 @@ class RandomDevsController extends Controller
     public function recoversSixRandomUsers(): \Illuminate\Http\JsonResponse
     {
         $developers = DB::select(
-            DB::raw('SELECT DISTINCT developers.*, (
-                                                    SELECT AVG(reviews.rating)
-                                                    FROM reviews
-                                                    WHERE reviews.dev_id = developers.id
-                                                  ) as avg
+            DB::raw('SELECT DISTINCT developers.*,
+                                           (
+                                                SELECT AVG(reviews.rating)
+                                                FROM reviews
+                                                WHERE reviews.dev_id = developers.id
+                                           ) as avg,
+                                           users.
+
                             FROM developers
                             INNER JOIN reviews ON reviews.dev_id = developers.id
                                 WHERE (
@@ -59,8 +62,8 @@ class RandomDevsController extends Controller
             $devs = $developers;
         }
 
-        return response()->json([
-            'developers' => $devs,
-        ], 200);
+        return response()->json(
+            $devs
+        , 200);
     }
 }
