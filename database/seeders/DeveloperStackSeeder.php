@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class DeveloperStackSeeder extends Seeder
 {
-    public static int $NB_DEVELOPER_STACKS_IN_DB = 28;
+    public static int $NB_DEVELOPER_STACKS_IN_DB = 50;
 
     /**
      * Run the database seeds.

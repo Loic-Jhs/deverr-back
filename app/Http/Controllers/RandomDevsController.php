@@ -49,6 +49,11 @@ class RandomDevsController extends Controller
                                             WHERE reviews.dev_id = developers.id
                                         ) = 0
                                 )
+                                AND (
+                                        SELECT COUNT(ds.developer_id)
+                                        FROM developer_stacks ds
+                                        WHERE ds.developer_id = developers.id
+                                ) > 0
             ')
         );
 
