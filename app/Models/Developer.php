@@ -38,4 +38,9 @@ class Developer extends Model
     {
         return $this->hasMany(DeveloperStack::class);
     }
+
+    public function developers(): HasMany
+    {
+        return $this->hasMany(Developer::class);
+    }
 }

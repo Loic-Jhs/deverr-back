@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\RandomDevsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,5 +46,6 @@ Route::middleware('jsonOnly')->group(function () {
     Route::middleware(['guest'])->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
+        Route::get('/random-users', [RandomDevsController::class, 'recoversSixRandomUsers']);
     });
 });
