@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    /**
+     * @param StoreNewUserRequest $request
+     * @return JsonResponse
+     */
     public function register(StoreNewUserRequest $request): \Illuminate\Http\JsonResponse
     {
         switch ($request->type) {
@@ -53,7 +57,7 @@ class AuthController extends Controller
                         User::destroy($user->id);
 
                         return response()->json([
-                            'error' => "Une erreur s'est produite veuillez essayer ultérieument.",
+                            'error' => "Une erreur s'est produite veuillez essayer ultérieurement.",
                         ], 500);
                     }
                 }
@@ -72,6 +76,10 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * @param LoginUserRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginUserRequest $request): \Illuminate\Http\JsonResponse
     {
         if (! Auth::attempt($request->only('email', 'password'))) {
@@ -92,6 +100,10 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();

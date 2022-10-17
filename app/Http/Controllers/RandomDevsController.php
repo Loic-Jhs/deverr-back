@@ -2,77 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DeveloperResource;
 use App\Models\Developer;
+
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 class RandomDevsController extends Controller
 {
-    public function recoversSixRandomUsers(): \Illuminate\Http\JsonResponse
+    /**
+     * @return JsonResponse
+     */
+    public function getSixRandomUsers(): \Illuminate\Http\JsonResponse
     {
-        $developers = DB::select(
-            DB::raw('SELECT DISTINCT developers.id,
-                                           developers.avatar,
-                                           (
-                                                SELECT ROUND(AVG(reviews.rating), 0)
-                                                FROM reviews
-                                                WHERE reviews.dev_id = developers.id
-                                           ) as avg,
-                                           stacks.logo,
-                                           stacks.name,
-                                           CONCAT(users.firstname, " ", users.lastname) AS user_info
-                            FROM developers
-                            INNER JOIN developer_stacks ON developer_stacks.developer_id = developers.id AND developer_stacks.is_primary = 1
-                            INNER JOIN stacks ON stacks.id = developer_stacks.stack_id
-                            INNER JOIN reviews ON reviews.dev_id = developers.id
-                            INNER JOIN users ON users.id = developers.user_id
-                                WHERE (
-                                        SELECT COUNT(complaints.user_id)
-                                        FROM complaints
-                                        WHERE complaints.user_id = developers.user_id
-                                      ) = 0
-                                AND (
-                                        (
-                                            SELECT AVG(reviews.rating)
-                                            FROM reviews
-                                            WHERE reviews.dev_id = developers.id
-                                        ) >= 3
-                                        OR
-                                        (
-                                            SELECT COUNT(reviews.dev_id)
-                                            FROM reviews
-                                            WHERE reviews.dev_id = developers.id
-                                        ) = 0
-                                        OR
-                                        (
-                                            SELECT AVG(reviews.rating)
-                                            FROM reviews
-                                            WHERE reviews.dev_id = developers.id
-                                        ) = 0
-                                )
-                                AND (
-                                        SELECT COUNT(ds.developer_id)
-                                        FROM developer_stacks ds
-                                        WHERE ds.developer_id = developers.id
-                                ) > 0
-            ')
-        );
-
-        $devs = [];
-        $old_keys = [];
-        if(sizeof($developers) >= 6){
-           while(sizeof($devs) < 6){
-               $key = rand(0,sizeof($developers)-1);
-               if(!in_array($key,$old_keys)){
-                   $devs[] = $developers[$key];
-               }
-               $old_keys[] = $key;
-           }
-        } else {
-            $devs = $developers;
-        }
+        // get 6 random developers, with their review ratings >=3 / if they have no ratings but have no complaints,
+        $developers =
+            Developer::select('id', 'avatar', 'user_id') // Dans la table `developers` on sélectionne l'id, l'avatar et l'user_id
+            ->with('reviews', 'developerStacks','complaints', 'user') // On load les relations liées au devs (Eager Loading)
+            ->distinct() // Récupère les développeurs de façon distincte
+            ->get()      // Transforme en Collection
+            ->filter(function ($developer) { // On va filtrer les développeurs et le filtre nous retournera ceux conformes aux critères
+                return
+                    $developer->complaints->count() === 0        // Nous voulons que le développeur n'ait aucune plainte
+                    &&                                           // ET
+                    (
+                        $developer->reviews->avg('rating') >= 3  // (Qu'il ait SOIT une moyenne de note supérieure ou égale à 3)
+                        || $developer->reviews->count() === 0       // (SOIT aucune note)
+                        || $developer->reviews->avg('rating') === 0 // (SOIT une moyenne de note à 0)
+                    )
+                    &&                                             // ET
+                    $developer->developerStacks->count() > 0;    // Qu'il ait au moins une Stack
+            })
+                ->shuffle()  // Mélange aléatoirement les développeurs conformes retournés par le filtre
+                ->take(6);    // Nous en récupérons 6
 
         return response()->json(
-            $devs
+            // On retourne les développeurs sous forme de ressources,
+            // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
+            DeveloperResource::collection($developers)
         , 200);
     }
 }

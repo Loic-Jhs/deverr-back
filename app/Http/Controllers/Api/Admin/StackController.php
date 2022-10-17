@@ -42,6 +42,10 @@ class StackController extends Controller
         ], 201);
     }
 
+    /**
+     * @param UpdateStackRequest $request
+     * @return JsonResponse
+     */
     public function editStack(UpdateStackRequest $request): JsonResponse
     {
         $stack = Stack::where('id', $request->id)->first();

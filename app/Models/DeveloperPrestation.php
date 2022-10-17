@@ -10,13 +10,8 @@ class DeveloperPrestation extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string, float>
-     */
     protected $fillable = [
-        'dev_id',
+        'developer_id',
         'description',
         'prestation_id',
         'price',

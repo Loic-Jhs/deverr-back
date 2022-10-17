@@ -56,9 +56,9 @@ Route::middleware('jsonOnly')->group(function () {
     // NOT CONNECTED
     Route::middleware(['guest'])->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
-        Route::get('/random-users', [RandomDevsController::class, 'recoversSixRandomUsers']);
         Route::post('/register', [AuthController::class, 'register']);
         // Resend email verification
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
+        Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
     });
 });
