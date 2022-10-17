@@ -52,7 +52,7 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
       
     - name: Migrate database
-      run: php artisan migrate
+      run: php artisan migrate:fresh
       
     - name: Run PHP code style fixer
       run: ./vendor/bin/pint
