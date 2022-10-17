@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\RandomDevsController;
+use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +19,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+// Middleware for all routes to only return JSON
 Route::middleware('jsonOnly')->group(function () {
+    // CONNECTED AND EMAIL VERIFIED
     Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/logout', [AuthController::class, 'logout']);
+
         // connected as admin
         Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
             // landing page for admins
@@ -32,7 +36,7 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::put('/edit', [UserController::class, 'editUser']);
                 Route::delete('/delete/{id}', [UserController::class, 'deleteUser']);
             });
-            // Stacks CRUD
+            // Stacks management
             Route::group(['prefix' => 'stacks'], function () {
                 Route::get('/', [StackController::class, 'stacks']);
                 Route::post('/store', [StackController::class, 'storeStack']);
@@ -47,14 +51,14 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::delete('/delete/{id}', [PrestationController::class, 'deletePrestation']);
             });
         });
-        // logout
-        Route::get('/logout', [AuthController::class, 'logout']);
     });
 
-    // not connected
+    // NOT CONNECTED
     Route::middleware(['guest'])->group(function () {
-        Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
         Route::get('/random-users', [RandomDevsController::class, 'recoversSixRandomUsers']);
+        Route::post('/register', [AuthController::class, 'register']);
+        // Resend email verification
+        Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
     });
 });

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackOffice\Stack\UpdateStackRequest;
 use App\Http\Requests\BackOffice\Stack\StoreStackRequest;
+use App\Http\Requests\BackOffice\Stack\UpdateStackRequest;
 use App\Models\Stack;
 use Illuminate\Http\JsonResponse;
 
 class StackController extends Controller
 {
     /**
-     * @param int|null $id
+     * @param  int|null  $id
      * @return JsonResponse
      */
     public function stacks(int $id = null): JsonResponse
@@ -28,7 +28,7 @@ class StackController extends Controller
     }
 
     /**
-     * @param StoreStackRequest $request
+     * @param  StoreStackRequest  $request
      * @return JsonResponse
      */
     public function storeStack(StoreStackRequest $request): JsonResponse

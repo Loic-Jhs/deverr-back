@@ -13,7 +13,7 @@ class StoreStackRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() :bool
+    public function authorize(): bool
     {
         return Gate::allows('isAdmin');
     }
@@ -23,7 +23,7 @@ class StoreStackRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules() :array
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
