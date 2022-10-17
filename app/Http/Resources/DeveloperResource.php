@@ -33,7 +33,8 @@ class DeveloperResource extends JsonResource
                      ->stack // Récupère la relation stack (accède au model Stack)
                      ->only('name', 'logo') : // Récupère uniquement les attributs name et logo de la stack
                 null, // sinon, on retourne null
-            'user_info' => $this->user->firstname . ' ' . $this->user->lastname,
+            'developer_firstname' => $this->user->firstname,
+            'developer_lastname' => $this->user->lastname
         ];
     }
 }
