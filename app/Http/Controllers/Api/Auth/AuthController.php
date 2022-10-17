@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
-     * @param StoreNewUserRequest $request
+     * @param  StoreNewUserRequest  $request
      * @return JsonResponse
      */
-    public function register(StoreNewUserRequest $request): \Illuminate\Http\JsonResponse
+    public function register(StoreNewUserRequest $request): JsonResponse
     {
         switch ($request->type) {
             case 'client':
@@ -59,7 +59,7 @@ class AuthController extends Controller
                     event(new Registered($user));
 
                     // if the developer is not created, delete the user
-                    if (!$developer->id) {
+                    if (! $developer->id) {
                         User::destroy($user->id);
 
                         return response()->json([
@@ -74,18 +74,16 @@ class AuthController extends Controller
                 ], 400);
         }
 
-//        $token = explode('|', $user->createToken('auth_token')->plainTextToken);
-
         return response()->json([
-            'message' => 'Votre compte a bien été créé, merci de le vérifier grâce au lien envoyé dans votre boîte mail.'
+            'message' => 'Votre compte a bien été créé, merci de le vérifier grâce au lien envoyé dans votre boîte mail.',
         ], 201);
     }
 
     /**
-     * @param LoginUserRequest $request
+     * @param  LoginUserRequest  $request
      * @return JsonResponse
      */
-    public function login(LoginUserRequest $request): \Illuminate\Http\JsonResponse
+    public function login(LoginUserRequest $request): JsonResponse
     {
         if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
@@ -97,16 +95,24 @@ class AuthController extends Controller
 
         $token = explode('|', $user->createToken('auth_token')->plainTextToken);
 
-        return response()->json([
-            'user' => $user,
-            'dev' => $user->developer,
-            'access_token' => $token[1],
-            'token_type' => 'Bearer',
-        ]);
+        // As a client
+        if (auth()->user()->role_id == 1) {
+            return response()->json([
+                'access_token' => $token[1],
+                'token_type' => 'Bearer',
+                'user_info' => $user,
+            ], 200);
+        } else { // As a developer
+            return response()->json([
+                'access_token' => $token[1],
+                'token_type' => 'Bearer',
+                'user_info' => $user->developer,
+            ], 200);
+        }
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function logout(Request $request): JsonResponse
