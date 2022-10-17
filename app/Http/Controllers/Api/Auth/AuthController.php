@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRegister\LoginUserRequest;
 use App\Http\Requests\LoginRegister\StoreNewUserRequest;
 use App\Models\Developer;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,9 @@ class AuthController extends Controller
                         'password' => Hash::make($request->password),
                         'role_id' => 1,
                     ]);
+
+                    // send email to user to verify his email address
+                    event(new Registered($user));
                 } else {
                     return response()->json([
                         'error' => "L'expérience et la description ne doivent pas être renseignés.",
@@ -52,6 +56,8 @@ class AuthController extends Controller
                         'experience' => $request->experience,
                     ]);
 
+                    event(new Registered($user));
+
                     // if the developer is not created, delete the user
                     if (!$developer->id) {
                         User::destroy($user->id);
@@ -68,11 +74,10 @@ class AuthController extends Controller
                 ], 400);
         }
 
-        $token = explode('|', $user->createToken('auth_token')->plainTextToken);
+//        $token = explode('|', $user->createToken('auth_token')->plainTextToken);
 
         return response()->json([
-            'access_token' => $token[1],
-            'token_type' => 'Bearer',
+            'message' => 'Votre compte a bien été créé, merci de le vérifier grâce au lien envoyé dans votre boîte mail.'
         ], 201);
     }
 

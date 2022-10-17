@@ -16,6 +16,11 @@ use Illuminate\View\View;
 
 class VerifyEmailController extends Controller
 {
+    /**
+     * @param $id
+     * @param $hash
+     * @return Redirector|Application|RedirectResponse|View
+     */
     public function verifyEmail($id, $hash): Redirector|Application|RedirectResponse|View
     {
         $user = User::find($id);
@@ -38,6 +43,10 @@ class VerifyEmailController extends Controller
         return view('verified-account', compact('user'));
     }
 
+    /**
+     * @param ResendEmailVerificationRequest $request
+     * @return JsonResponse
+     */
     public function resendEmailVerification(ResendEmailVerificationRequest $request): JsonResponse
     {
         // get the user by email
