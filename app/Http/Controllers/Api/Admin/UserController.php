@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    /**
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $nb_clients = User::where('role_id', 1)->count();
@@ -33,6 +36,10 @@ class UserController extends Controller
         ], 200);
     }
 
+    /**
+     * @param int|null $id
+     * @return JsonResponse
+     */
     public function users(int $id = null): JsonResponse
     {
         if (! $id) {
@@ -46,6 +53,10 @@ class UserController extends Controller
         ], 200);
     }
 
+    /**
+     * @param StoreUserRequest $request
+     * @return JsonResponse
+     */
     public function storeUser(StoreUserRequest $request): JsonResponse
     {
         $user = User::create([
@@ -61,6 +72,10 @@ class UserController extends Controller
         ], 201);
     }
 
+    /**
+     * @param UpdateUserRequest $request
+     * @return JsonResponse
+     */
     public function editUser(UpdateUserRequest $request): JsonResponse
     {
         $user = User::where('id', $request->id)->first();
@@ -86,6 +101,10 @@ class UserController extends Controller
         ], 200);
     }
 
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
     public function deleteUser($id)
     {
         $user = User::find($id);

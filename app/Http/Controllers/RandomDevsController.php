@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DeveloperResource;
 use App\Models\Developer;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 class RandomDevsController extends Controller
 {
-    public function recoversSixRandomUsers(): \Illuminate\Http\JsonResponse
+    /**
+     * @return JsonResponse
+     */
+    public function getSixRandomUsers(): \Illuminate\Http\JsonResponse
     {
         // get 6 random developers, with their review ratings >=3 / if they have no ratings but have no complaints,
         $developers =
