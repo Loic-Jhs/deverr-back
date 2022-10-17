@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AllDevsResource;
 use App\Models\Developer;
-use App\Models\User;
 
 class AllDevsController extends Controller
 {
@@ -15,27 +15,16 @@ class AllDevsController extends Controller
         $allDevs = Developer::with('user', 'developerStacks', 'developerPrestations', 'reviews')
             ->get()
             ->filter(function ($developer) {
-                return $developer->developerStacks->count() > 0 && $developer->developerStacks->where('is_primary', 1)
-                    && $developer->developerPrestations->count() > 0;
-                    ;
-            });
-//        dd($allDevs);
+                return $developer->developerStacks->count() > 0 &&
+                    $developer->developerPrestations->count() > 0;
+            })
+            ->shuffle();
 
-//        $developers = User::select('id', 'firstname', 'lastname', 'created_at')
-//            ->where([
-//            'role_id' => 2,
-//            'is_account_active' => 1
-//            ])
-//            ->with('developer', 'developerPrestations')
-//            ->get();
 
-//        $developers = Developer::select('id', 'avatar', 'description', 'created_at')
-//            ->with('user', function ($query) {
-//                return $query->select('id', 'firstname', 'lastname');
-//            })
-//
-//            ->get();
-
-        return response()->json($allDevs, 200);
+        return response()->json(
+        // On retourne les développeurs sous forme de ressources,
+        // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
+            AllDevsResource::collection($allDevs)
+            , 200);
     }
 }
