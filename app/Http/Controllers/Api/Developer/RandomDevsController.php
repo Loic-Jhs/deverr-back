@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Developer;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\DeveloperResource;
 use App\Models\Developer;
-
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 
 class RandomDevsController extends Controller
 {
@@ -18,7 +17,7 @@ class RandomDevsController extends Controller
         // get 6 random developers, with their review ratings >=3 / if they have no ratings but have no complaints,
         $developers =
             Developer::select('id', 'avatar', 'user_id') // Dans la table `developers` on sélectionne l'id, l'avatar et l'user_id
-            ->with('reviews', 'developerStacks','complaints', 'user') // On load les relations liées au devs (Eager Loading)
+            ->with('reviews', 'developerStacks', 'complaints', 'user') // On load les relations liées au devs (Eager Loading)
             ->distinct() // Récupère les développeurs de façon distincte
             ->get()      // Transforme en Collection
             ->filter(function ($developer) { // On va filtrer les développeurs et le filtre nous retournera ceux conformes aux critères
