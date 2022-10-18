@@ -109,6 +109,10 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user_info' => $user->developer,
             ], 200);
+        } else {
+            return response()->json([
+                'error' => "Une erreur s'est produite veuillez essayer ultérieurement.",
+            ], 500);
         }
     }
 
