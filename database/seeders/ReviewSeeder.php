@@ -19,43 +19,38 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        $clients = User::where('role_id', 1)->get();
-        $clientsId = [];
-        foreach ($clients as $client) {
-            $clientsId[] = $client['id'];
-        }
+        // client_id: de 16 à 25
+        // order_id: de 1 à 9
+        // developer_id: de 1 à 8
 
-        $developers = Developer::select('id')->get();
-        $developersId = [];
-        foreach ($developers as $developer) {
-            $developersId[] = $developer['id'];
-        }
-
-        $orders = Order::select('id')->get();
-        $ordersId = [];
-        foreach ($orders as $order) {
-            $ordersId[] = $order['id'];
-        }
-
-        $comments = [null, fake()->realTextBetween(5, 35)];
-
-        $reviewsData = [];
-        if (User::where('role_id', 1)) {
-            for ($i = 1; $i <= self::$NB_REVIEWS_IN_DB; $i++) {
-                $reviewsData[] = [
-                    'client_id'  => $clientsId[array_rand($clientsId, 1)],
-                    'order_id'   => $ordersId[array_rand($ordersId, 1)],
-                    'developer_id'    => $developersId[array_rand($developersId, 1)],
-                    'comment'    => $comments[array_rand($comments, 1)],
-                    'rating'     => rand(0, 5),
-                    'created_at' => '2022-09-25 10:50:12',
-                    'updated_at' => '2022-09-26 15:25:52',
-                ];
-            }
-        }
-
-        DB::table('reviews')->insert(
-            $reviewsData
-        );
+        DB::table('reviews')->insert([
+            [
+                'client_id'    => 16,
+                'order_id'     => 1,
+                'developer_id' => 8,
+                'comment'      => fake()->realTextBetween(10, 25),
+                'rating'       => 0,
+                'created_at'   => '2022-09-25 10:50:12',
+                'updated_at'   => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'    => 20,
+                'order_id'     => 2,
+                'developer_id' => 2,
+                'comment'      => null,
+                'rating'       => 4,
+                'created_at'   => '2022-09-25 10:50:12',
+                'updated_at'   => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'    => 17,
+                'order_id'     => 3,
+                'developer_id' => 6,
+                'comment'      => fake()->realTextBetween(10, 25),
+                'rating'       => 2,
+                'created_at'   => '2022-09-25 10:50:12',
+                'updated_at'   => '2022-09-26 15:25:52',
+            ],
+        ]);
     }
 }
