@@ -15,9 +15,51 @@ class PrestationSeeder extends Seeder
     public function run()
     {
         DB::table('prestations')->insert([
-            'name' => 'Super presta',
-            'created_at' => '2022-09-25 10:50:12',
-            'updated_at' => '2022-09-26 15:25:52',
+            [
+                'name'       => 'Site vitrine',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'Blog',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'Site e-commerce',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'Landing page',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'ERP',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'CRM',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'Application mobile',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'Création d\'une API',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'name'       => 'Maintenance d\'un site existant',
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
         ]);
     }
 }

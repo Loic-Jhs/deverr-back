@@ -11,11 +11,6 @@ class Developer extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'user_id',
         'description',
@@ -36,6 +31,22 @@ class Developer extends Model
 
     public function developerStacks(): HasMany
     {
-        return $this->hasMany(DeveloperStack::class);
+        return $this->hasMany(DeveloperStack::class, 'developer_id');
     }
+
+    public function developers(): HasMany
+    {
+        return $this->hasMany(Developer::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'developer_id');
+    }
+
+    public function complaints(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Complaint::class, DeveloperPrestation::class, 'developer_id', 'dev_prestation_id');
+    }
+
 }

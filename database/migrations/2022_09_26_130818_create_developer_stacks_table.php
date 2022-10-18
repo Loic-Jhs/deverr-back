@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('developer_id');
             $table->unsignedBigInteger('stack_id');
             $table->integer('stack_experience');
+            $table->boolean('is_primary')->default(0);
             $table->timestamps();
         });
     }

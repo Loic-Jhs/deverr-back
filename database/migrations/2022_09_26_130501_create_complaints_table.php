@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('dev_prestation_id');
             $table->string('complaint', 1000);
+            $table->enum('status', [1, 2])->comment('1 : En cours | 2 : Résolue')->default(1);
             $table->timestamps();
         });
     }

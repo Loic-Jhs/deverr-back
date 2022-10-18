@@ -10,12 +10,8 @@ class Review extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
+        'developer_id',
         'client_id',
         'order_id',
         'comment',
@@ -32,5 +28,10 @@ class Review extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function developer(): BelongsTo
+    {
+        return $this->belongsTo(Developer::class);
     }
 }

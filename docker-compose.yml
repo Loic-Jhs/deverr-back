@@ -65,6 +65,19 @@ services:
             - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+    phpmyadmin:
+        image: 'phpmyadmin/phpmyadmin:latest'
+        ports:
+            - '${FORWARD_PMA_PORT:-81}:80'
+        environment:
+            PMA_HOST: 'mariadb'
+            PMA_PORT: '3306'
+            PMA_USER: '${DB_USERNAME}'
+            PMA_PASSWORD: '${DB_PASSWORD}'
+            PMA_ARBITRARY: 1
+            UPLOAD_LIMIT: 100M
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge

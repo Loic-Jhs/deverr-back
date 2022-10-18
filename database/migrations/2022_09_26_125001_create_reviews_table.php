@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('order_id');
-            $table->string('comment', 500);
+            $table->unsignedBigInteger('developer_id');
+            $table->string('comment', 500)->nullable();
             $table->integer('rating');
             $table->timestamps();
         });
