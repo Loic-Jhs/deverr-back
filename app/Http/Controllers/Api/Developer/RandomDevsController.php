@@ -39,6 +39,8 @@ class RandomDevsController extends Controller
             // On retourne les développeurs sous forme de ressources,
             // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
             DeveloperResource::collection($developers)
+            // ou renvoyer ça si on veut pas le formatted
+            // $developers
         , 200);
     }
 }

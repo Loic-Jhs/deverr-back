@@ -21,7 +21,7 @@ class AllDevsResource extends JsonResource
             'lastname' => $this->user->lastname,
             'average_rating' => $this->reviews->count() > 0 ? number_format($this->reviews->avg('rating'), 1): null,
             'register_date' => $this->user->created_at->format('d/m/Y'),
-            'stack' => $this->developerStacks->count() > 0 ? $this->developerStacks->where('is_primary', 1)->first()->stack->only('name', 'logo'): null,
+            'stack' => $this->developerStacks->count() > 0 ? $this->developerStacks->where('is_primary', 1)->first(): null,
             'prestations' => $this->developerPrestations->count() > 0 ? $this->developerPrestations->map(function ($prestation) {
                 return [
                     'id' => $prestation->id,

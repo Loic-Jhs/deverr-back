@@ -20,11 +20,11 @@ class AllDevsController extends Controller
         $allDevs = Developer::with('user', 'developerStacks', 'developerPrestations', 'reviews')
             ->get()
             ->filter(function ($developer) {
-                return $developer->developerStacks->count() > 0 &&
+                return
+                    $developer->developerStacks->count() > 0 &&
                     $developer->developerPrestations->count() > 0 &&
                     $developer->user->is_account_active === 1;
-            })
-            ->shuffle();
+            });
 
         return response()->json(
         // On retourne les développeurs sous forme de ressources,
