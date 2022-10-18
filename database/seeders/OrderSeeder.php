@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class OrderSeeder extends Seeder
 {
-    public static int $NB_ORDERS_IN_DB = 24;
-
     /**
      * Run the database seeds.
      *
@@ -18,28 +16,73 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        $nbPrestationsInDB = DeveloperPrestation::select('id')->count();
-        $isPayed = [0, 1];
+        // client_id: de 16 à 25
+        // dev_prestation_id: de 1 à 10
 
-        $clients = User::where('role_id', 1)->get();
-        $clientsId = [];
-        foreach ($clients as $client) {
-            $clientsId[] = $client['id'];
-        }
-
-        $ordersData = [];
-        for ($i = 1; $i <= self::$NB_ORDERS_IN_DB; $i++) {
-            $ordersData[] = [
-                'client_id'         => $clientsId[array_rand($clientsId, 1)],
-                'dev_prestation_id' => rand(1, $nbPrestationsInDB),
-                'is_payed'          => $isPayed[array_rand($isPayed, 1)],
+        DB::table('orders')->insert([
+            [
+                'client_id'         => 23,
+                'dev_prestation_id' => 7,
+                'is_payed'          => 0,
                 'created_at'        => '2022-09-25 10:50:12',
                 'updated_at'        => '2022-09-26 15:25:52',
-            ];
-        }
-
-        DB::table('orders')->insert(
-            $ordersData
-        );
+            ],
+            [
+                'client_id'         => 17,
+                'dev_prestation_id' => 5,
+                'is_payed'          => 1,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'         => 21,
+                'dev_prestation_id' => 1,
+                'is_payed'          => 1,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'         => 21,
+                'dev_prestation_id' => 2,
+                'is_payed'          => 0,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'         => 25,
+                'dev_prestation_id' => 4,
+                'is_payed'          => 1,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'         => 20,
+                'dev_prestation_id' => 3,
+                'is_payed'          => 1,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'         => 19,
+                'dev_prestation_id' => 10,
+                'is_payed'          => 1,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'         => 18,
+                'dev_prestation_id' => 8,
+                'is_payed'          => 1,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+            [
+                'client_id'         => 18,
+                'dev_prestation_id' => 9,
+                'is_payed'          => 0,
+                'created_at'        => '2022-09-25 10:50:12',
+                'updated_at'        => '2022-09-26 15:25:52',
+            ],
+        ]);
     }
 }

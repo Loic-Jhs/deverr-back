@@ -4,13 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Developer;
 use App\Models\Prestation;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class DeveloperPrestationSeeder extends Seeder
 {
-    public static int $NB_DEV_PRESTATIONS_IN_DB = 35;
-
     /**
      * Run the database seeds.
      *
@@ -18,28 +17,90 @@ class DeveloperPrestationSeeder extends Seeder
      */
     public function run()
     {
-        $developers = Developer::select('id')->get();
-        $nbPrestationsInDB = Prestation::select('id')->count();
+        // developer_id: de 1 à 8.
+        // prestation_id: de 1 à 9.
 
-        $developerId = [];
-        foreach ($developers as $developer) {
-            $developerId[] = $developer['id'];
-        }
-
-        $devPrestationsData = [];
-        for ($i = 1; $i <= self::$NB_DEV_PRESTATIONS_IN_DB; $i++) {
-            $devPrestationsData[] = [
-                'developer_id'        => $developerId[array_rand($developerId, 1)],
+        DB::table('developer_prestations')->insert([
+            [
+                'developer_id'  => 1,
                 'description'   => fake()->realTextBetween(35, 65),
-                'prestation_id' => rand(1, $nbPrestationsInDB),
+                'prestation_id' => 9,
                 'price'         => fake()->randomFloat(2, 100, 900),
                 'created_at'    => '2022-09-25 10:50:12',
                 'updated_at'    => '2022-09-26 15:25:52',
-            ];
-        }
-
-        DB::table('developer_prestations')->insert(
-            $devPrestationsData
-        );
+            ],
+            [
+                'developer_id'  => 1,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 1,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 2,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 3,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 2,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 5,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 2,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 7,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 3,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 2,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 3,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 9,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 4,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 4,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 8,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 1,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'  => 8,
+                'description'   => fake()->realTextBetween(35, 65),
+                'prestation_id' => 7,
+                'price'         => fake()->randomFloat(2, 100, 900),
+                'created_at'    => '2022-09-25 10:50:12',
+                'updated_at'    => '2022-09-26 15:25:52',
+            ],
+        ]);
     }
 }

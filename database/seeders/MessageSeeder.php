@@ -23,7 +23,11 @@ class MessageSeeder extends Seeder
             $clientsId[] = $client['id'];
         }
 
-        $developers = User::where('role_id', 2)->get();
+        $developers = User::where(
+            [
+                'is_account_active' => 1,
+                'role_id'           => 2,
+            ])->get();
         $developerId = [];
         foreach ($developers as $developer) {
             $developerId[] = $developer['id'];

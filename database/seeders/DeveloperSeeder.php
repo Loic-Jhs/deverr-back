@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class DeveloperSeeder extends Seeder
 {
-    public static int $NB_DEVELOPERS_IN_DB = 150;
-
     /**
      * Run the database seeds.
      *
@@ -17,16 +15,15 @@ class DeveloperSeeder extends Seeder
      */
     public function run()
     {
-        $developers = User::where('role_id', 2)->get();
-        $developerId = [];
-        foreach($developers as $developer) {
-            $developerId[] = $developer['id'];
-        }
+        $countDeveloper = User::where([
+            'role_id'           => 2,
+            'is_account_active' => 1,
+        ])->count();
 
         $developersData = [];
-        for ($i = 1; $i <= self::$NB_DEVELOPERS_IN_DB; $i++) {
+        for ($i = 1; $i <= $countDeveloper; $i++) {
             $developersData[] = [
-                'user_id'     => $developerId[array_rand($developerId, 1)],
+                'user_id'     => $i,
                 'description' => fake()->realTextBetween(30, 60),
                 'experience'  => rand(1, 25),
                 'created_at'  => '2022-09-25 10:50:12',

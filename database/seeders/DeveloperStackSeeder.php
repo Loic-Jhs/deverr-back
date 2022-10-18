@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class DeveloperStackSeeder extends Seeder
 {
-    public static int $NB_DEVELOPER_STACKS_IN_DB = 50;
-
     /**
      * Run the database seeds.
      *
@@ -18,37 +16,146 @@ class DeveloperStackSeeder extends Seeder
      */
     public function run()
     {
-        $developers = Developer::select('id')->get();
-        $nbStacksInDB = Stack::select('id')->count();
+        // developer_id: de 1 à 8
+        // stack_id: de 1 à 11
 
-        $developerId = [];
-        $oldDevId = [];
-        foreach ($developers as $developer) {
-            $developerId[] = $developer['id'];
-        }
-
-        $developerStacksData = [];
-        for ($i = 1; $i <= self::$NB_DEVELOPER_STACKS_IN_DB; $i++) {
-            $developer_id = $developerId[array_rand($developerId, 1)];
-            if (!in_array($developer_id, $oldDevId)) {
-                $primary = 1;
-            } else {
-                $primary = 0;
-            }
-
-            $developerStacksData[] = [
-                'developer_id'     => $developer_id,
-                'stack_id'         => rand(1, $nbStacksInDB),
-                'stack_experience' => rand(1, 30),
-                'is_primary'       => $primary,
+        DB::table('developer_stacks')->insert([
+            [
+                'developer_id'     => 1,
+                'stack_id'         => 1,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
                 'created_at'       => '2022-09-25 10:50:12',
                 'updated_at'       => '2022-09-26 15:25:52',
-            ];
-            $oldDevId[] = $developer_id;
-        }
-
-        DB::table('developer_stacks')->insert(
-            $developerStacksData
-        );
+            ],
+            [
+                'developer_id'     => 1,
+                'stack_id'         => 2,
+                'stack_experience' => 15,
+                'is_primary'       => 1,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 1,
+                'stack_id'         => 8,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 2,
+                'stack_id'         => 4,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 2,
+                'stack_id'         => 3,
+                'stack_experience' => 15,
+                'is_primary'       => 1,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 2,
+                'stack_id'         => 6,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 3,
+                'stack_id'         => 1,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 3,
+                'stack_id'         => 5,
+                'stack_experience' => 15,
+                'is_primary'       => 1,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 3,
+                'stack_id'         => 7,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 4,
+                'stack_id'         => 2,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 4,
+                'stack_id'         => 4,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 4,
+                'stack_id'         => 5,
+                'stack_experience' => 15,
+                'is_primary'       => 1,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 4,
+                'stack_id'         => 8,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 5,
+                'stack_id'         => 11,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 5,
+                'stack_id'         => 9,
+                'stack_experience' => 15,
+                'is_primary'       => 1,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 5,
+                'stack_id'         => 8,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id'     => 8,
+                'stack_id'         => 10,
+                'stack_experience' => rand(1, 15),
+                'is_primary'       => 0,
+                'created_at'       => '2022-09-25 10:50:12',
+                'updated_at'       => '2022-09-26 15:25:52',
+            ],
+        ]);
     }
 }
