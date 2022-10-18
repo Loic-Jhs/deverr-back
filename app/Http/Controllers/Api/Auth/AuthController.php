@@ -102,7 +102,8 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user_info' => $user,
             ], 200);
-        } else { // As a developer
+        } // As a developer
+        else if (auth()->user()->role_id == 2) {
             return response()->json([
                 'access_token' => $token[1],
                 'token_type' => 'Bearer',
