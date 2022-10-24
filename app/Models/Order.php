@@ -18,6 +18,7 @@ class Order extends Model
     protected $fillable = [
         'client_id',
         'dev_prestation_id',
+        'reference',
         'is_payed',
         'created_at',
         'updated_at',

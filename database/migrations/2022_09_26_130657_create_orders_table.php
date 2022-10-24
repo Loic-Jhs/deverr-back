@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('dev_prestation_id');
             $table->string('stripe_session_id')->nullable();
-            $table->string('reference');
-            $table->boolean('is_payed');
+            $table->string('reference')->nullable();
+            $table->boolean('is_payed')->default(false);
             $table->timestamps();
         });
     }

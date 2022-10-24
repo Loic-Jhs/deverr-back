@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
 use App\Http\Controllers\Api\Stripe\StripeController;
-use App\Http\Controllers\PaymentSuccessController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RecapDeveloperPrestationController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,14 +75,16 @@ Route::middleware('jsonOnly')->group(function () {
         Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
         Route::get('/all-developers', [AllDevsController::class, 'getAllDevs']);
 
+
         // Create stripe session for payment
         Route::match(['get', 'post'], '/order/create-session/{id}', [
             StripeController::class, 'createSession'
         ])->name('order-session');
+        Route::post('/preorder/{clientId}/{developerPrestationId}', [PaymentController::class, 'preorder'])->name('preorder');
         // Get prestation for payment
-        Route::get('/recap-developer-prestation/{id}', [RecapDeveloperPrestationController::class, 'recapDeveloperPrestation']);
+        Route::get('/recap-developer-prestation/{id}', [PaymentController::class, 'recapDeveloperPrestation']);
         // Payment success
-        Route::get('/payment-success/{stripeSessionId}', [PaymentSuccessController::class, 'success']);
+        Route::get('/payment-success/{stripeSessionId}', [PaymentController::class, 'success']);
         // Payment canceled
     });
 });

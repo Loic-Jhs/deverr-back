@@ -16,7 +16,10 @@
         <p class="card-text">ID de la prestation réalisée : {{ $developerPrestation->prestation_id }}</p>
         <p>ID du développeur l'ayant réalisé : {{ $developerPrestation->developer_id }}</p>
         <p>Prix de la prestation : {{ $developerPrestation->price }}€</p>
-        <button class="btn btn-primary" id="checkout-button">Payer | {{ $developerPrestation->price }}€</button>
+        <form id="checkout-button" action="{{ route('preorder', [$developerPrestation->client_id, $developerPrestation->id]) }}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-primary">Payer | {{ $developerPrestation->price }}€</button>
+        </form>
         <input type="hidden" name="prestation_id" value="{{ $developerPrestation->id }}">
     </div>
 </div>
