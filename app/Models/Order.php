@@ -26,9 +26,9 @@ class Order extends Model
     /**
      * @return BelongsTo
      */
-    public function prestation(): BelongsTo
+    public function developerPrestation(): BelongsTo
     {
-        return $this->BelongsTo(Prestation::class);
+        return $this->BelongsTo(DeveloperPrestation::class);
     }
 
     public function user(): BelongsTo

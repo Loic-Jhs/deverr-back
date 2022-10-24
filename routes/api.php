@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\DeveloperPrestationController;
 use App\Http\Controllers\Api\Admin\HomeController;
+use App\Http\Controllers\Api\Admin\OrderController;
 use App\Http\Controllers\Api\Admin\PrestationController;
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
@@ -8,6 +10,9 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
+use App\Http\Controllers\Api\Stripe\StripeController;
+use App\Http\Controllers\PaymentSuccessController;
+use App\Http\Controllers\RecapDeveloperPrestationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +56,13 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::put('/edit', [PrestationController::class, 'editPrestation']);
                 Route::delete('/delete/{id}', [PrestationController::class, 'deletePrestation']);
             });
+            // DevPrestations CRUD
+            Route::group(['prefix' => 'dev-prestations'], function () {
+                Route::get('/', [DeveloperPrestationController::class, 'developerPrestations']);
+                Route::post('/store', [DeveloperPrestationController::class, 'storeDevPrestation']);
+                Route::put('/edit', [DeveloperPrestationController::class, 'editDevPrestation']);
+                Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
+            });
         });
     });
 
@@ -62,5 +74,15 @@ Route::middleware('jsonOnly')->group(function () {
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
         Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
         Route::get('/all-developers', [AllDevsController::class, 'getAllDevs']);
+
+        // Create stripe session for payment
+        Route::match(['get', 'post'], '/order/create-session/{id}', [
+            StripeController::class, 'createSession'
+        ])->name('order-session');
+        // Get prestation for payment
+        Route::get('/recap-developer-prestation/{id}', [RecapDeveloperPrestationController::class, 'recapDeveloperPrestation']);
+        // Payment success
+        Route::get('/payment-success/{stripeSessionId}', [PaymentSuccessController::class, 'success']);
+        // Payment canceled
     });
 });
