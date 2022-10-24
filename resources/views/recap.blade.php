@@ -12,15 +12,21 @@
 <div class="card" style="width: 22rem;">
     <div class="card-body">
         <h5 class="card-title">Prestation </h5>
-        <h6 class="card-subtitle mb-2 text-muted">Par ici la monnaie <span style="font-size: 4rem">💶</span></h6>
-        <p class="card-text">ID de la prestation réalisée : {{ $developerPrestation->prestation_id }}</p>
-        <p>ID du développeur l'ayant réalisé : {{ $developerPrestation->developer_id }}</p>
+        <h6 class="card-subtitle mb-2 text-muted"><span style="font-size: 4rem">💶</span></h6>
+        <p class="card-text">Prestation réalisée : {{ $developerPrestation->prestation->name }}</p>
+        <p>Développeur l'ayant réalisé : {{ $developerPrestation->developer->user->firstname .' '. $developerPrestation->developer->user->lastname }}</p>
         <p>Prix de la prestation : {{ $developerPrestation->price }}€</p>
-        <form id="checkout-button" action="{{ route('preorder', [$developerPrestation->client_id, $developerPrestation->id]) }}" method="post">
-            @csrf
-            <button type="submit" class="btn btn-primary">Payer | {{ $developerPrestation->price }}€</button>
-        </form>
-        <input type="hidden" name="prestation_id" value="{{ $developerPrestation->id }}">
+
+        <button type="submit"
+                id="checkout-button"
+                class="btn btn-primary">Payer | {{ $developerPrestation->price }}€
+        </button>
+
+        <input type="hidden"
+               name="prestation_id"
+               value="{{ $developerPrestation->id }}"
+        />
+
     </div>
 </div>
 

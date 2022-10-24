@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\Admin\DeveloperPrestationController;
 use App\Http\Controllers\Api\Admin\HomeController;
-use App\Http\Controllers\Api\Admin\OrderController;
 use App\Http\Controllers\Api\Admin\PrestationController;
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
@@ -11,8 +10,7 @@ use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
 use App\Http\Controllers\Api\Stripe\StripeController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\RecapDeveloperPrestationController;
+use App\Http\Controllers\Api\Stripe\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,11 +78,11 @@ Route::middleware('jsonOnly')->group(function () {
         Route::match(['get', 'post'], '/order/create-session/{id}', [
             StripeController::class, 'createSession'
         ])->name('order-session');
-        Route::post('/preorder/{clientId}/{developerPrestationId}', [PaymentController::class, 'preorder'])->name('preorder');
-        // Get prestation for payment
+        // Get developer prestation for payment
         Route::get('/recap-developer-prestation/{id}', [PaymentController::class, 'recapDeveloperPrestation']);
         // Payment success
-        Route::get('/payment-success/{stripeSessionId}', [PaymentController::class, 'success']);
+        Route::get('/payment-success/{stripeSessionId}/{clientId}/{developerPrestationId}', [PaymentController::class, 'success']);
         // Payment canceled
+        Route::get('/payment-canceled/{stripeSessionId}/{clientId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
     });
 });
