@@ -100,14 +100,14 @@ class AuthController extends Controller
             return response()->json([
                 'access_token' => $token[1],
                 'token_type' => 'Bearer',
-                'user_info' => $user,
+                'role_id' => auth()->user()->role->name,
             ], 200);
         } // As a developer
         else if (auth()->user()->role_id == 2) {
             return response()->json([
                 'access_token' => $token[1],
                 'token_type' => 'Bearer',
-                'user_info' => $user->developer,
+                'role_id' => auth()->user()->role->name,
             ], 200);
         } else {
             return response()->json([
