@@ -18,6 +18,7 @@ class Order extends Model
     protected $fillable = [
         'client_id',
         'dev_prestation_id',
+        'reference',
         'is_payed',
         'created_at',
         'updated_at',
@@ -26,9 +27,9 @@ class Order extends Model
     /**
      * @return BelongsTo
      */
-    public function prestation(): BelongsTo
+    public function developerPrestation(): BelongsTo
     {
-        return $this->BelongsTo(Prestation::class);
+        return $this->BelongsTo(DeveloperPrestation::class);
     }
 
     public function user(): BelongsTo

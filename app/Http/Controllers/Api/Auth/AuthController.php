@@ -109,6 +109,13 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'role_id' => auth()->user()->role->name,
             ], 200);
+        } // As a admin
+        else if (auth()->user()->role_id == 3) {
+            return response()->json([
+                'access_token' => $token[1],
+                'token_type' => 'Bearer',
+                'user_info' => $user->developer,
+            ], 200);
         } else {
             return response()->json([
                 'error' => "Une erreur s'est produite veuillez essayer ultérieurement.",
