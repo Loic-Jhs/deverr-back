@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -79,7 +80,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     public function canAccessFilament(): bool
     {
-        return Gate::allows('isAdmin');
+        if (Gate::allows('isAdmin')) {
+            return true;
+        } else {
+            Auth::logout();
+            return false;
+        }
     }
 
     public function getFilamentName(): string
