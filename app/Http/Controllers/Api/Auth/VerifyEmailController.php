@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResendEmailVerificationRequest;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
@@ -32,10 +30,6 @@ class VerifyEmailController extends Controller
         if (! $user->hasVerifiedEmail()) {
             // mark the user as verified in database with the email_verified_at column
             $user->markEmailAsVerified();
-
-            // set the account as active
-            $user->is_account_active = 1;
-            $user->update();
             // fire the Verified event
             event(new Verified($user));
         }
@@ -44,7 +38,7 @@ class VerifyEmailController extends Controller
     }
 
     /**
-     * @param ResendEmailVerificationRequest $request
+     * @param  ResendEmailVerificationRequest  $request
      * @return JsonResponse
      */
     public function resendEmailVerification(ResendEmailVerificationRequest $request): JsonResponse

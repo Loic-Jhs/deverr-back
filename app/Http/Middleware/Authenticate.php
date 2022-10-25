@@ -14,6 +14,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        abort(403,"Vous n'êtes pas connecté.");
+        abort(403, "Vous n'êtes pas connecté.");
     }
 }

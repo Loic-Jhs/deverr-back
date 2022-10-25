@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('prestations', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('developer_prestations', function (Blueprint $table) {
+            $table->foreign('prestation_type_id')->references('id')->on('prestation_types');
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prestations');
+        Schema::table('developer_prestations', function (Blueprint $table) {
+            $table->dropForeign(['prestation_type_id']);
+        });
     }
 };

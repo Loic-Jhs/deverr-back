@@ -34,7 +34,7 @@ class DeveloperResource extends JsonResource
                      ->only('name', 'logo') : // Récupère uniquement les attributs name et logo de la stack
                 null, // sinon, on retourne null
             'developer_firstname' => $this->user->firstname,
-            'developer_lastname' => $this->user->lastname
+            'developer_lastname' => $this->user->lastname,
         ];
     }
 }

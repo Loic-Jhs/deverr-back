@@ -12,7 +12,7 @@ class RandomDevsController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getSixRandomUsers(): \Illuminate\Http\JsonResponse
+    public function getSixRandomUsers(): JsonResponse
     {
         // get 6 random developers, with their review ratings >=3 / if they have no ratings but have no complaints,
         $developers =
@@ -21,7 +21,7 @@ class RandomDevsController extends Controller
             ->distinct() // Récupère les développeurs de façon distincte
             ->get()      // Transforme en Collection
             ->filter(function ($developer) { // On va filtrer les développeurs et le filtre nous retournera ceux conformes aux critères
-                return
+            return
                     $developer->complaints->count() === 0        // Nous voulons que le développeur n'ait aucune plainte
                     &&                                           // ET
                     (
@@ -41,6 +41,6 @@ class RandomDevsController extends Controller
             DeveloperResource::collection($developers)
             // ou renvoyer ça si on veut pas le formatted
             // $developers
-        , 200);
+            , 200);
     }
 }

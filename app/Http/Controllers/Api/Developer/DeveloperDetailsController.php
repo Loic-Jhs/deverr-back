@@ -31,16 +31,18 @@ class DeveloperDetailsController extends Controller
             ->select('id', 'stack_id', 'stack_experience', 'is_primary')
             ->get();
 
-        if (!$developer) {
+        // get the count of orders for this developer
+
+        if (! $developer) {
             return new JsonResponse([
                 'error' => 'Invalid data',
             ], 404);
         }
 
         return new JsonResponse([
-            'dev_info'   => $developer,
+            'dev_info' => $developer,
             'prestation' => $developerPrestations,
-            'stack'      => $developerStacks,
+            'stack' => $developerStacks,
         ], 200);
     }
 }

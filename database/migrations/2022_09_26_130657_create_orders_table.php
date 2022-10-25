@@ -15,9 +15,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id');
-            $table->unsignedBigInteger('dev_prestation_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('developer_id');
+            $table->unsignedBigInteger('developer_prestation_id');
+            $table->string('instructions', 1500);
             $table->boolean('is_payed');
+            $table->string('stripe_session_id')->nullable();
+            $table->string('reference')->nullable();
             $table->timestamps();
         });
     }

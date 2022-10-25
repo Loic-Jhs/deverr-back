@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DeveloperSeeder extends Seeder
 {
+    public static int $NB_DEVELOPERS_IN_DB = 8;
     /**
      * Run the database seeds.
      *
@@ -15,24 +16,22 @@ class DeveloperSeeder extends Seeder
      */
     public function run()
     {
-        $countDeveloper = User::where([
-            'role_id'           => 2,
-            'is_account_active' => 1,
-        ])->count();
-
-        $developersData = [];
-        for ($i = 1; $i <= $countDeveloper; $i++) {
-            $developersData[] = [
-                'user_id'     => $i,
-                'description' => fake()->realTextBetween(30, 60),
-                'experience'  => rand(1, 25),
-                'created_at'  => '2022-09-25 10:50:12',
-                'updated_at'  => '2022-09-26 15:25:52',
+        $developers = [];
+        for ($i = 1; $i <= self::$NB_DEVELOPERS_IN_DB; $i++) {
+            $developers[] = [
+                'firstname' => fake()->firstName(),
+                'lastname' => fake()->lastName(),
+                'email' => fake()->email(),
+                'password' => Hash::make('password'),
+                'description' => fake()->realTextBetween(10, 25),
+                'avatar' => fake()->imageUrl(200, 200),
+                'years_of_experience' => fake()->numberBetween(1, 10),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
 
-        DB::table('developers')->insert(
-            $developersData
-        );
+        DB::table('developers')->insert($developers);
     }
 }

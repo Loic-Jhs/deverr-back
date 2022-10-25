@@ -21,7 +21,7 @@ class StoreRequestPrestation extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules() :array
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
@@ -36,9 +36,9 @@ class StoreRequestPrestation extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => "Le nom de la prestation est requis",
-            'name.max'      => "Le nom de la prestation est trop long",
-            'name.string'   => "Le nom de la prestation est invalide",
+            'name.required' => 'Le nom de la prestation est requis',
+            'name.max' => 'Le nom de la prestation est trop long',
+            'name.string' => 'Le nom de la prestation est invalide',
         ];
     }
 }

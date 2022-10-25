@@ -21,19 +21,14 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<bool, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'email_verified_at',
         'firstname',
         'lastname',
-        'role_id',
-        'is_account_active',
-        'remember_token',
+        'email',
+        'email_verified_at',
+        'role',
         'created_at',
         'updated_at',
     ];
-
 
     protected $hidden = [
         'password',
@@ -43,11 +38,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
 
     public function complaints(): HasMany
     {
@@ -62,11 +52,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
-    }
-
-    public function developer(): HasOne
-    {
-        return $this->hasOne(Developer::class);
     }
 
     public function orders(): HasMany

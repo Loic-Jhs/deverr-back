@@ -11,9 +11,10 @@ class AllDevsController extends Controller
 {
     /**
      * Get all developers
+     *
      * @return JsonResponse
      */
-    public function getAllDevs(): \Illuminate\Http\JsonResponse
+    public function getAllDevs(): JsonResponse
     {
         // get all developers id, firstname, lastname, created_at,
         // with their ratings summed, their stack, their devPrestations
@@ -27,9 +28,8 @@ class AllDevsController extends Controller
             });
 
         return response()->json(
-        // On retourne les développeurs sous forme de ressources,
-        // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
-            AllDevsResource::collection($allDevs)
-            , 200);
+            // On retourne les développeurs sous forme de ressources,
+            // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
+            AllDevsResource::collection($allDevs), 200);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -16,28 +17,40 @@ class Order extends Model
      * @var array<int, string, bool>
      */
     protected $fillable = [
-        'client_id',
-        'dev_prestation_id',
+        'user_id',
+        'developer_id',
+        'developer_prestation_id',
+        'instructions',
         'is_payed',
+        'stripe_session_id',
+        'reference',
         'created_at',
         'updated_at',
     ];
 
-    /**
-     * @return BelongsTo
-     */
-    public function prestation(): BelongsTo
-    {
-        return $this->BelongsTo(Prestation::class);
-    }
-
     public function user(): BelongsTo
     {
-        return $this->BelongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function transaction(): BelongsTo
+    public function developer(): BelongsTo
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(Developer::class);
     }
+
+    public function review(): HasOne
+    {
+        return $this->hasOne(Review::class);
+    }
+
+    public function developerPrestation(): BelongsTo
+    {
+        return $this->belongsTo(DeveloperPrestation::class);
+    }
+
+    public function complaint(): HasOne
+    {
+        return $this->hasOne(Complaint::class);
+    }
+
 }

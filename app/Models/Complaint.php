@@ -16,23 +16,16 @@ class Complaint extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'dev_prestation_id',
+        'order_id',
+        'is_user_complaining',
         'complaint',
+        'status',
         'created_at',
         'updated_at',
     ];
 
-    /**
-     * @return BelongsTo
-     */
-    public function user(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->BelongsTo(User::class);
-    }
-
-    public function prestation(): BelongsTo
-    {
-        return $this->BelongsTo(Prestation::class);
+        return $this->belongsTo(Order::class);
     }
 }

@@ -7,7 +7,7 @@ use App\Http\Requests\BackOffice\StoreUserRequest;
 use App\Http\Requests\BackOffice\UpdateUserRequest;
 use App\Models\Complaint;
 use App\Models\Order;
-use App\Models\Prestation;
+use App\Models\PrestationType;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         $nb_clients = User::where('role_id', 1)->count();
-        $nb_prestations = Prestation::select('id')->count();
+        $nb_prestations = PrestationType::select('id')->count();
         $nb_developers = User::where('role_id', 2)->count();
         $nb_orders = Order::select('id')->count();
         $nb_users = $nb_developers + $nb_clients;
@@ -37,7 +37,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param int|null $id
+     * @param  int|null  $id
      * @return JsonResponse
      */
     public function users(int $id = null): JsonResponse
@@ -54,7 +54,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param StoreUserRequest $request
+     * @param  StoreUserRequest  $request
      * @return JsonResponse
      */
     public function storeUser(StoreUserRequest $request): JsonResponse
@@ -73,7 +73,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param UpdateUserRequest $request
+     * @param  UpdateUserRequest  $request
      * @return JsonResponse
      */
     public function editUser(UpdateUserRequest $request): JsonResponse

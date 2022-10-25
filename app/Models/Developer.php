@@ -12,41 +12,49 @@ class Developer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'firstname',
+        'lastname',
+        'email',
         'description',
-        'experience',
+        'avatar',
+        'years_of_experience',
+        'email_verified_at',
         'created_at',
         'updated_at',
     ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    public function developerPrestations(): HasMany
-    {
-        return $this->hasMany(DeveloperPrestation::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
     public function developerStacks(): HasMany
     {
-        return $this->hasMany(DeveloperStack::class, 'developer_id');
+        return $this->hasMany(DeveloperStack::class);
     }
 
-    public function developers(): HasMany
+        public function messages(): HasMany
     {
-        return $this->hasMany(Developer::class);
+        return $this->hasMany(Message::class);
     }
 
-    public function reviews(): HasMany
+    public function orders(): HasMany
     {
-        return $this->hasMany(Review::class, 'developer_id');
+        return $this->hasMany(Order::class);
     }
 
-    public function complaints(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function stacks()
     {
-        return $this->hasManyThrough(Complaint::class, DeveloperPrestation::class, 'developer_id', 'dev_prestation_id');
+        return $this->hasManyThrough(
+            Stack::class,
+            DeveloperStack::class,
+            'developer_id',
+            'id',
+            'id',
+            'stack_id'
+        );
     }
-
 }
