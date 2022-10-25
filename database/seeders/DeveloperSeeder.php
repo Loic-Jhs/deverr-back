@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class DeveloperSeeder extends Seeder
 {
     public static int $NB_DEVELOPERS_IN_DB = 8;
+    public static int $NB_USERS_IN_DB = 20;
     /**
      * Run the database seeds.
      *
@@ -16,22 +17,79 @@ class DeveloperSeeder extends Seeder
      */
     public function run()
     {
-        $developers = [];
-        for ($i = 1; $i <= self::$NB_DEVELOPERS_IN_DB; $i++) {
-            $developers[] = [
-                'firstname' => fake()->firstName(),
-                'lastname' => fake()->lastName(),
-                'email' => fake()->email(),
-                'password' => Hash::make('password'),
-                'description' => fake()->realTextBetween(10, 25),
-                'avatar' => fake()->imageUrl(200, 200),
-                'years_of_experience' => fake()->numberBetween(1, 10),
-                'email_verified_at' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        DB::table('developers')->insert($developers);
+        DB::table('developers')->insert([
+            [
+                'user_id' => 10,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 11,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 12,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 13,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 14,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 15,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 16,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 17,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'user_id' => 18,
+                'description' => fake()->realTextBetween(20, 100),
+                'avatar' => 'https://picsum.photos/200/300',
+                'years_of_experience' => 2,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+        ]);
     }
 }

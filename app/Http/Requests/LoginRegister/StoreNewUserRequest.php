@@ -28,8 +28,9 @@ class StoreNewUserRequest extends FormRequest
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'experience' => 'required_if:type,developer|max:80',
-            'description' => 'required_if:type,developer|max:500',
+            'type' => 'required|in:user,developer',
+            'years_of_experience' => 'required_if:type,developer|nullable|integer',
+            'description' => 'required_if:type,developer|nullable|string',
         ];
     }
 
@@ -55,10 +56,12 @@ class StoreNewUserRequest extends FormRequest
             'password.required' => 'Le mot de passe est requis',
             'password.string' => 'Le mot de passe est invalide',
             'password.min' => 'Le mot de passe est trop court',
-            'experience.required_if' => "L'expérience est requise",
-            'experience.max' => "L'expérience est trop longue",
+            'type.required' => 'Le type est requis',
+            'type.in' => 'Le type est invalide',
+            'years_of_experience.required_if' => 'L\'expérience est requise',
+            'years_of_experience.integer' => 'L\'expérience est invalide',
             'description.required_if' => 'La description est requise',
-            'description.max' => 'La description est trop longue',
+            'description.string' => 'La description est invalide',
         ];
     }
 }

@@ -12,24 +12,19 @@ class Developer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'firstname',
-        'lastname',
-        'email',
+        'user_id',
         'description',
         'avatar',
         'years_of_experience',
-        'email_verified_at',
         'created_at',
         'updated_at',
     ];
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     public function developerStacks(): HasMany
     {
