@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Developer;
 use App\Http\Controllers\Controller;
 use App\Models\Developer;
 use App\Models\DeveloperPrestation;
+use App\Models\DeveloperStack;
 use Illuminate\Http\JsonResponse;
 
 class DeveloperDetailsController extends Controller
@@ -20,9 +21,14 @@ class DeveloperDetailsController extends Controller
             ->select('*')
             ->get();
 
-        $developerPrestation = DeveloperPrestation::with('prestation')
+        $developerPrestations = DeveloperPrestation::with('prestation')
             ->where('developer_id', $id)
             ->select('id', 'client_id', 'description', 'prestation_id')
+            ->get();
+
+        $developerStacks = DeveloperStack::with('stack')
+            ->where('developer_id', $id)
+            ->select('id', 'stack_id', 'stack_experience', 'is_primary')
             ->get();
 
         if (!$developer) {
@@ -33,7 +39,8 @@ class DeveloperDetailsController extends Controller
 
         return new JsonResponse([
             'dev_info'   => $developer,
-            'prestation' => $developerPrestation,
+            'prestation' => $developerPrestations,
+            'stack'      => $developerStacks,
         ], 200);
     }
 }
