@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\DeveloperPrestationController;
 use App\Http\Controllers\Api\Admin\HomeController;
 use App\Http\Controllers\Api\Admin\PrestationController;
 use App\Http\Controllers\Api\Admin\StackController;
@@ -56,13 +57,13 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::delete('/delete/{id}', [PrestationController::class, 'deletePrestation']);
             });
             // DevPrestations CRUD
-            Route::group(['prefix' => 'dev-prestations'], function () {
-                Route::get('/', [DeveloperPrestationController::class, 'developerPrestations']);
-                Route::post('/store', [DeveloperPrestationController::class, 'storeDevPrestation']);
-                Route::put('/edit', [DeveloperPrestationController::class, 'editDevPrestation']);
-                Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
-            });
+        Route::group(['prefix' => 'dev-prestations'], function () {
+            Route::get('/', [DeveloperPrestationController::class, 'developerPrestations']);
+            Route::post('/store', [DeveloperPrestationController::class, 'storeDevPrestation']);
+            Route::put('/edit', [DeveloperPrestationController::class, 'editDevPrestation']);
+            Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
         });
+    });
     });
 
     // NOT CONNECTED
