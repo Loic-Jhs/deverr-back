@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
         }
 
         $users = [];
-        for ($i = 1; $i <= self::$NB_USERS_IN_DB; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $users[] = [
                 'email' => fake()->email(),
                 'password' => Hash::make('password'),
