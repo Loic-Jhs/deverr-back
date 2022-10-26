@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AllDevsResource extends JsonResource
@@ -9,10 +10,10 @@ class AllDevsResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -21,14 +22,20 @@ class AllDevsResource extends JsonResource
             'lastname' => $this->user->lastname,
             'description' => $this->description,
             'average_rating' => $this->reviews->count() > 0 ? number_format($this->reviews->avg('rating'), 1) : null,
-            'register_date' => $this->user->created_at->format('d/m/Y'),
-            'stacks' => $this->developerStacks->count() > 0 ? $this->developerStacks : null,
-            'prestations' => $this->developerPrestations->count() > 0 ? $this->developerPrestations->map(function ($prestation) {
+            'register_date' => $this->created_at->format('d/m/Y'),
+            'stacks' => $this->stacks->count() > 0 ? $this->stacks->map(function ($stack) {
+                    return [
+                        'id' => $stack->id,
+                        'name' => $stack->name,
+                        'logo' => $stack->logo
+                    ];
+            }) : null,
+            'prestations' => $this->developerPrestations ? $this->developerPrestations->map(function ($prestation) {
                 return [
                     'id' => $prestation->id,
-                    'name' => $prestation->prestation->name,
+                    'name' => $prestation->name,
                 ];
-            })->take(3) : null,
+            }) : null,
         ];
     }
 }

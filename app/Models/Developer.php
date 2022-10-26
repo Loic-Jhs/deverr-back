@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Developer extends Model
 {
@@ -41,7 +42,7 @@ class Developer extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function stacks()
+    public function stacks(): HasManyThrough
     {
         return $this->hasManyThrough(
             Stack::class,
@@ -50,6 +51,29 @@ class Developer extends Model
             'id',
             'id',
             'stack_id'
+        );
+    }
+
+    public function reviews(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Review::class,
+            Order::class,
+            'developer_id',
+            'order_id',
+            'id',
+            'id'
+        );
+    }
+
+    public function developerPrestations(): HasManyThrough
+    {
+        return $this->hasManyThrough(PrestationType::class,
+            DeveloperPrestation::class,
+            'prestation_type_id', // Foreign key on the developer_prestations table
+            'id',
+            'id',
+            'id'
         );
     }
 }
