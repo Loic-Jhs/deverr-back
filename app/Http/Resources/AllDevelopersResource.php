@@ -21,8 +21,7 @@ class AllDevelopersResource extends JsonResource
             'firstname' => $this->user->firstname,
             'lastname' => $this->user->lastname,
             'description' => $this->description,
-            'average_rating' => $this->reviews->count() > 0 ? number_format($this->reviews->avg('rating'), 1) : null,
-            'register_date' => $this->created_at->format('d/m/Y'),
+            'rating' => $this->reviews->count() > 0 ? $this->reviews->avg('rating') : null,
             'stacks' => $this->stacks->count() > 0 ? $this->stacks->map(function ($stack) {
                     return [
                         'id' => $stack->id,
@@ -30,7 +29,7 @@ class AllDevelopersResource extends JsonResource
                         'logo' => $stack->logo
                     ];
             }) : null,
-            'prestations' => $this->developerPrestations ? $this->developerPrestations->map(function ($prestation) {
+            'prestations' => $this->developerPrestations->count() > 0 ? $this->developerPrestations->map(function ($prestation) {
                 return [
                     'id' => $prestation->id,
                     'name' => $prestation->name,
