@@ -13,8 +13,8 @@ class DeveloperPrestation extends Model
 
     protected $fillable = [
         'developer_id',
+        'prestation_type_id',
         'description',
-        'prestation_id',
         'price',
         'created_at',
         'updated_at',
@@ -22,7 +22,7 @@ class DeveloperPrestation extends Model
 
     public function prestation(): BelongsTo
     {
-        return $this->belongsTo(Prestation::class);
+        return $this->belongsTo(PrestationType::class);
     }
 
     public function developer(): BelongsTo

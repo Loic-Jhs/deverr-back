@@ -28,8 +28,8 @@ class UpdateStackRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'logo' => [
-                File::types(['png', 'jpg', 'svg'])
-            ]
+                File::types(['png', 'jpg', 'svg']),
+            ],
         ];
     }
 
@@ -41,9 +41,9 @@ class UpdateStackRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => "Le nom de la stack est requis",
-            'name.max'      => "Le nom de la stack est trop long",
-            'name.string'   => "Le nom de la stack est invalide",
+            'name.required' => 'Le nom de la stack est requis',
+            'name.max' => 'Le nom de la stack est trop long',
+            'name.string' => 'Le nom de la stack est invalide',
         ];
     }
 }

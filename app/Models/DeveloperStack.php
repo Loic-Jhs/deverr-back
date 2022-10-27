@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class DeveloperStack extends Model
 {
@@ -19,17 +20,18 @@ class DeveloperStack extends Model
         'developer_id',
         'stack_id',
         'stack_experience',
+        'is_primary',
         'created_at',
         'updated_at',
     ];
 
-    public function stack(): BelongsTo
-    {
-        return $this->belongsTo(Stack::class);
-    }
-
     public function developer(): BelongsTo
     {
-        return $this->belongsTo(Developer::class);
+        return $this->belongsTo(Developer::class, 'developer_id');
+    }
+
+    public function stack(): BelongsTo
+    {
+        return $this->belongsTo(Stack::class, 'stack_id');
     }
 }

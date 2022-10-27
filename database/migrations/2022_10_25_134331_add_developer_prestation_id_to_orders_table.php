@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->foreign('order_id')->references('id')->on('orders');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreign('developer_prestation_id')->references('id')->on('developer_prestations');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->dropForeign(['order_id']);
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropForeign(['developer_prestation_id']);
         });
     }
 };

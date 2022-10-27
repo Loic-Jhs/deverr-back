@@ -43,7 +43,7 @@ class StackController extends Controller
     }
 
     /**
-     * @param UpdateStackRequest $request
+     * @param  UpdateStackRequest  $request
      * @return JsonResponse
      */
     public function editStack(UpdateStackRequest $request): JsonResponse

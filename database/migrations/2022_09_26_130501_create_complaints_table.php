@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('dev_prestation_id');
+            $table->unsignedBigInteger('order_id');
+            $table->boolean('is_user_complaining')->comment('0: developer, 1: user');
             $table->string('complaint', 1000);
-            $table->enum('status', [1, 2])->comment('1 : En cours | 2 : Résolue')->default(1);
+            $table->boolean('status')->comment('0 : En cours | 1 : Résolue');
             $table->timestamps();
         });
     }
