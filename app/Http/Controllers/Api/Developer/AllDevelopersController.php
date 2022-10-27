@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api\Developer;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AllDevsResource;
+use App\Http\Resources\AllDevelopersResource;
 use App\Models\Developer;
 use Illuminate\Http\JsonResponse;
 
-class AllDevsController extends Controller
+class AllDevelopersController extends Controller
 {
     /**
      * Get all developers
@@ -23,7 +23,7 @@ class AllDevsController extends Controller
         return response()->json(
             // On retourne les développeurs sous forme de ressources,
             // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
-            AllDevsResource::collection($allDevelopers),
+            AllDevelopersResource::collection($allDevelopers),
             200);
     }
 }

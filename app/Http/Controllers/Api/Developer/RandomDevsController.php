@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Developer;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DeveloperResource;
+use App\Http\Resources\RandomDevelopersResource;
 use App\Models\Developer;
 use Illuminate\Http\JsonResponse;
 
@@ -27,6 +27,6 @@ class RandomDevsController extends Controller
 
         // On retourne les développeurs sous forme de ressources,
         // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
-        return response()->json(DeveloperResource::collection($randomDevelopers),200);
+        return response()->json(RandomDevelopersResource::collection($randomDevelopers),200);
     }
 }

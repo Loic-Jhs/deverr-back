@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
-class DeveloperResource extends JsonResource
+class RandomDevelopersResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,7 +25,7 @@ class DeveloperResource extends JsonResource
             'lastname' => $this->user->lastname,
             'avatar' => $this->avatar,
             'average_rating' => $this->reviews->avg('rating'),
-            'stack' => $this->developerStacks->firstWhere('is_primary', 1)->stack->name,
+            'stack' => $this->developerStacks->first() ? $this->developerStacks->firstWhere('is_primary', 1)->stack->name : null,
         ];
     }
 }
