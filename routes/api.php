@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\HomeController;
 use App\Http\Controllers\Api\Admin\PrestationController;
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
-use App\Http\Controllers\Api\Developer\AllDevsController;
+use App\Http\Controllers\Api\Developer\AllDevelopersController;
 use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +28,6 @@ Route::middleware('jsonOnly')->group(function () {
 
         // connected as admin
         Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
-            // landing page for admins
-            Route::get('/', [HomeController::class, 'index']);
             // list of users
             Route::group(['prefix' => 'users'], function () {
                 Route::get('/', [UserController::class, 'users']);
@@ -60,10 +57,10 @@ Route::middleware('jsonOnly')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
         // Developer details
-        Route::get('/developer-details/{id}', [DeveloperDetailsController::class, 'developerDetails']);
+        Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
         // Resend email verification
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
         Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
-        Route::get('/all-developers', [AllDevsController::class, 'getAllDevs']);
+        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
     });
 });
