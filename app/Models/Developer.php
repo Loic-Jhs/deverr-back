@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Seeders\ReviewSeeder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -72,6 +73,18 @@ class Developer extends Model
             DeveloperPrestation::class,
             'prestation_type_id', // Foreign key on the developer_prestations table
             'id',
+            'id',
+            'id'
+        );
+    }
+
+    public function complaints(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Complaint::class,
+            Order::class,
+            'developer_id',
+            'order_id',
             'id',
             'id'
         );
