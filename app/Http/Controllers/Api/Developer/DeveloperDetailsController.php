@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DeveloperDetailsResource;
 use App\Models\Developer;
 use App\Models\DeveloperPrestation;
 use App\Models\DeveloperStack;
@@ -16,33 +17,20 @@ class DeveloperDetailsController extends Controller
      */
     public function developerDetails($id): JsonResponse
     {
-        $developer = Developer::with('user')
-            ->where('user_id', $id)
-            ->select('*')
-            ->get();
 
-        $developerPrestations = DeveloperPrestation::with('prestation')
-            ->where('developer_id', $id)
-            ->select('id', 'client_id', 'description', 'prestation_id')
+        // get a developer's details, with his stacks, prestations, reviews
+        $developer = Developer::with('user', 'stacks', 'developerPrestations', 'reviews')
+            ->where('id', $id)
             ->get();
-
-        $developerStacks = DeveloperStack::with('stack')
-            ->where('developer_id', $id)
-            ->select('id', 'stack_id', 'stack_experience', 'is_primary')
-            ->get();
-
-        // get the count of orders for this developer
 
         if (! $developer) {
             return new JsonResponse([
-                'error' => 'Invalid data',
+                'error' => "Ce développeur n'existe pas",
             ], 404);
         }
 
-        return new JsonResponse([
-            'dev_info' => $developer,
-            'prestation' => $developerPrestations,
-            'stack' => $developerStacks,
-        ], 200);
+        return new JsonResponse(
+            DeveloperDetailsResource::collection($developer)
+        , 200);
     }
 }
