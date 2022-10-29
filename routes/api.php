@@ -90,8 +90,8 @@ Route::middleware('jsonOnly')->group(function () {
         // Get developer prestation for payment
         Route::get('/recap-developer-prestation/{id}', [PaymentController::class, 'recapDeveloperPrestation']);
         // Payment success
-        Route::get('/payment-success/{stripeSessionId}/{clientId}/{developerPrestationId}', [PaymentController::class, 'success']);
+        Route::get('/payment-success/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'success']);
         // Payment canceled
-        Route::get('/payment-canceled/{stripeSessionId}/{clientId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
+        Route::get('/payment-canceled/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
     });
 });

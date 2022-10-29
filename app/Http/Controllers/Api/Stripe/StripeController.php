@@ -18,11 +18,11 @@ class StripeController extends Controller
         Stripe::setApiKey('sk_test_51LvRpVGm3pNtvPq2Cf4hl95LApSmGx9Zdz5oyrmsJzMIGOoiVzOX0w5lvn3O9WlmKU2mCvPh57oPDLF4CRUUrD60009lXMzhVb');
 
         $developerPrestation = DeveloperPrestation::where('id', $id)->first();
-        $devPrestationIdInOrder = Order::where('dev_prestation_id', $id)->first();
+        $devPrestationIdInOrder = Order::where('developer_prestation_id', $id)->first();
+        $user = auth()->user();
 
-        /*todo: replace 'customer_email' with the email of the connected customer  */
         $checkout_session = Session::create([
-            'customer_email'       => 'test@test.fr',
+            'customer_email'       => $user ?: $developerPrestation->developer->user->email,
             'payment_method_types' => ['card'],
             'line_items'           => [
                 [
@@ -30,16 +30,16 @@ class StripeController extends Controller
                         'currency'     => 'eur',
                         'unit_amount'  => (float)$developerPrestation->price * 100,
                         'product_data' => [
-                            'name'   => "Site vitrine",
-                            'images' => [$DOMAIN . '/public/images/defaultProfile.png'],
+                            'name'   => "Paiement pour la prestation : ".$developerPrestation->prestationType->name,
+                            'images' => [$DOMAIN . '/public/images/deverr.jng'],
                         ],
                     ],
                     'quantity'   => 1,
                 ],
             ],
             'mode'                 => 'payment',
-            'success_url'          => $DOMAIN . '/payment-success/{CHECKOUT_SESSION_ID}/' . $devPrestationIdInOrder['client_id'] . '/' . $devPrestationIdInOrder['dev_prestation_id'],
-            'cancel_url'           => $DOMAIN . '/payment-canceled/{CHECKOUT_SESSION_ID}/' . $devPrestationIdInOrder['client_id'] . '/' . $devPrestationIdInOrder['dev_prestation_id'],
+            'success_url'          => $DOMAIN . '/payment-success/{CHECKOUT_SESSION_ID}/' . $devPrestationIdInOrder['developer_prestation_id'],
+            'cancel_url'           => $DOMAIN . '/payment-canceled/{CHECKOUT_SESSION_ID}/'. $devPrestationIdInOrder['developer_prestation_id'],
         ]);
 
         return new JsonResponse([
