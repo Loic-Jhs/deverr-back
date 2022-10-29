@@ -18,8 +18,6 @@ class AllDevelopersController extends Controller
     {
         // get all developers id, firstname, lastname, created_at,
         // with their ratings summed, their stack, their devPrestations
-//        $allDevelopers = Developer::with('user','reviews','stacks', 'developerPrestations')->get();
-
         $allDevelopers = Developer::with('user', 'developerStacks', 'complaints', 'reviews', 'developerPrestations')
             ->get();
 

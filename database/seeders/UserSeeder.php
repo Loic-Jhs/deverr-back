@@ -10,7 +10,7 @@ class UserSeeder extends Seeder
 {
     public static int $NB_ADMINS_IN_DB = 2;
 
-    public static int $NB_USERS_IN_DB = 20;
+    // admin role = 2, user role = 0, developer role = 1
 
     /**
      * Run the database seeds.
@@ -27,14 +27,14 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'firstname' => fake()->firstName(),
                 'lastname' => fake()->lastName(),
-                'role' => "1",
+                'role' => "2",
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
         }
 
         $users = [];
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $users[] = [
                 'email' => fake()->email(),
                 'password' => Hash::make('password'),
@@ -46,7 +46,22 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ];
         }
-        $users = array_merge($users, $admins);
+
+        $developers = [];
+        for ($i = 1; $i <= 10; $i++) {
+            $users[] = [
+                'email' => fake()->email(),
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'firstname' => fake()->firstName(),
+                'lastname' => fake()->lastName(),
+                'role' => "1",
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        $users = array_merge($admins, $users, $developers);
 
         DB::table('users')->insert($users);
     }

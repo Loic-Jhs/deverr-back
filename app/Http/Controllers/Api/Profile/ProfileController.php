@@ -4,28 +4,32 @@ namespace App\Http\Controllers\Api\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProfile\UserProfileRequest;
+use App\Models\Developer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProfileController extends Controller
 {
     /**
-     * @param UserProfileRequest $request
-     * @return JsonResponse|void
+     * @param $id
+     * @return JsonResponse
      */
-    public function index(UserProfileRequest $request)
+    public function index($id): JsonResponse
     {
-        $user = User::find($request->id);
+        $developer = Developer::with('user')->where('user_id', $id)->first();
+        $user = User::find($id);
 
-        if ($user->role_id === 1) { // client
+        if (! $user && ! $developer) {
             return response()->json([
-                'user' => $user,
-            ]);
-        } else if ($user->role_id === 2) { // developer
-            return response()->json([
-                'developer' => $user->load('developer'),
-            ]);
+                'message' => 'User not found',
+            ], 404);
         }
+
+        return response()->json([
+            'user' => $user,
+            'developer' => $developer
+        ]);
     }
 }

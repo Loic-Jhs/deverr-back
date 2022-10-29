@@ -73,8 +73,7 @@ Route::middleware('jsonOnly')->group(function () {
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
         Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
         Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
-        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
-        Route::get('/user-profile/{id}', [ProfileController::class, 'index']);
+        Route::get('/profile/{id}', [ProfileController::class, 'index']);
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
 
         // Create stripe session for payment
