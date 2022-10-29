@@ -24,7 +24,9 @@ class Developer extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class)->where('email_verified_at', '!=', null);
+        return $this->belongsTo(User::class)
+            ->where('email_verified_at', '!=', null)
+            ->where('deleted_at', null);
     }
 
 

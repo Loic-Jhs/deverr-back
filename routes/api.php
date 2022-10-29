@@ -28,8 +28,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('jsonOnly')->group(function () {
     // CONNECTED AND EMAIL VERIFIED
     Route::middleware(['auth:sanctum'])->group(function () {
-        Route::get('/logout', [AuthController::class, 'logout']);
-
         // connected as admin
         Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
             // list of users
@@ -60,6 +58,15 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::put('/edit', [DeveloperPrestationController::class, 'editDevPrestation']);
                 Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
             });
+        });
+
+        Route::get('/logout', [AuthController::class, 'logout']);
+
+        // connected as user
+        Route::group(['prefix' => 'profile'], function () {
+            Route::put('/update', [ProfileController::class, 'update']);
+            Route::put('/update-password', [ProfileController::class, 'updatePassword']);
+            Route::delete('/delete', [ProfileController::class, 'delete']);
         });
     });
 
