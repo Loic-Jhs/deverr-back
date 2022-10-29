@@ -2,9 +2,9 @@ name: deverr
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: ["develop"]
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["develop"]
 
 jobs:
   laravel-tests:
@@ -52,7 +52,7 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
 
     - name: Migrate database
-      run: php artisan migrate
+      run: php artisan migrate:fresh --seed
 
     - name: Run PHP code style fixer
       run: ./vendor/bin/pint
