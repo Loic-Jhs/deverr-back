@@ -30,10 +30,12 @@ class AllDevelopersResource extends JsonResource
                         'logo' => $stack->logo
                     ];
             }) : null,
-            'prestations' => $this->developerPrestations->count() > 0 ? $this->developerPrestations->map(function ($prestation) {
+            'prestations' => $this->developerPrestations->count() > 0 ? $this->developerPrestations->map(function ($developerPrestation) {
                 return [
-                    'id' => $prestation->id,
-                    'name' => $prestation->name,
+                    'id' => $developerPrestation->id,
+                    'name' => $developerPrestation->prestationType->name,
+                    'description' => $developerPrestation->description,
+                    'price' => $developerPrestation->price,
                 ];
             }) : null,
         ];
