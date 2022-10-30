@@ -20,7 +20,7 @@ class DeveloperPrestation extends Model
         'updated_at',
     ];
 
-    public function prestation(): BelongsTo
+    public function prestationType(): BelongsTo
     {
         return $this->belongsTo(PrestationType::class);
     }

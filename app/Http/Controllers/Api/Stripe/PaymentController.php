@@ -13,40 +13,37 @@ class PaymentController extends Controller
 
     /**
      * @param $id
-     * @return View
+     * @return JsonResponse
      */
-    public function recapDeveloperPrestation($id): View
+    public function recapDeveloperPrestation($id): JsonResponse
     {
         $developerPrestation = DeveloperPrestation::where('id', $id)->first();
         $devFullName = $developerPrestation->developer->user->firstname . ' ' . $developerPrestation->developer->user->lastname;
 
-        /*return new JsonResponse([
+        return new JsonResponse([
             'developerPrestationId'    => $developerPrestation->id,
-            'developerPrestationName'  => $developerPrestation->prestation->name,
+            'developerPrestationName'  => $developerPrestation->prestationType->name,
             'developerFullName'        => $devFullName,
             'developerPrestationPrice' => $developerPrestation->price,
-        ]);*/
-
-        return view('recap', [
-            'developerPrestation' => $developerPrestation,
         ]);
+
+        /*return view('recap', [
+            'developerPrestation' => $developerPrestation,
+        ]);*/
     }
 
     /**
      * @param $stripeSessionId
-     * @param $clientId
      * @param $developerPrestationId
      * @return JsonResponse
      */
-    public function success($stripeSessionId, $clientId, $developerPrestationId): JsonResponse
+    public function success($stripeSessionId, $developerPrestationId): JsonResponse
     {
-        $order = new Order();
-        $order->is_payed = true;
-        $order->client_id = $clientId;
-        $order->dev_prestation_id = $developerPrestationId;
-        $order->reference = str_replace([' ', '-'], '', now()->format('Y-m-d') . '-' . uniqid());
-        $order->stripe_session_id = $stripeSessionId;
-        $order->save();
+        Order::where('developer_prestation_id', $developerPrestationId)->update([
+            'is_payed' => true,
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d') . '-' . uniqid()),
+            'stripe_session_id' => $stripeSessionId
+        ]);
 
         $orderStripeSessionId = Order::where('stripe_session_id', $stripeSessionId)->first();
 
@@ -58,19 +55,16 @@ class PaymentController extends Controller
 
     /**
      * @param $stripeSessionId
-     * @param $clientId
      * @param $developerPrestationId
      * @return JsonResponse
      */
-    public function canceled($stripeSessionId, $clientId, $developerPrestationId): JsonResponse
+    public function canceled($stripeSessionId, $developerPrestationId): JsonResponse
     {
-        $order = new Order();
-        $order->is_payed = false;
-        $order->client_id = $clientId;
-        $order->dev_prestation_id = $developerPrestationId;
-        $order->reference = null;
-        $order->stripe_session_id = $stripeSessionId;
-        $order->save();
+        Order::where('developer_prestation_id', $developerPrestationId)->update([
+            'is_payed' => true,
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d') . '-' . uniqid()),
+            'stripe_session_id' => $stripeSessionId
+        ]);
 
         $orderStripeSessionId = Order::where('stripe_session_id', $stripeSessionId)->first();
 
