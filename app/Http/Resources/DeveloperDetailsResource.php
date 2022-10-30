@@ -40,6 +40,8 @@ class DeveloperDetailsResource extends JsonResource
                     'id' => $review->id,
                     'rating' => $review->rating,
                     'comment' => $review->comment,
+                    'user_who_reviewed' => $review->order->user->firstname . ' ' . $review->order->user->lastname,
+                    'created_at' => date_format($review->created_at, 'd/m/Y'),
                 ];
             }) : null,
             'average_rating' => $this->reviews ? number_format($this->reviews->avg('rating'), 1): null,
