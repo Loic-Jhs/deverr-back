@@ -18,28 +18,33 @@ class DeveloperDetailsResource extends JsonResource
             'id' => $this->id,
             'firstname' => $this->user->firstname,
             'lastname' => $this->user->lastname,
+            'registered_at' => date_format($this->user->created_at, 'd/m/Y'),
             'avatar' => $this->avatar,
             'description' => $this->description,
-            'stacks' => $this->stacks->map(function ($stack) {
+            'years_of_experience' => $this->years_of_experience,
+            'stacks' => $this->stacks ? $this->stacks->map(function ($stack) {
                 return [
                     'id' => $stack->id,
                     'name' => $stack->name,
                     'logo' => $stack->logo
                 ];
-            }),
-            'prestations' => $this->developerPrestations->map(function ($prestation) {
+            }): null,
+            'prestations' => $this->developerPrestations ? $this->developerPrestations->map(function ($prestation) {
                 return [
                     'id' => $prestation->id,
                     'name' => $prestation->name,
                 ];
-            }),
-            'reviews' => $this->reviews->map(function ($review) {
+            }) :null,
+            'reviews' => $this->reviews ? $this->reviews->map(function ($review) {
                 return [
                     'id' => $review->id,
                     'rating' => $review->rating,
                     'comment' => $review->comment,
                 ];
-            }),
+            }) : null,
+            'average_rating' => $this->reviews ? number_format($this->reviews->avg('rating'), 1): null,
+            'orders_count'  => $this->orders->count() ?? 0,
+            'last_order_date' => $this->orders->last() ? date_format($this->orders->last()->created_at, 'd/m/Y') : null,
         ];
     }
 }

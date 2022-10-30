@@ -19,7 +19,7 @@ class DeveloperDetailsController extends Controller
     {
 
         // get a developer's details, with his stacks, prestations, reviews
-        $developer = Developer::with('user', 'stacks', 'developerPrestations', 'reviews')
+        $developer = Developer::with('user', 'stacks', 'developerPrestations', 'reviews', 'orders')
             ->where('id', $id)
             ->get();
 
