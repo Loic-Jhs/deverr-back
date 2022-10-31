@@ -2,9 +2,9 @@ name: deverr
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: ["main"]
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["main"]
 
 jobs:
   laravel-tests:
@@ -64,7 +64,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
-        username: ${{ secrets.DB_USERNAME }}
+        username: ${{ secrets.SSH_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
-        script: ./updateApi.sh > log.log 2>&1
+        script: ./updateApi.sh > logApiUpdate.log 2>&1
 
