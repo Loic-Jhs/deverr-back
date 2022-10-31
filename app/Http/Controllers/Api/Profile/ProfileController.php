@@ -65,7 +65,7 @@ class ProfileController extends Controller
         }
 
         return response()->json([
-            'message' => 'Votre profil a été mis à jour avec succès',
+            'message' => 'Votre profil a été mis à jour avec succè, un email de vérification vous a été envoyé.',
         ]);
     }
 
