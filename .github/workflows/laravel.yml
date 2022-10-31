@@ -13,16 +13,16 @@ jobs:
     env:
       DB_CONNECTION: ${{secrets.DB_CONNECTION}}
       DB_HOST: ${{secrets.DB_HOST}}
-      DB_DATABASE: ${{secrets.DB_DATABASE}}
-      DB_USERNAME: ${{secrets.DB_USERNAME}}
-      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      DB_DATABASE: ${{secrets.DB_DATABASE_DEV}}
+      DB_USERNAME: ${{secrets.DB_DATABASE_DEV_USER}}
+      DB_PASSWORD: ${{secrets.DB_PASSWORD_DEV}}
 
     services:
       mariadb:
         image: mariadb:10.6
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_DATABASE: ${{secrets.DB_DATABASE}}
+          MYSQL_DATABASE: ${{secrets.DB_DATABASE_DEV}}
         ports:
           - 32574:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -64,7 +64,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
-        username: ${{ secrets.DB_USERNAME }}
+        username: ${{ secrets.DB_DATABASE_DEV_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
         script: ./updateApi.sh > log.log 2>&1
 
