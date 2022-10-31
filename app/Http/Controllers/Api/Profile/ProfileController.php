@@ -57,7 +57,7 @@ class ProfileController extends Controller
         }
 
         // if the developer changed his email, update email_verified_at to null
-        if ($oldEmail !== $request->email) {
+        if ($oldEmail !== $request->email && $request->email !== null) {
             $user->update([
                 'email_verified_at' => null
             ]);
