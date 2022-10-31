@@ -64,7 +64,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
-        username: ${{ secrets.DB_DATABASE_DEV_USER }}
+        username: ${{ secrets.SSH_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
-        script: ./updateApi.sh > log.log 2>&1
+        script: ./updateApiDev.sh > logApiDevUpdate.log 2>&1
 
