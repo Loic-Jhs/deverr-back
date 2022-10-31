@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevelopersController;
 use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
+use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
 use App\Http\Controllers\Api\Stripe\StripeController;
@@ -67,6 +68,12 @@ Route::middleware('jsonOnly')->group(function () {
             Route::put('/update', [ProfileController::class, 'update']);
             Route::put('/update-password', [ProfileController::class, 'updatePassword']);
             Route::delete('/delete', [ProfileController::class, 'delete']);
+        });
+
+        Route::group(['prefix' => 'order'], function () {
+            Route::post('/store', [OrderController::class, 'store']);
+            Route::get('/dev-prestations/{developer_id}', [OrderController::class, 'index']);
+            Route::get('/prestation-accepted/{order_id}', [OrderController::class, 'prestationAccepted']);
         });
     });
 

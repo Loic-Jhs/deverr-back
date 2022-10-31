@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('developer_id')->nullable();
             $table->unsignedBigInteger('developer_prestation_id');
             $table->string('instructions', 1500)->nullable();
-            $table->boolean('is_payed');
+            $table->boolean('is_payed')->default(0);
             $table->string('stripe_session_id')->nullable();
             $table->string('reference')->nullable();
             $table->timestamps();

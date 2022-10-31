@@ -21,6 +21,7 @@ class Order extends Model
         'developer_id',
         'developer_prestation_id',
         'instructions',
+        'is_accepted_by_developer',
         'is_payed',
         'stripe_session_id',
         'reference',
