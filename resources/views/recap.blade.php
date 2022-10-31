@@ -32,7 +32,8 @@
 
 
 <script type="text/javascript">
-    const stripe = Stripe("pk_test_51LvRpVGm3pNtvPq2yw4FJAidMlz7WBk3lx0fjxuc8doN0Zhk7RK9x4RHO42KVQLKoSYlJ6cbCQpBXMcd7guJ7cWt00s0z2mpMO");
+    const pk_stripe = '{{ env('PUBLIC_KEY_STRIPE') }}';
+    const stripe = Stripe(pk_stripe);
     const checkoutButton = document.getElementById("checkout-button");
     let prestationId = document.querySelector('input[name="prestation_id"]').value;
 
