@@ -32,8 +32,8 @@ class StoreUserRequest extends FormRequest
             'experience' => 'integer|required_if:type,developer|max:35',
             'description' => 'string|required_if:type,developer|max:500',
             'avatar' => [
-                File::types(['png', 'jpg', 'svg'])
-            ]
+                File::types(['png', 'jpg', 'svg']),
+            ],
         ];
     }
 

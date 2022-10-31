@@ -1,17 +1,17 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\DeveloperPrestationController;
-use App\Http\Controllers\Api\Admin\HomeController;
 use App\Http\Controllers\Api\Admin\PrestationController;
 use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
-use App\Http\Controllers\Api\Developer\AllDevsController;
+use App\Http\Controllers\Api\Developer\AllDevelopersController;
 use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
-use App\Http\Controllers\Api\Stripe\StripeController;
+use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
+use App\Http\Controllers\Api\Stripe\StripeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,12 +28,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('jsonOnly')->group(function () {
     // CONNECTED AND EMAIL VERIFIED
     Route::middleware(['auth:sanctum'])->group(function () {
-        Route::get('/logout', [AuthController::class, 'logout']);
-
         // connected as admin
         Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
-            // landing page for admins
-            Route::get('/', [HomeController::class, 'index']);
             // list of users
             Route::group(['prefix' => 'users'], function () {
                 Route::get('/', [UserController::class, 'users']);
@@ -63,6 +59,15 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
             });
         });
+
+        Route::get('/logout', [AuthController::class, 'logout']);
+
+        // connected as user
+        Route::group(['prefix' => 'profile'], function () {
+            Route::put('/update', [ProfileController::class, 'update']);
+            Route::put('/update-password', [ProfileController::class, 'updatePassword']);
+            Route::delete('/delete', [ProfileController::class, 'delete']);
+        });
     });
 
     // NOT CONNECTED
@@ -70,12 +75,13 @@ Route::middleware('jsonOnly')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
         // Developer details
-        Route::get('/developer-details/{id}', [DeveloperDetailsController::class, 'developerDetails']);
+        Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
         // Resend email verification
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
         Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
-        Route::get('/all-developers', [AllDevsController::class, 'getAllDevs']);
-
+        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
+        Route::get('/profile/{id}', [ProfileController::class, 'index']);
+        Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
 
         // Create stripe session for payment
         Route::match(['get', 'post'], '/order/create-session/{id}', [
@@ -84,8 +90,8 @@ Route::middleware('jsonOnly')->group(function () {
         // Get developer prestation for payment
         Route::get('/recap-developer-prestation/{id}', [PaymentController::class, 'recapDeveloperPrestation']);
         // Payment success
-        Route::get('/payment-success/{stripeSessionId}/{clientId}/{developerPrestationId}', [PaymentController::class, 'success']);
+        Route::get('/payment-success/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'success']);
         // Payment canceled
-        Route::get('/payment-canceled/{stripeSessionId}/{clientId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
+        Route::get('/payment-canceled/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
     });
 });

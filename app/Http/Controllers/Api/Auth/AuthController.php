@@ -21,58 +21,25 @@ class AuthController extends Controller
      */
     public function register(StoreNewUserRequest $request): JsonResponse
     {
-        switch ($request->type) {
-            case 'client':
-                if ($request->experience == null && $request->description == null) {
-                    $user = User::create([
-                        'firstname' => $request->firstname,
-                        'lastname' => $request->lastname,
-                        'email' => $request->email,
-                        'password' => Hash::make($request->password),
-                        'role_id' => 1,
-                    ]);
 
-                    // send email to user to verify his email address
-                    event(new Registered($user));
-                } else {
-                    return response()->json([
-                        'error' => "L'expérience et la description ne doivent pas être renseignés.",
-                    ], 400);
-                }
-                break;
-            case 'developer':
-                if ($request->experience != '' && $request->description != '') {
-                    $user = User::create([
-                        'firstname' => $request->firstname,
-                        'lastname' => $request->lastname,
-                        'email' => $request->email,
-                        'password' => Hash::make($request->password),
-                        'role_id' => 2,
-                    ]);
+        $user = User::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => "0",
+        ]);
 
-                    $developer = Developer::create([
-                        'user_id' => $user->id,
-                        'description' => $request->description,
-                        'experience' => $request->experience,
-                    ]);
-
-                    event(new Registered($user));
-
-                    // if the developer is not created, delete the user
-                    if (! $developer->id) {
-                        User::destroy($user->id);
-
-                        return response()->json([
-                            'error' => "Une erreur s'est produite veuillez essayer ultérieurement.",
-                        ], 500);
-                    }
-                }
-                break;
-            default:
-                return response()->json([
-                    'error' => "Le type d'utilisateur est incorrect.",
-                ], 400);
+        if ($request->has('years_of_experience') && $request->has('description'))
+        {
+            Developer::create([
+                'user_id' => $user->id,
+                'years_of_experience' => $request->years_of_experience,
+                'description' => $request->description,
+            ]);
         }
+
+        event(new Registered($user));
 
         return response()->json([
             'message' => 'Votre compte a bien été créé, merci de le vérifier grâce au lien envoyé dans votre boîte mail.',
@@ -95,32 +62,10 @@ class AuthController extends Controller
 
         $token = explode('|', $user->createToken('auth_token')->plainTextToken);
 
-        // As a client
-        if (auth()->user()->role_id == 1) {
-            return response()->json([
-                'access_token' => $token[1],
-                'token_type' => 'Bearer',
-                'role_id' => auth()->user()->role->name,
-            ], 200);
-        } // As a developer
-        else if (auth()->user()->role_id == 2) {
-            return response()->json([
-                'access_token' => $token[1],
-                'token_type' => 'Bearer',
-                'role_id' => auth()->user()->role->name,
-            ], 200);
-        } // As a admin
-        else if (auth()->user()->role_id == 3) {
-            return response()->json([
-                'access_token' => $token[1],
-                'token_type' => 'Bearer',
-                'user_info' => $user->developer,
-            ], 200);
-        } else {
-            return response()->json([
-                'error' => "Une erreur s'est produite veuillez essayer ultérieurement.",
-            ], 500);
-        }
+        return response()->json([
+            'access_token' => $token[1],
+            'token_type' => 'Bearer',
+        ], 200);
     }
 
     /**

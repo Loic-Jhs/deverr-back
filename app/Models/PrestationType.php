@@ -4,27 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Transaction extends Model
+class PrestationType extends Model
 {
     use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array<string>
      */
     protected $fillable = [
-        'order_id',
-        'number',
-        'state',
+        'name',
         'created_at',
         'updated_at',
     ];
 
-    public function order(): BelongsTo
+
+    public function developerPrestations(): HasMany
     {
-        return $this->BelongsTo(Order::class);
+        return $this->HasMany(DeveloperPrestation::class);
     }
 }

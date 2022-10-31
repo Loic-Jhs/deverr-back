@@ -17,7 +17,7 @@ class Message extends Model
      */
     protected $fillable = [
         'from_user_id',
-        'to_user_id',
+        'to_developer_id',
         'message',
         'created_at',
         'updated_at',
@@ -26,5 +26,10 @@ class Message extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function developer(): BelongsTo
+    {
+        return $this->belongsTo(Developer::class);
     }
 }

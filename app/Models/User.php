@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,19 +21,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<bool, string>
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
         'email',
         'password',
         'email_verified_at',
-        'firstname',
-        'lastname',
-        'role_id',
-        'is_account_active',
-        'remember_token',
+        'role',
         'created_at',
         'updated_at',
     ];
-
 
     protected $hidden = [
         'password',
@@ -43,11 +39,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
 
     public function complaints(): HasMany
     {
@@ -64,13 +55,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Message::class);
     }
 
-    public function developer(): HasOne
-    {
-        return $this->hasOne(Developer::class);
-    }
-
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function developer(): HasOne
+    {
+        return $this->hasOne(Developer::class);
     }
 }

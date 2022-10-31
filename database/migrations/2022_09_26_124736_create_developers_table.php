@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('developers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('avatar')->default(asset('/images/defaultProfile.png'));
             $table->string('description', 500)->nullable();
-            $table->integer('experience');
+            $table->string('avatar')->default(asset('/images/defaultProfile.png'));
+            $table->integer('years_of_experience');
             $table->timestamps();
         });
     }

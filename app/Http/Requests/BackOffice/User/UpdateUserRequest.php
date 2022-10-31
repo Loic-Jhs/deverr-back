@@ -34,8 +34,8 @@ class UpdateUserRequest extends FormRequest
             'experience' => 'required_if:type,developer|max:80',
             'description' => 'required_if:type,developer|max:500',
             'avatar' => [
-                File::types(['png', 'jpg', 'svg'])
-            ]
+                File::types(['png', 'jpg', 'svg']),
+            ],
         ];
     }
 
