@@ -15,7 +15,7 @@ class StoreStackRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('isAdmin');
+        return true;
     }
 
     /**
@@ -27,10 +27,7 @@ class StoreStackRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'logo' => [
-                'required',
-                File::types(['png', 'jpg', 'svg']),
-            ],
+            'logo' => 'string'
         ];
     }
 

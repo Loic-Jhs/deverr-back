@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Api\Admin\DeveloperPrestationController;
 use App\Http\Controllers\Api\Admin\PrestationController;
-use App\Http\Controllers\Api\Admin\StackController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevelopersController;
 use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
+use App\Http\Controllers\Api\Developer\StackController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
@@ -37,13 +37,6 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::post('/store', [UserController::class, 'storeUser']);
                 Route::put('/edit', [UserController::class, 'editUser']);
                 Route::delete('/delete/{id}', [UserController::class, 'deleteUser']);
-            });
-            // Stacks management
-            Route::group(['prefix' => 'stacks'], function () {
-                Route::get('/', [StackController::class, 'stacks']);
-                Route::post('/store', [StackController::class, 'storeStack']);
-                Route::put('/edit', [StackController::class, 'editStack']);
-                Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
             });
             // Prestations CRUD
             Route::group(['prefix' => 'prestations'], function () {
@@ -74,6 +67,13 @@ Route::middleware('jsonOnly')->group(function () {
             Route::post('/store', [OrderController::class, 'store']);
             Route::get('/dev-prestations/{developer_id}', [OrderController::class, 'index']);
             Route::get('/prestation-accepted/{order_id}', [OrderController::class, 'prestationAccepted']);
+        });
+
+        // Stacks management for developer
+        Route::group(['prefix' => 'stacks'], function () {
+            Route::post('/store', [StackController::class, 'storeStack']);
+            Route::put('/edit', [StackController::class, 'editStack']);
+            Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
         });
     });
 
