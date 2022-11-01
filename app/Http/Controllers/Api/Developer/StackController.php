@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Developer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Stack\StoreStackRequest;
 use App\Http\Requests\BackOffice\Stack\UpdateStackRequest;
+use App\Http\Resources\AllStacksResource;
 use App\Models\Stack;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -87,5 +88,14 @@ class StackController extends Controller
         return response()->json([
             'message' => "Cette action n'est pas autorisée"
         ]);
+    }
+
+    public function allStack()
+    {
+        $stacks = Stack::get()->sortBy('name');
+
+        return response()->json(
+            AllStacksResource::collection($stacks)
+        ,200);
     }
 }

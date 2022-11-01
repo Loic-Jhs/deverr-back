@@ -68,6 +68,7 @@ Route::middleware('jsonOnly')->group(function () {
             Route::post('/store', [StackController::class, 'storeStack']);
             Route::put('/edit', [StackController::class, 'editStack']);
             Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
+            Route::get('/all', [StackController::class, 'allStack']);
         });
 
         // Developer prestations management for developer
