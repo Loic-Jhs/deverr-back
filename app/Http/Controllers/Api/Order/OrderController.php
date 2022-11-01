@@ -7,7 +7,7 @@ use App\Http\Requests\Order\StoreNewOderRequest;
 use App\Http\Resources\OrdersResource;
 use App\Mail\SendConfirmationOderMail;
 use App\Mail\SendNewOrderMail;
-use App\Models\DeveloperPrestation;
+use App\Mail\SendRejectedOrderMail;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -54,9 +54,9 @@ class OrderController extends Controller
 
     /**
      * @param Request $request
-     * @return void
+     * @return jsonResponse
      */
-    public function prestationAccepted(Request $request): void
+    public function prestationAccepted(Request $request): jsonResponse
     {
         Order::find($request->order_id)->update([
             "is_accepted_by_developer" => true
@@ -72,6 +72,41 @@ class OrderController extends Controller
 
         Mail::to($order->user->email)->send(new SendConfirmationOderMail($dataDev));
 
-        redirect()->to(env('FRONT_URL').'/login');
+        if($request->mail){
+            redirect()->to(env('FRONT_URL').'/login');
+        }
+
+        return response()->json([
+            "message" => "Prestation acceptée",
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function prestationRejected(Request $request): jsonResponse
+    {
+        Order::find($request->order_id)->update([
+            "is_accepted_by_developer" => false
+        ]);
+
+        $order = Order::where('id', $request->order_id)->first();
+
+        $dataDev = [
+            "user_fullname" => $order->user->lastname.' '.$order->user->firstname,
+            "developer_fullname" => $order->developer->user->lastname.' '.$order->developer->user->firstname,
+            "prestationTypeName" => $order->developerPrestation->prestationType->name,
+        ];
+
+        Mail::to($order->user->email)->send(new SendRejectedOrderMail($dataDev));
+
+        if($request->mail){
+            redirect()->to(env('FRONT_URL').'/login');
+        }
+
+        return response()->json([
+            "message" => "Prestation refusée",
+        ]);
     }
 }
