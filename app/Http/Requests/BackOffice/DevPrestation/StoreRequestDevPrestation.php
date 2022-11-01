@@ -14,7 +14,7 @@ class StoreRequestDevPrestation extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('isAdmin');
+        return true;
     }
 
     /**
@@ -27,7 +27,7 @@ class StoreRequestDevPrestation extends FormRequest
         return [
             'developer_id' => 'required|int',
             'description' => 'required|string|max:255',
-            'prestation_id' => 'required|int',
+            'prestation_type_id' => 'required|int',
             'price' => 'required|int',
         ];
     }

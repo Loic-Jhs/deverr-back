@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\DeveloperPrestationController;
 use App\Http\Controllers\Api\Admin\PrestationController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -9,6 +8,7 @@ use App\Http\Controllers\Api\Developer\AllDevelopersController;
 use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
 use App\Http\Controllers\Api\Developer\StackController;
+use App\Http\Controllers\Api\DeveloperPrestation\DeveloperPrestationController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
@@ -45,13 +45,6 @@ Route::middleware('jsonOnly')->group(function () {
                 Route::put('/edit', [PrestationController::class, 'editPrestation']);
                 Route::delete('/delete/{id}', [PrestationController::class, 'deletePrestation']);
             });
-            // DevPrestations CRUD
-            Route::group(['prefix' => 'dev-prestations'], function () {
-                Route::get('/', [DeveloperPrestationController::class, 'developerPrestations']);
-                Route::post('/store', [DeveloperPrestationController::class, 'storeDevPrestation']);
-                Route::put('/edit', [DeveloperPrestationController::class, 'editDevPrestation']);
-                Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
-            });
         });
 
         Route::get('/logout', [AuthController::class, 'logout']);
@@ -74,6 +67,13 @@ Route::middleware('jsonOnly')->group(function () {
             Route::post('/store', [StackController::class, 'storeStack']);
             Route::put('/edit', [StackController::class, 'editStack']);
             Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
+        });
+
+        // Developer prestations management for developer
+        Route::group(['prefix' => 'developer-prestations'], function () {
+            Route::post('/store', [DeveloperPrestationController::class, 'storeDevPrestation']);
+            Route::put('/edit', [DeveloperPrestationController::class, 'editDevPrestation']);
+            Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
         });
     });
 

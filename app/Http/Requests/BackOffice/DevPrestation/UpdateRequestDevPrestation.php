@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Backoffice\Prestation;
+namespace App\Http\Requests\Backoffice\DevPrestation;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
@@ -14,15 +14,16 @@ class UpdateRequestDevPrestation extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('isAdmin');
+        return true;
     }
 
     public function rules(): array
     {
         return [
-            'developer_id' => 'required|int',
-            'prestation_id' => 'required|int',
-            'price' => 'required|int',
+            'developer_id'       => 'nullable|int',
+            'description'        => 'nullable|string|max:255',
+            'prestation_type_id' => 'nullable|int',
+            'price'              => 'nullable|int',
         ];
     }
 
