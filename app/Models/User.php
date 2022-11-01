@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,9 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
@@ -63,5 +67,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function developer(): HasOne
     {
         return $this->hasOne(Developer::class);
+    }
+
+    public function canAccessFilament(): bool
+    {
+        if (Auth::user()->role == 2) {
+            return true;
+        } else {
+            Auth::logout();
+            return false;
+        }
+    }
+
+    public function getFilamentName(): string
+    {
+        return "{$this->firstname} {$this->lastname}";
     }
 }
