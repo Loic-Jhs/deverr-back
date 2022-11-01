@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->boolean('is_accepted_by_developer')->default(0)->after('is_payed');
+            $table->boolean('is_accepted_by_developer')->default(null)->after('is_payed');
         });
     }
 

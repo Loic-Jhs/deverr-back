@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreNewOderRequest;
-use App\Http\Resources\DeveloperPrestationsResource;
+use App\Http\Resources\OrdersResource;
 use App\Mail\SendConfirmationOderMail;
 use App\Mail\SendNewOrderMail;
-use App\Models\Developer;
 use App\Models\DeveloperPrestation;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
@@ -22,9 +21,9 @@ class OrderController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $developerPrestations = DeveloperPrestation::where('developer_id',$request->developer_id)->get();
+        $developerPrestations = Order::where('developer_id',$request->developer_id)->orderBy('created_at')->get();
 
-        return response()->json(DeveloperPrestationsResource::collection($developerPrestations), 200);
+        return response()->json(OrdersResource::collection($developerPrestations), 200);
     }
 
     /**
