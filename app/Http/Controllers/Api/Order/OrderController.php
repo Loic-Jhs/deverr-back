@@ -39,42 +39,39 @@ class OrderController extends Controller
             'developer_prestation_id' => $request->developer_prestation_id,
             'instructions' => $request->instructions,
         ]);
-        $developer = Developer::find($request->developer_id)->firstOrFail();
 
         $data = [
             "fullname" => auth()->user()->lastname . ' ' . auth()->user()->firstname,
             "prestationTypeName" => $order->developerPrestation->prestationType->name,
             'instructions' => $order->instructions,
-            'order_id' => $order->id
+            'order_id' => $order->id,
+            'developer_fullname' => $order->developer->user->firstname . ' ' . $order->developer->user->lastname
         ];
 
-        Mail::to($developer->user->email)->send(new SendNewOrderMail($data));
+        Mail::to($order->developer->user->email)->send(new SendNewOrderMail($data));
 
         return response()->json($order);
     }
 
-    public function prestationAccepted(Request $request)
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function prestationAccepted(Request $request): void
     {
         Order::find($request->order_id)->update([
             "is_accepted_by_developer" => true
         ]);
 
-        $order = Order::find($request->order_id)->firstOrFail();
+        $order = Order::where('id', $request->order_id)->first();
 
         $dataDev = [
-            "developer" => true,
-            "fullname" => $order->developer->user->lastname.' '.$order->developer->user->firstname,
+            "user_fullname" => $order->user->lastname.' '.$order->user->firstname,
+            "developer_fullname" => $order->developer->user->lastname.' '.$order->developer->user->firstname,
             "prestationTypeName" => $order->developerPrestation->prestationType->name,
         ];
 
-        $dataClient = [
-            "developer" => false,
-            "fullname" => $order->user->lastname.' '.$order->user->firstname,
-            "prestationTypeName" => $order->developerPrestation->prestationType->name,
-        ];
-
-        Mail::to($order->developer->user->email)->send(new SendConfirmationOderMail($dataDev));
-        Mail::to($order->user->email)->send(new SendConfirmationOderMail($dataClient));
+        Mail::to($order->user->email)->send(new SendConfirmationOderMail($dataDev));
 
         redirect()->to(env('FRONT_URL').'/login');
     }
