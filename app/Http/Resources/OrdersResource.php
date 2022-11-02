@@ -21,6 +21,7 @@ class OrdersResource extends JsonResource
             "instructions" => $this->instructions,
             "is_payed" => $this->is_payed,
             "is_accepted_by_developer" => $this->is_accepted_by_developer,
+            "is_finished" => $this->is_finished,
             "price" => $this->developerPrestation->price
         ];
     }
