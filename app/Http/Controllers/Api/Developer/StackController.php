@@ -92,7 +92,10 @@ class StackController extends Controller
         ]);
     }
 
-    public function allStack()
+    /**
+     * @return JsonResponse
+     */
+    public function allStack(): JsonResponse
     {
         $stacks = Stack::get()->sortBy('name');
 
@@ -101,7 +104,11 @@ class StackController extends Controller
         ,200);
     }
 
-    public function addStack(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function addStack(Request $request): JsonResponse
     {
         $dev_stack = DeveloperStack::create([
             'developer_id' => auth()->user()->developer->id,
@@ -119,5 +126,26 @@ class StackController extends Controller
         return response()->json([
             "message" => "La stack ".$dev_stack->stack->name." a bien été ajoutée"
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteDevStack(Request $request): JsonResponse
+    {
+        $devStack = DeveloperStack::where([['developer_id',auth()->user()->developer->id], ['stack_id', $request->stack_id]])->first();
+
+        if($devStack->is_primary){
+            return response()->json([
+                'message' => "Vous ne pouvez pas supprimer votre stack principale"
+            ]);
+        } else {
+            $oldDevStackName = $devStack->stack->name;
+            $devStack->delete();
+            return response()->json([
+                'message' => "La stack ".$oldDevStackName." a été supprimée"
+            ]);
+        }
     }
 }
