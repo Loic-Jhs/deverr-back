@@ -54,6 +54,7 @@ Route::middleware('jsonOnly')->group(function () {
             Route::put('/update', [ProfileController::class, 'update']);
             Route::put('/update-password', [ProfileController::class, 'updatePassword']);
             Route::delete('/delete', [ProfileController::class, 'delete']);
+            Route::post('/add-stack/{stack_id}', [StackController::class, 'addStack']);
         });
 
         Route::group(['prefix' => 'order'], function () {

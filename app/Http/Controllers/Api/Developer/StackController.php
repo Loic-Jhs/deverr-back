@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Stack\StoreStackRequest;
 use App\Http\Requests\BackOffice\Stack\UpdateStackRequest;
 use App\Http\Resources\AllStacksResource;
+use App\Models\DeveloperStack;
 use App\Models\Stack;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 
@@ -97,5 +99,25 @@ class StackController extends Controller
         return response()->json(
             AllStacksResource::collection($stacks)
         ,200);
+    }
+
+    public function addStack(Request $request)
+    {
+        $dev_stack = DeveloperStack::create([
+            'developer_id' => auth()->user()->developer->id,
+            'stack_id' => $request->stack_id,
+            'stack_experience' => $request->stack_experience,
+            'is_primary' => $request->is_primary
+        ]);
+
+        if($request->is_primary){
+           $oldDevStackPrimary = DeveloperStack::where([
+               ['developer_id', auth()->user()->developer->id],['is_primary',true],['stack_id', '!=', $request->stack_id]
+           ])->update(['is_primary' => false]);
+        }
+
+        return response()->json([
+            "message" => "La stack ".$dev_stack->stack->name." a bien été ajoutée"
+        ]);
     }
 }
