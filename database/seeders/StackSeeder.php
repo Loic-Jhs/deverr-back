@@ -78,7 +78,7 @@ class StackSeeder extends Seeder
             ],
             [
                 'name' => 'React Native',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/logo-react.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],

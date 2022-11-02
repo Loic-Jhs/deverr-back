@@ -18,7 +18,7 @@ class ReviewSeeder extends Seeder
             [
                 'order_id' => 1,
                 'rating' => 0,
-                'comment' => fake()->realTextBetween(10, 25),
+                'comment' => fake()->text(22),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -32,7 +32,7 @@ class ReviewSeeder extends Seeder
             [
                 'order_id' => 3,
                 'rating' => 2,
-                'comment' => fake()->realTextBetween(10, 25),
+                'comment' => fake()->text(12),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

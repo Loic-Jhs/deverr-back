@@ -20,16 +20,16 @@ class DeveloperSeeder extends Seeder
         DB::table('developers')->insert([
             [
                 'user_id' => 14,
-                'description' => fake()->realTextBetween(20, 100),
-                'avatar' => 'https://picsum.photos/200/300',
+                'description' => fake()->text(45),
+                'avatar' => asset('/images/avatar/14/random1.jpeg'),
                 'years_of_experience' => 2,
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'user_id' => 15,
-                'description' => fake()->realTextBetween(20, 100),
-                'avatar' => 'https://picsum.photos/200/300',
+                'description' => fake()->text(40),
+                'avatar' => asset('/images/avatar/15/random2.jpeg'),
                 'years_of_experience' => 2,
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
