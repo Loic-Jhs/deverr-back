@@ -31,7 +31,7 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 2,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => fake()->text(8),
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
@@ -39,7 +39,7 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 3,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => fake()->text(15),
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
@@ -47,7 +47,7 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 4,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => fake()->text(18),
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
@@ -55,7 +55,7 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 5,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => fake()->text(12),
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
