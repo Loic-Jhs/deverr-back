@@ -51,6 +51,7 @@ Route::middleware('jsonOnly')->group(function () {
 
         // connected as user
         Route::group(['prefix' => 'profile'], function () {
+            Route::get('/',[ProfileController::class, 'index']);
             Route::put('/update', [ProfileController::class, 'update']);
             Route::put('/update-password', [ProfileController::class, 'updatePassword']);
             Route::delete('/delete', [ProfileController::class, 'delete']);

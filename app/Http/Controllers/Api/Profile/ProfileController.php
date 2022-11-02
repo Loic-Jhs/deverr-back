@@ -18,8 +18,11 @@ class ProfileController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function index($id): JsonResponse
+    public function index($id = null): JsonResponse
     {
+        if($id == null){
+            $id = auth()->user()->id;
+        }
         $developer = Developer::with('user')->where('user_id', $id)->first();
         $user = User::find($id);
 
@@ -31,7 +34,8 @@ class ProfileController extends Controller
 
         return response()->json([
             'user' => $user,
-            'developer' => $developer
+            'developer' => $developer,
+            'orders' => $user->orders
         ]);
     }
 
