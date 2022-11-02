@@ -8,8 +8,6 @@ use App\Http\Requests\UserProfile\UserProfileRequest;
 use App\Models\Developer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -20,23 +18,61 @@ class ProfileController extends Controller
      */
     public function index($id = null): JsonResponse
     {
-        if($id == null){
+        if ($id == null) {
             $id = auth()->user()->id;
         }
-        $developer = Developer::with('user')->where('user_id', $id)->first();
-        $user = User::find($id);
 
-        if (! $user && ! $developer) {
+        $user = User::where('id', $id)->first();
+        if (!$user) {
             return response()->json([
                 'message' => 'Utilisateur introuvable'
             ], 404);
         }
-
-        return response()->json([
-            'user' => $user,
-            'developer' => $developer,
-            'orders' => $user->orders
-        ]);
+        if ($user->role == '1') {
+            return response()->json(
+                [
+                    'id' => $user->id,
+                    'firstname' => $user->firstname,
+                    'lastname' => $user->lastname,
+                    'email' => $user->email,
+                    'registered_at' => date_format($user->created_at, 'd/m/Y'),
+                    'avatar' => $user->developer->avatar,
+                    'description' => $user->developer->description,
+                    'years_of_experience' => $user->developer->years_of_experience,
+                    'stacks' => $user->developer->stacks ? $user->developer->stacks
+                        ->map(function ($stack) {
+                            return [
+                                'id' => $stack->id,
+                                'name' => $stack->name,
+                                'logo' => $stack->logo
+                            ];
+                        }) : null,
+                ]
+            );
+        } else {
+            return response()->json(
+                [
+                    'id' => $user->id,
+                    'firstname' => $user->firstname,
+                    'lastname' => $user->lastname,
+                    'email' => $user->email,
+                    'registered_at' => date_format($user->created_at, 'd/m/Y'),
+                    'orders' => $user->orders ? $user->orders->map(function ($order) {
+                        return [
+                            'created_at' => date_format($order->created_at, 'd/m/Y'),
+                            'updated_at' => date_format($order->updated_at, 'd/m/Y'),
+                            'developer' => $order->developer->user->lastname . ' ' . $order->developer->user->firstname,
+                            'is_finished' => $order->is_finished,
+                            'is_payed' => $order->is_payed,
+                            'is_accepted_by_developer' => $order->is_accepted_by_developer,
+                            'prestation_name' => $order->developerPrestation->prestationType->name,
+                            'price' => $order->developerPrestation->price,
+                            'instructions' => $order->instructions
+                        ];
+                    }) : null
+                ]
+            );
+        }
     }
 
     /**
