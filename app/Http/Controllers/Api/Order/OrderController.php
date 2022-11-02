@@ -11,6 +11,7 @@ use App\Mail\SendNewOrderMail;
 use App\Mail\SendRejectedOrderMail;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -55,9 +56,9 @@ class OrderController extends Controller
 
     /**
      * @param Request $request
-     * @return jsonResponse
+     * @return JsonResponse|RedirectResponse
      */
-    public function prestationAccepted(Request $request): jsonResponse
+    public function prestationAccepted(Request $request): jsonResponse | RedirectResponse
     {
         Order::find($request->order_id)->update([
             "is_accepted_by_developer" => true
@@ -74,7 +75,7 @@ class OrderController extends Controller
         Mail::to($order->user->email)->send(new SendConfirmationOderMail($dataDev));
 
         if($request->mail){
-            redirect()->to(env('FRONT_URL').'/login');
+            return redirect()->to(env('FRONT_URL').'/login');
         }
 
         return response()->json([
@@ -84,9 +85,9 @@ class OrderController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|RedirectResponse
      */
-    public function prestationRejected(Request $request): jsonResponse
+    public function prestationRejected(Request $request): JsonResponse | RedirectResponse
     {
         Order::find($request->order_id)->update([
             "is_accepted_by_developer" => false
@@ -103,7 +104,7 @@ class OrderController extends Controller
         Mail::to($order->user->email)->send(new SendRejectedOrderMail($dataDev));
 
         if($request->mail){
-            redirect()->to(env('FRONT_URL').'/login');
+            return redirect()->to(env('FRONT_URL').'/login');
         }
 
         return response()->json([

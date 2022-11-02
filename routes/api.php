@@ -82,9 +82,9 @@ Route::middleware('jsonOnly')->group(function () {
 
     Route::get('/stacks/all', [StackController::class, 'allStack']);
 
-    Route::get('/prestation-accepted/{order_id}', [OrderController::class, 'prestationAccepted']);
-    Route::get('/prestation-rejected/{order_id}', [OrderController::class, 'prestationRejected']);
-    Route::get('/prestation-finished/{order_id}', [OrderController::class, 'prestationFinished']);
+    Route::get('/order/prestation-accepted/{order_id}', [OrderController::class, 'prestationAccepted']);
+    Route::get('/order/prestation-rejected/{order_id}', [OrderController::class, 'prestationRejected']);
+    Route::get('/order/prestation-finished/{order_id}', [OrderController::class, 'prestationFinished']);
 
     // NOT CONNECTED
     Route::middleware(['guest'])->group(function () {
