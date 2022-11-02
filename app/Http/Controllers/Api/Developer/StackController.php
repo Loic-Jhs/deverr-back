@@ -111,7 +111,7 @@ class StackController extends Controller
         ]);
 
         if($request->is_primary){
-           $oldDevStackPrimary = DeveloperStack::where([
+           DeveloperStack::where([
                ['developer_id', auth()->user()->developer->id],['is_primary',true],['stack_id', '!=', $request->stack_id]
            ])->update(['is_primary' => false]);
         }

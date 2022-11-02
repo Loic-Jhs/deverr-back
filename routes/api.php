@@ -63,6 +63,7 @@ Route::middleware('jsonOnly')->group(function () {
             Route::get('/dev-prestations/{developer_id}', [OrderController::class, 'index']);
             Route::get('/prestation-accepted/{order_id}', [OrderController::class, 'prestationAccepted']);
             Route::get('/prestation-rejected/{order_id}', [OrderController::class, 'prestationRejected']);
+            Route::get('/prestation-finished/{order_id}', [OrderController::class, 'prestationFinished']);
         });
 
         // Stacks management for developer

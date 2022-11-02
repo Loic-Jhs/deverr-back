@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreNewOderRequest;
 use App\Http\Resources\OrdersResource;
 use App\Mail\SendConfirmationOderMail;
+use App\Mail\SendFinishedOrderMail;
 use App\Mail\SendNewOrderMail;
 use App\Mail\SendRejectedOrderMail;
 use App\Models\Order;
@@ -108,5 +109,29 @@ class OrderController extends Controller
         return response()->json([
             "message" => "Prestation refusée",
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function prestationFinished(Request $request): JsonResponse
+    {
+      Order::where('id', $request->order_id)->update(['is_finished' => true]);
+
+      $order = Order::find($request->order_id);
+
+      $dataOrder = [
+          'user_fullname' => $order->user->lastname.' '.$order->user->firstname,
+          'prestation_name' => $order->developerPrestation->prestationType->name,
+          'price' => $order->developerPrestation->price,
+          'developer' => $order->developer->user->lastname.' '.$order->developer->user->firstname
+      ];
+
+      Mail::to($order->user->email)->send(new SendFinishedOrderMail($dataOrder));
+
+      return response()->json([
+          'message' => "Prestation terminée"
+      ]);
     }
 }

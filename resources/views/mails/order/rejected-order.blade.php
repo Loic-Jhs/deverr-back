@@ -41,9 +41,7 @@
                                         Bonjour {{ $data['user_fullname'] }}, <br><br>
                                         Mauvause nouvelle ... La prestation "{{ $data['prestationTypeName'] }}" a été refusée par {{ $data['developer_fullname'] }}.
                                     </p>
-                                    <a href="{{ env("APP_URL") }}/login }}" style="background:#50BFDF;text-decoration:none !important; font-weight:500; margin-top:35px; color:#ffffff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
-                                        Deverr
-                                    </a>
+                                    <a href="{{ env("FRONT_URL") }}/login" style="background:#50BFDF;text-decoration:none !important; font-weight:500; margin-top:35px; color:#ffffff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Deverr</a>
                                 </td>
                             </tr>
                             <tr>
