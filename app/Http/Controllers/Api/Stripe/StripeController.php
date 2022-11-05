@@ -14,7 +14,7 @@ class StripeController extends Controller
 {
     public function createSession($id): JsonResponse
     {
-        $DOMAIN = env('APP_URL');
+        $DOMAIN = env('FRONT_URL');
         Stripe::setApiKey(env('SECRET_KEY_STRIPE'));
 
         $developerPrestation = DeveloperPrestation::where('id', $id)->first();

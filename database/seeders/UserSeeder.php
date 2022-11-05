@@ -22,42 +22,42 @@ class UserSeeder extends Seeder
         $admins = [];
         for ($i = 1; $i <= self::$NB_ADMINS_IN_DB; $i++) {
             $admins[] = [
-                'email' => fake()->email(),
-                'password' => Hash::make('password'),
+                'email'             => fake()->email(),
+                'password'          => Hash::make('password'),
                 'email_verified_at' => now(),
-                'firstname' => fake()->firstName(),
-                'lastname' => fake()->lastName(),
-                'role' => "2",
-                'created_at' => now(),
-                'updated_at' => now(),
+                'firstname'         => fake()->firstName(),
+                'lastname'          => fake()->lastName(),
+                'role'              => "2",
+                'created_at'        => now(),
+                'updated_at'        => now(),
             ];
         }
 
         $users = [];
         for ($i = 1; $i <= 10; $i++) {
             $users[] = [
-                'email' => fake()->email(),
-                'password' => Hash::make('password'),
+                'email'             => fake()->email(),
+                'password'          => Hash::make('password'),
                 'email_verified_at' => now(),
-                'firstname' => fake()->firstName(),
-                'lastname' => fake()->lastName(),
-                'role' => "0",
-                'created_at' => now(),
-                'updated_at' => now(),
+                'firstname'         => fake()->firstName(),
+                'lastname'          => fake()->lastName(),
+                'role'              => "0",
+                'created_at'        => now(),
+                'updated_at'        => now(),
             ];
         }
 
         $developers = [];
         for ($i = 1; $i <= 10; $i++) {
             $users[] = [
-                'email' => fake()->email(),
-                'password' => Hash::make('password'),
+                'email'             => fake()->email(),
+                'password'          => Hash::make('password'),
                 'email_verified_at' => now(),
-                'firstname' => fake()->firstName(),
-                'lastname' => fake()->lastName(),
-                'role' => "1",
-                'created_at' => now(),
-                'updated_at' => now(),
+                'firstname'         => fake()->firstName(),
+                'lastname'          => fake()->lastName(),
+                'role'              => "1",
+                'created_at'        => now(),
+                'updated_at'        => now(),
             ];
         }
 

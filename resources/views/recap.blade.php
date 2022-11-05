@@ -12,7 +12,7 @@
 <div class="card" style="width: 22rem;">
     <div class="card-body">
         <h5 class="card-title">Prestation </h5>
-        <h6 class="card-subtitle mb-2 text-muted"><span style="font-size: 4rem">💶</span></h6>
+        <h6 class="card-subtitle mb-2 text-muted"><span style="font-size: 8rem">💶</span></h6>
         <p class="card-text">Prestation réalisée : {{ $developerPrestation->prestationType->name }}</p>
         <p>Nom complet du dev : {{ $developerPrestation->developer->user->firstname .' '. $developerPrestation->developer->user->lastname }}</p>
         <p>Prix de la prestation : {{ $developerPrestation->price }}€</p>

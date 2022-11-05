@@ -16,47 +16,47 @@ class PrestationTypesSeeder extends Seeder
     {
         DB::table('prestation_types')->insert([
             [
-                'name' => 'Site vitrine',
+                'name'       => 'Site vitrine',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'Blog',
+                'name'       => 'Blog',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'Site e-commerce',
+                'name'       => 'Site e-commerce',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'Landing page',
+                'name'       => 'Landing page',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'ERP',
+                'name'       => 'ERP',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'CRM',
+                'name'       => 'CRM',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'Application mobile',
+                'name'       => 'Application mobile',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'Création d\'une API',
+                'name'       => 'Création d\'une API',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
-                'name' => 'Maintenance d\'un site existant',
+                'name'       => 'Maintenance d\'un site existant',
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],

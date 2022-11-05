@@ -18,7 +18,7 @@ class PaymentController extends Controller
     public function recapDeveloperPrestation($id): View
     {
         $developerPrestation = DeveloperPrestation::where('id', $id)->first();
-        $devFullName = $developerPrestation->developer->user->firstname . ' ' . $developerPrestation->developer->user->lastname;
+        //$devFullName = $developerPrestation->developer->user->firstname . ' ' . $developerPrestation->developer->user->lastname;
 
         /*return new JsonResponse([
             'developerPrestationId'    => $developerPrestation->id,
