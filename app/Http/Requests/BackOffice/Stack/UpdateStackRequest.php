@@ -3,8 +3,6 @@
 namespace App\Http\Requests\BackOffice\Stack;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rules\File;
 
 class UpdateStackRequest extends FormRequest
 {

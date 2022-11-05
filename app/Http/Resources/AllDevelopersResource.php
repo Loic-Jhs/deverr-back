@@ -24,11 +24,11 @@ class AllDevelopersResource extends JsonResource
             'average_rating' => $this->reviews->count() > 0 ? number_format($this->reviews->avg('rating'), 1) : null,
             'reviews_number' => $this->reviews->count(),
             'stacks' => $this->stacks->count() > 0 ? $this->stacks->map(function ($stack) {
-                    return [
-                        'id' => $stack->id,
-                        'name' => $stack->name,
-                        'logo' => $stack->logo
-                    ];
+                return [
+                    'id' => $stack->id,
+                    'name' => $stack->name,
+                    'logo' => $stack->logo,
+                ];
             }) : null,
             'prestations' => $this->developerPrestations->count() > 0 ? $this->developerPrestations->map(function ($developerPrestation) {
                 return [

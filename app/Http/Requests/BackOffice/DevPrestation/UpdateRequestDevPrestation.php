@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Backoffice\DevPrestation;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class UpdateRequestDevPrestation extends FormRequest
 {
@@ -20,10 +19,10 @@ class UpdateRequestDevPrestation extends FormRequest
     public function rules(): array
     {
         return [
-            'developer_id'       => 'nullable|int',
-            'description'        => 'nullable|string|max:255',
+            'developer_id' => 'nullable|int',
+            'description' => 'nullable|string|max:255',
             'prestation_type_id' => 'nullable|int',
-            'price'              => 'nullable|int',
+            'price' => 'nullable|int',
         ];
     }
 

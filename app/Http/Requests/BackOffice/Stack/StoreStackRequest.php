@@ -3,8 +3,6 @@
 namespace App\Http\Requests\BackOffice\Stack;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rules\File;
 
 class StoreStackRequest extends FormRequest
 {
@@ -27,7 +25,7 @@ class StoreStackRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'logo' => 'string'
+            'logo' => 'string',
         ];
     }
 

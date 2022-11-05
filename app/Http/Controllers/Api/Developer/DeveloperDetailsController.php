@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\Developer;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DeveloperDetailsResource;
 use App\Models\Developer;
-use App\Models\DeveloperPrestation;
-use App\Models\DeveloperStack;
 use Illuminate\Http\JsonResponse;
 
 class DeveloperDetailsController extends Controller
@@ -17,7 +15,6 @@ class DeveloperDetailsController extends Controller
      */
     public function developerDetails($id): JsonResponse
     {
-
         // get a developer's details, with his stacks, prestations, reviews
         $developer = Developer::with('user', 'stacks', 'developerPrestations', 'reviews', 'orders')
             ->where('id', $id)
@@ -30,7 +27,6 @@ class DeveloperDetailsController extends Controller
         }
 
         return new JsonResponse(
-            DeveloperDetailsResource::collection($developer)
-        , 200);
+            DeveloperDetailsResource::collection($developer), 200);
     }
 }

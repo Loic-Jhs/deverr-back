@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Seeders\ReviewSeeder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,13 +28,12 @@ class Developer extends Model
             ->where('deleted_at', null);
     }
 
-
     public function developerStacks(): HasMany
     {
         return $this->hasMany(DeveloperStack::class);
     }
 
-        public function messages(): HasMany
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }

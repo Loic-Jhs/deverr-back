@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropColumn('is_accepted_by_developer');
-
         });
         Schema::table('orders', function (Blueprint $table) {
             $table->boolean('is_accepted_by_developer')->default(null)->after('is_payed')->nullable();

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\StackResource\Pages;
-use App\Filament\Resources\StackResource\RelationManagers;
 use App\Models\Stack;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -24,7 +23,7 @@ class StackResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required()->label('Nom'),
-                Forms\Components\TextInput::make('logo')->required()->label('Logo')
+                Forms\Components\TextInput::make('logo')->required()->label('Logo'),
             ]);
     }
 
@@ -33,7 +32,7 @@ class StackResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('name')->label('Nom')->searchable()
+                Tables\Columns\TextColumn::make('name')->label('Nom')->searchable(),
             ])
             ->filters([
                 //

@@ -21,7 +21,6 @@ class AllDevelopersController extends Controller
         $allDevelopers = Developer::with('user', 'developerStacks', 'complaints', 'reviews', 'developerPrestations')
             ->get();
 
-
         return response()->json(
             // On retourne les développeurs sous forme de ressources,
             // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.

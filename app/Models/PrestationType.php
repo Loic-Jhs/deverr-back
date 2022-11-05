@@ -21,7 +21,6 @@ class PrestationType extends Model
         'updated_at',
     ];
 
-
     public function developerPrestations(): HasMany
     {
         return $this->HasMany(DeveloperPrestation::class);

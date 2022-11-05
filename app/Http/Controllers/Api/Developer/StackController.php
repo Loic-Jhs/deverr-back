@@ -9,9 +9,8 @@ use App\Http\Resources\AllStacksResource;
 use App\Models\DeveloperStack;
 use App\Models\Stack;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 
 class StackController extends Controller
 {
@@ -33,7 +32,7 @@ class StackController extends Controller
         }
 
         return response()->json([
-            'message' => "Cette action n'est pas autorisée"
+            'message' => "Cette action n'est pas autorisée",
         ]);
     }
 
@@ -62,7 +61,7 @@ class StackController extends Controller
         }
 
         return response()->json([
-            'message' => "Cette action n'est pas autorisée"
+            'message' => "Cette action n'est pas autorisée",
         ]);
     }
 
@@ -88,7 +87,7 @@ class StackController extends Controller
         }
 
         return response()->json([
-            'message' => "Cette action n'est pas autorisée"
+            'message' => "Cette action n'est pas autorisée",
         ]);
     }
 
@@ -100,12 +99,11 @@ class StackController extends Controller
         $stacks = Stack::get()->sortBy('name');
 
         return response()->json(
-            AllStacksResource::collection($stacks)
-        ,200);
+            AllStacksResource::collection($stacks), 200);
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function addStack(Request $request): JsonResponse
@@ -114,37 +112,38 @@ class StackController extends Controller
             'developer_id' => auth()->user()->developer->id,
             'stack_id' => $request->stack_id,
             'stack_experience' => $request->stack_experience,
-            'is_primary' => $request->is_primary
+            'is_primary' => $request->is_primary,
         ]);
 
-        if($request->is_primary){
-           DeveloperStack::where([
-               ['developer_id', auth()->user()->developer->id],['is_primary',true],['stack_id', '!=', $request->stack_id]
-           ])->update(['is_primary' => false]);
+        if ($request->is_primary) {
+            DeveloperStack::where([
+                ['developer_id', auth()->user()->developer->id], ['is_primary', true], ['stack_id', '!=', $request->stack_id],
+            ])->update(['is_primary' => false]);
         }
 
         return response()->json([
-            "message" => "La stack ".$dev_stack->stack->name." a bien été ajoutée"
+            'message' => 'La stack '.$dev_stack->stack->name.' a bien été ajoutée',
         ]);
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function deleteDevStack(Request $request): JsonResponse
     {
-        $devStack = DeveloperStack::where([['developer_id',auth()->user()->developer->id], ['stack_id', $request->stack_id]])->first();
+        $devStack = DeveloperStack::where([['developer_id', auth()->user()->developer->id], ['stack_id', $request->stack_id]])->first();
 
-        if($devStack->is_primary){
+        if ($devStack->is_primary) {
             return response()->json([
-                'message' => "Vous ne pouvez pas supprimer votre stack principale"
+                'message' => 'Vous ne pouvez pas supprimer votre stack principale',
             ]);
         } else {
             $oldDevStackName = $devStack->stack->name;
             $devStack->delete();
+
             return response()->json([
-                'message' => "La stack ".$oldDevStackName." a été supprimée"
+                'message' => 'La stack '.$oldDevStackName.' a été supprimée',
             ]);
         }
     }

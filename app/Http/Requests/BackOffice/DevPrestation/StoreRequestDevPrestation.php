@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Backoffice\DevPrestation;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class StoreRequestDevPrestation extends FormRequest
 {
@@ -22,7 +21,7 @@ class StoreRequestDevPrestation extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules() :array
+    public function rules(): array
     {
         return [
             'developer_id' => 'required|int',

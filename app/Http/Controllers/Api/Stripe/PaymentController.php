@@ -10,7 +10,6 @@ use Illuminate\Http\JsonResponse;
 
 class PaymentController extends Controller
 {
-
     /**
      * @param $id
      * @return View
@@ -41,15 +40,15 @@ class PaymentController extends Controller
     {
         Order::where('developer_prestation_id', $developerPrestationId)->update([
             'is_payed' => true,
-            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d') . '-' . uniqid()),
-            'stripe_session_id' => $stripeSessionId
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
+            'stripe_session_id' => $stripeSessionId,
         ]);
 
         $orderStripeSessionId = Order::where('stripe_session_id', $stripeSessionId)->first();
 
         return new JsonResponse([
             'message' => 'Paiement accepté',
-            'order'   => $orderStripeSessionId,
+            'order' => $orderStripeSessionId,
         ]);
     }
 
@@ -62,15 +61,15 @@ class PaymentController extends Controller
     {
         Order::where('developer_prestation_id', $developerPrestationId)->update([
             'is_payed' => false,
-            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d') . '-' . uniqid()),
-            'stripe_session_id' => $stripeSessionId
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
+            'stripe_session_id' => $stripeSessionId,
         ]);
 
         $orderStripeSessionId = Order::where('stripe_session_id', $stripeSessionId)->first();
 
         return new JsonResponse([
             'message' => 'Échec du paiement',
-            'order'   => $orderStripeSessionId,
+            'order' => $orderStripeSessionId,
         ]);
     }
 }

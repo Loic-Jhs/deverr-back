@@ -51,7 +51,7 @@ Route::middleware('jsonOnly')->group(function () {
 
         // connected as user
         Route::group(['prefix' => 'profile'], function () {
-            Route::get('/',[ProfileController::class, 'index']);
+            Route::get('/', [ProfileController::class, 'index']);
             Route::put('/update', [ProfileController::class, 'update']);
             Route::put('/update-password', [ProfileController::class, 'updatePassword']);
             Route::delete('/delete', [ProfileController::class, 'delete']);
@@ -101,7 +101,7 @@ Route::middleware('jsonOnly')->group(function () {
 
         // Create stripe session for payment
         Route::match(['get', 'post'], '/order/create-session/{id}', [
-            StripeController::class, 'createSession'
+            StripeController::class, 'createSession',
         ])->name('order-session');
         // Get developer prestation for payment
         Route::get('/recap-developer-prestation/{id}', [PaymentController::class, 'recapDeveloperPrestation']);

@@ -23,9 +23,9 @@ class ProfileController extends Controller
         }
 
         $user = User::where('id', $id)->first();
-        if (!$user) {
+        if (! $user) {
             return response()->json([
-                'message' => 'Utilisateur introuvable'
+                'message' => 'Utilisateur introuvable',
             ], 404);
         }
         if ($user->role == '1') {
@@ -44,7 +44,7 @@ class ProfileController extends Controller
                             return [
                                 'id' => $stack->id,
                                 'name' => $stack->name,
-                                'logo' => $stack->logo
+                                'logo' => $stack->logo,
                             ];
                         }) : null,
                 ]
@@ -61,22 +61,22 @@ class ProfileController extends Controller
                         return [
                             'created_at' => date_format($order->created_at, 'd/m/Y'),
                             'updated_at' => date_format($order->updated_at, 'd/m/Y'),
-                            'developer' => $order->developer->user->lastname . ' ' . $order->developer->user->firstname,
+                            'developer' => $order->developer->user->lastname.' '.$order->developer->user->firstname,
                             'is_finished' => $order->is_finished,
                             'is_payed' => $order->is_payed,
                             'is_accepted_by_developer' => $order->is_accepted_by_developer,
                             'prestation_name' => $order->developerPrestation->prestationType->name,
                             'price' => $order->developerPrestation->price,
-                            'instructions' => $order->instructions
+                            'instructions' => $order->instructions,
                         ];
-                    }) : null
+                    }) : null,
                 ]
             );
         }
     }
 
     /**
-     * @param UserProfileRequest $request
+     * @param  UserProfileRequest  $request
      * @return JsonResponse
      */
     public function update(UserProfileRequest $request): JsonResponse
@@ -86,7 +86,7 @@ class ProfileController extends Controller
         // his old email in case he changes it
         $oldEmail = $user->email;
 
-        $developer = Developer::where('user_id', $user->id)->first();;
+        $developer = Developer::where('user_id', $user->id)->first();
 
         // update the user
         $user->update($request->all());
@@ -99,7 +99,7 @@ class ProfileController extends Controller
         // if the developer changed his email, update email_verified_at to null
         if ($oldEmail !== $request->email && $request->email !== null) {
             $user->update([
-                'email_verified_at' => null
+                'email_verified_at' => null,
             ]);
             $user->sendEmailVerificationNotification();
         }
@@ -110,7 +110,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @param UpdatePasswordRequest $request
+     * @param  UpdatePasswordRequest  $request
      * @return JsonResponse
      */
     public function updatePassword(UpdatePasswordRequest $request): JsonResponse
@@ -118,7 +118,7 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         $user->update([
-            'password' => Hash::make(request('password'))
+            'password' => Hash::make(request('password')),
         ]);
 
         return response()->json([

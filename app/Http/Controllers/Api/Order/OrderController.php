@@ -18,18 +18,18 @@ use Illuminate\Support\Facades\Mail;
 class OrderController extends Controller
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
-        $developerPrestations = Order::where('developer_id',$request->developer_id)->orderBy('created_at')->get();
+        $developerPrestations = Order::where('developer_id', $request->developer_id)->orderBy('created_at')->get();
 
         return response()->json(OrdersResource::collection($developerPrestations), 200);
     }
 
     /**
-     * @param StoreNewOderRequest $request
+     * @param  StoreNewOderRequest  $request
      * @return JsonResponse
      */
     public function store(StoreNewOderRequest $request): JsonResponse
@@ -42,11 +42,11 @@ class OrderController extends Controller
         ]);
 
         $data = [
-            "fullname" => auth()->user()->lastname . ' ' . auth()->user()->firstname,
-            "prestationTypeName" => $order->developerPrestation->prestationType->name,
+            'fullname' => auth()->user()->lastname.' '.auth()->user()->firstname,
+            'prestationTypeName' => $order->developerPrestation->prestationType->name,
             'instructions' => $order->instructions,
             'order_id' => $order->id,
-            'developer_fullname' => $order->developer->user->firstname . ' ' . $order->developer->user->lastname
+            'developer_fullname' => $order->developer->user->firstname.' '.$order->developer->user->lastname,
         ];
 
         Mail::to($order->developer->user->email)->send(new SendNewOrderMail($data));
@@ -55,84 +55,84 @@ class OrderController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
      */
     public function prestationAccepted(Request $request): jsonResponse | RedirectResponse
     {
         Order::find($request->order_id)->update([
-            "is_accepted_by_developer" => true
+            'is_accepted_by_developer' => true,
         ]);
 
         $order = Order::where('id', $request->order_id)->first();
 
         $dataDev = [
-            "user_fullname" => $order->user->lastname.' '.$order->user->firstname,
-            "developer_fullname" => $order->developer->user->lastname.' '.$order->developer->user->firstname,
-            "prestationTypeName" => $order->developerPrestation->prestationType->name,
+            'user_fullname' => $order->user->lastname.' '.$order->user->firstname,
+            'developer_fullname' => $order->developer->user->lastname.' '.$order->developer->user->firstname,
+            'prestationTypeName' => $order->developerPrestation->prestationType->name,
         ];
 
         Mail::to($order->user->email)->send(new SendConfirmationOderMail($dataDev));
 
-        if($request->mail){
+        if ($request->mail) {
             return redirect()->to(env('FRONT_URL').'/login');
         }
 
         return response()->json([
-            "message" => "Prestation acceptée",
+            'message' => 'Prestation acceptée',
         ]);
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse|RedirectResponse
      */
     public function prestationRejected(Request $request): JsonResponse | RedirectResponse
     {
         Order::find($request->order_id)->update([
-            "is_accepted_by_developer" => false
+            'is_accepted_by_developer' => false,
         ]);
 
         $order = Order::where('id', $request->order_id)->first();
 
         $dataDev = [
-            "user_fullname" => $order->user->lastname.' '.$order->user->firstname,
-            "developer_fullname" => $order->developer->user->lastname.' '.$order->developer->user->firstname,
-            "prestationTypeName" => $order->developerPrestation->prestationType->name,
+            'user_fullname' => $order->user->lastname.' '.$order->user->firstname,
+            'developer_fullname' => $order->developer->user->lastname.' '.$order->developer->user->firstname,
+            'prestationTypeName' => $order->developerPrestation->prestationType->name,
         ];
 
         Mail::to($order->user->email)->send(new SendRejectedOrderMail($dataDev));
 
-        if($request->mail){
+        if ($request->mail) {
             return redirect()->to(env('FRONT_URL').'/login');
         }
 
         return response()->json([
-            "message" => "Prestation refusée",
+            'message' => 'Prestation refusée',
         ]);
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function prestationFinished(Request $request): JsonResponse
     {
-      Order::where('id', $request->order_id)->update(['is_finished' => true]);
+        Order::where('id', $request->order_id)->update(['is_finished' => true]);
 
-      $order = Order::find($request->order_id);
+        $order = Order::find($request->order_id);
 
-      $dataOrder = [
-          'user_fullname' => $order->user->lastname.' '.$order->user->firstname,
-          'prestation_name' => $order->developerPrestation->prestationType->name,
-          'price' => $order->developerPrestation->price,
-          'developer' => $order->developer->user->lastname.' '.$order->developer->user->firstname
-      ];
+        $dataOrder = [
+            'user_fullname' => $order->user->lastname.' '.$order->user->firstname,
+            'prestation_name' => $order->developerPrestation->prestationType->name,
+            'price' => $order->developerPrestation->price,
+            'developer' => $order->developer->user->lastname.' '.$order->developer->user->firstname,
+        ];
 
-      Mail::to($order->user->email)->send(new SendFinishedOrderMail($dataOrder));
+        Mail::to($order->user->email)->send(new SendFinishedOrderMail($dataOrder));
 
-      return response()->json([
-          'message' => "Prestation terminée"
-      ]);
+        return response()->json([
+            'message' => 'Prestation terminée',
+        ]);
     }
 }

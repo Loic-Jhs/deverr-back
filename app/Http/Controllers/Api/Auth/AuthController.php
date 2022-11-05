@@ -21,17 +21,15 @@ class AuthController extends Controller
      */
     public function register(StoreNewUserRequest $request): JsonResponse
     {
-
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => "0",
+            'role' => '0',
         ]);
 
-        if ($request->has('years_of_experience') && $request->has('description'))
-        {
+        if ($request->has('years_of_experience') && $request->has('description')) {
             Developer::create([
                 'user_id' => $user->id,
                 'years_of_experience' => $request->years_of_experience,

@@ -3,11 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Widgets\StatsOverview;
 use App\Models\User;
-use Filament\Resources\Form;
 use Filament\Forms;
+use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
@@ -66,10 +65,10 @@ class UserResource extends Resource
         ];
     }
 
-    public static function getWidgets():array
+    public static function getWidgets(): array
     {
         return [
-            StatsOverview::class
+            StatsOverview::class,
         ];
     }
 }

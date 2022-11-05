@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Review;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,7 +27,7 @@ class RandomDevelopersResource extends JsonResource
             'stack' => [
                 'name' => $this->developerStacks->first() ? $this->developerStacks->firstWhere('is_primary', 1)->stack->name : null,
                 'logo' => $this->developerStacks->first() ? $this->developerStacks->firstWhere('is_primary', 1)->stack->logo : null,
-            ]
+            ],
         ];
     }
 }

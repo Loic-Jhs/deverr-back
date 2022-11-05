@@ -20,7 +20,7 @@ class ManageUsers extends ManageRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            UserResource\Widgets\StatsOverview::class
+            UserResource\Widgets\StatsOverview::class,
         ];
     }
 }

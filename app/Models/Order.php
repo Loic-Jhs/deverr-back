@@ -54,5 +54,4 @@ class Order extends Model
     {
         return $this->hasOne(Complaint::class);
     }
-
 }

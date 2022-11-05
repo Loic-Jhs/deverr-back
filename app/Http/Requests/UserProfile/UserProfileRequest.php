@@ -26,7 +26,7 @@ class UserProfileRequest extends FormRequest
         return [
             'firstname' => 'nullable|string',
             'lastname' => 'nullable|string',
-            'email' => ['nullable','email', Rule::unique('users')->ignore($this->user()->id)],
+            'email' => ['nullable', 'email', Rule::unique('users')->ignore($this->user()->id)],
             'description' => 'nullable|string',
             'years_of_experience' => 'nullable|integer',
             'avatar' => 'nullable|url',

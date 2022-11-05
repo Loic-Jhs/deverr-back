@@ -17,10 +17,10 @@ class DeveloperPrestationController extends Controller
 
         if ($developer) {
             $devPrestation = DeveloperPrestation::create([
-                'developer_id'  => $request->developer_id,
+                'developer_id' => $request->developer_id,
                 'prestation_type_id' => $request->prestation_type_id,
-                'description'   => $request->description,
-                'price'         => $request->price,
+                'description' => $request->description,
+                'price' => $request->price,
             ]);
 
             return response()->json([
@@ -40,7 +40,7 @@ class DeveloperPrestationController extends Controller
         if ($developer) {
             $devPrestation = DeveloperPrestation::where('id', $request->id)->first();
 
-            if (!$devPrestation) {
+            if (! $devPrestation) {
                 abort(404, 'La prestation du développeur est introuvable');
             }
 
@@ -67,7 +67,7 @@ class DeveloperPrestationController extends Controller
         if ($developer) {
             $devPrestation = DeveloperPrestation::find($id);
 
-            if (!$devPrestation) {
+            if (! $devPrestation) {
                 abort(404, 'Prestation du développeur introuvable');
             }
 
