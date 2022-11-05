@@ -1,141 +1,123 @@
 @startuml Class
+'change direction to not overlap with other classes
+left to right direction
+
 
 class User {
   id: bigIntUnsigned
-  email: string
-  firstname: string
-  lastname: string
-  password: string
-  roleId: foreignId
-  isVerified: boolean
-  isActive: boolean
-  profilePicture: string
-  registrationToken: string
-  createdAt: datetime
-  updatedAt: datetime
-
-  registration()
-  login()
-  logout()
-  forgotPassword()
-  deleteAccount()
+  firstname: varchar
+  lastname: varchar
+  email: varchar
+  password: varchar
+  role: enum
+  email_verified_at: timestamp
+  created_at: timestamp
+  updated_at: timestamp
 }
 
-class Dev {
+class Developer {
   id: bigIntUnsigned
-  userId: foreignId
-  description: string
-  experience: int
-  createdAt: datetime
-  updatedAt: datetime
+  user_id: bigIntUnsigned
+  description: varchar
+  avatar: varchar
+  years_of_experience: int
+  created_at: timestamp
+  updated_at: timestamp
 }
 
-class Role {
+class PrestationType {
   id: bigIntUnsigned
-  name: string
-  createdAt: datetime
-  updatedAt: datetime
+  name: varchar
+  created_at: timestamp
+  updated_at: timestamp
 }
 
-class Prestation {
+class DeveloperPrestation {
   id: bigIntUnsigned
-  name: string
-  createdAt: datetime
-  updatedAt: datetime
+  developer_id: bigIntUnsigned
+  prestation_type_id: bigIntUnsigned
+  description: varchar
+  price: double(10,2)
+  created_at: timestamp
+  updated_at: timestamp
 }
 
-class DevPrestation {
+class DeveloperStack {
   id: bigIntUnsigned
-  dev_id: foreignId
-  description: string
-  prestation_id: foreignId
-  price: int
-  createdAt: datetime
-  updatedAt: datetime
-}
-
-class DevStack {
-  dev_id: foreignId
-  stack_id: foreignId
+  developer_id: bigIntUnsigned
+  stack_id: bigIntUnsigned
   stack_experience: int
-  createdAt: datetime
-  updatedAt: datetime
+  is_primary: tinyInt
+  created_at: timestamp
+  updated_at: timestamp
 }
 
 class Stack {
   id: bigIntUnsigned
-  name: string
-  createdAt: datetime
-  updatedAt: datetime
-}
-
-class ForgotPasswordToken {
-  id: bigIntUnsigned
-  user_id: foreignId
-  token: string
-  is_used: boolean
-  createdAt: datetime
+  name: varchar
+  logo: varchar
+  created_at: timestamp
+  updated_at: timestamp
 }
 
 class Order {
   id: bigIntUnsigned
-  client_id: foreignId
-  dev_prestation_id: foreignId
-  is_payed: boolean
-  hasDeposit: boolean
-  amountDeposit: float
-  transaction_id: foreignId
-  createdAt: datetime
-  updatedAt: datetime
-}
-
-class Transaction {
-  id: bigIntUnsigned
-  order_id: foreignId
-  number: int
-  state: string
-  createdAt: datetime
-  updatedAt: datetime
-
+  user_id: bigIntUnsigned
+  developer_id: bigIntUnsigned
+  developer_prestation_id: bigIntUnsigned
+  is_payed: tinyInt
+  is_accepted_by_developer: tinyInt
+  stripe_session_id: varchar
+  reference: varchar
+  is_finished: tinyInt
+  created_at: timestamp
+  updated_at: timestamp
 }
 
 class Review {
   id: bigIntUnsigned
-  client_id: foreignId
   order_id: foreignId
   rating: int
-  comment: string
-  createdAt: datetime
-  updatedAt: datetime
+  comment: varchar
+  created_at: timestamp
+  updated_at: timestamp
 }
 
 class Message {
   id: bigIntUnsigned
-  fromUserId: foreignId
-  toUserId: foreignId
-  createdAt: datetime
-  updatedAt: datetime
+  from_used_id: bigIntUnsigned
+  to_user_id: bigIntUnsigned
+  created_at: timestamp
+  updated_at: timestamp
 }
 
 class Complaint {
-    id: bigIntUnsigned
-    userId: foreignId
-    createdAt: datetime
-    updatedAt: datetime
+  id: bigIntUnsigned
+  oder_id: bigIntUnsigned
+  is_user_complaining: tinyInt
+  complaint: varchar
+  status: enum
+  created_at: timestamp
+  updated_at: timestamp
 }
 
-User "N " -- "1 " Role
-User "1 " -- "N " ForgotPasswordToken
-Order "0..N " -- "1..N " User
-Transaction "1 " -- "1 " Order
-Dev "1 " -- "0..1 " User
-Dev "1 " -- "1..N " DevStack
-DevStack "1 " -- "N " Stack
-Review "1 " -- "0..N " User
-Review "0..1 " -- "1 " Order
-DevPrestation "1 " -- "N " Prestation
-DevPrestation "N " -- "1 " Dev
-User "1 " -- "0..N " Message
-Complaint "0..N " -- "1 " User
+User "0..1 " -- "0..* " Complaint
+User "1 " -- "0..* "Message
+User "1 " -- "0..* " Order
+User "1 " -- "1 " Developer
+
+Developer "1 " -- "1..* "DeveloperStack
+Developer "1 " -- "0..* " Order
+Developer "1 "-- "0..* " Review
+Developer "1 " -- "1..* " DeveloperPrestation
+Developer "1 " -- "0..* " Complaint
+
+DeveloperPrestation "1 " -- "1..* " PrestationType
+DeveloperPrestation "1 " -- "1..* " Order
+
+Stack "1 "-- "1..* " DeveloperStack
+
+Order "1 " -- "1 " Review
+
 
 @enduml
