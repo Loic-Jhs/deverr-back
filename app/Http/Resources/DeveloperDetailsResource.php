@@ -33,6 +33,7 @@ class DeveloperDetailsResource extends JsonResource
                 return [
                     'id' => $prestation->id,
                     'name' => $prestation->prestationType->name,
+                    'description' => $prestation->description
                 ];
             }) : null,
             'reviews' => $this->reviews ? $this->reviews->map(function ($review) {
