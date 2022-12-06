@@ -28,6 +28,7 @@ class ProfileController extends Controller
                 'message' => 'Utilisateur introuvable',
             ], 404);
         }
+        // TODO: Refactor this to use a resource
         if ($user->role == '1') {
             return response()->json(
                 [

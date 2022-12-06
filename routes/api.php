@@ -90,12 +90,14 @@ Route::middleware('jsonOnly')->group(function () {
     Route::middleware(['guest'])->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+//        Route::post('/reset-password', [AuthController::class, 'resetPassword']);
         // Developer details
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
         // Resend email verification
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
-        Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
-        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
+        Route::get('/random-developers', [RandomDevsController::class, 'getSixRandomDevelopers']);
+        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevelopers']);
         Route::get('/profile/{id}', [ProfileController::class, 'index']);
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
 

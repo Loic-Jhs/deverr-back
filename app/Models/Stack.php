@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Stack extends Model
@@ -25,5 +26,10 @@ class Stack extends Model
     public function developerStack(): HasMany
     {
         return $this->hasMany(Stack::class);
+    }
+
+    public function developers(): BelongsToMany
+    {
+        return $this->belongsToMany(Developer::class);
     }
 }

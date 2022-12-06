@@ -25,9 +25,9 @@ class RandomDevelopersResource extends JsonResource
             'avatar' => $this->avatar,
             'average_rating' => $this->reviews->avg('rating'),
             'stack' => [
-                'name' => $this->developerStacks->first() ? $this->developerStacks->firstWhere('is_primary', 1)->stack->name : null,
-                'logo' => $this->developerStacks->first() ? $this->developerStacks->firstWhere('is_primary', 1)->stack->logo : null,
-            ],
+                'name' => $this->stacks ? $this->stacks->first()->name: null,
+                'logo' => $this->stacks ? $this->stacks->first()->logo : null,
+            ]
         ];
     }
 }

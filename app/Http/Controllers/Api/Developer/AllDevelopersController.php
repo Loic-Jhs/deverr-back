@@ -14,11 +14,15 @@ class AllDevelopersController extends Controller
      *
      * @return JsonResponse
      */
-    public function getAllDevs(): JsonResponse
+    public function getAllDevelopers(): JsonResponse
     {
-        // get all developers id, firstname, lastname, created_at,
-        // with their ratings summed, their stack, their devPrestations
-        $allDevelopers = Developer::with('user', 'developerStacks', 'complaints', 'reviews', 'developerPrestations')
+        // Récupérer tous les développeurs avec leurs plaintes, leurs technos, leurs prestations, leurs notes
+        $allDevelopers = Developer::with( 'complaints', 'reviews')
+            ->withWhereHas('stacks')
+            ->withWhereHas('developerPrestations')
+            ->withWhereHas('user', function ($query) {
+                return $query->where('email_verified_at', '!=', null);
+            })
             ->get();
 
         return response()->json(

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
@@ -43,16 +44,9 @@ class Developer extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function stacks(): HasManyThrough
+    public function stacks(): BelongsToMany
     {
-        return $this->hasManyThrough(
-            Stack::class,
-            DeveloperStack::class,
-            'developer_id',
-            'id',
-            'id',
-            'stack_id'
-        );
+        return $this->belongsToMany(Stack::class, 'developer_stacks', 'developer_id', 'stack_id');
     }
 
     public function reviews(): HasManyThrough
