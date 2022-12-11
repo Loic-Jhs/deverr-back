@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Profile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProfile\UpdatePasswordRequest;
 use App\Http\Requests\UserProfile\UserProfileRequest;
+use App\Http\Resources\Profile\DeveloperProfileResource;
+use App\Http\Resources\Profile\UserProfileResource;
 use App\Models\Developer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -18,61 +20,21 @@ class ProfileController extends Controller
      */
     public function index($id = null): JsonResponse
     {
-        if ($id == null) {
-            $id = auth()->user()->id;
-        }
-
-        $user = User::where('id', $id)->first();
+        $user = User::find($id);
         if (! $user) {
             return response()->json([
                 'message' => 'Utilisateur introuvable',
             ], 404);
         }
-        // TODO: Refactor this to use a resource
+
+        if ($id == null) {
+            $id = auth()->user()->id;
+        }
+
         if ($user->role == '1') {
-            return response()->json(
-                [
-                    'id' => $user->id,
-                    'firstname' => $user->firstname,
-                    'lastname' => $user->lastname,
-                    'email' => $user->email,
-                    'registered_at' => date_format($user->created_at, 'd/m/Y'),
-                    'avatar' => $user->developer->avatar,
-                    'description' => $user->developer->description,
-                    'years_of_experience' => $user->developer->years_of_experience,
-                    'stacks' => $user->developer->stacks ? $user->developer->stacks
-                        ->map(function ($stack) {
-                            return [
-                                'id' => $stack->id,
-                                'name' => $stack->name,
-                                'logo' => $stack->logo,
-                            ];
-                        }) : null,
-                ]
-            );
+            return response()->json(DeveloperProfileResource::make($user), 200);
         } else {
-            return response()->json(
-                [
-                    'id' => $user->id,
-                    'firstname' => $user->firstname,
-                    'lastname' => $user->lastname,
-                    'email' => $user->email,
-                    'registered_at' => date_format($user->created_at, 'd/m/Y'),
-                    'orders' => $user->orders ? $user->orders->map(function ($order) {
-                        return [
-                            'created_at' => date_format($order->created_at, 'd/m/Y'),
-                            'updated_at' => date_format($order->updated_at, 'd/m/Y'),
-                            'developer' => $order->developer->user->lastname.' '.$order->developer->user->firstname,
-                            'is_finished' => $order->is_finished,
-                            'is_payed' => $order->is_payed,
-                            'is_accepted_by_developer' => $order->is_accepted_by_developer,
-                            'prestation_name' => $order->developerPrestation->prestationType->name,
-                            'price' => $order->developerPrestation->price,
-                            'instructions' => $order->instructions,
-                        ];
-                    }) : null,
-                ]
-            );
+            return response()->json(UserProfileResource::make($user), 200);
         }
     }
 
