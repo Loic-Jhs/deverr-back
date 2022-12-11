@@ -91,7 +91,7 @@ Route::middleware('jsonOnly')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-//        Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+        Route::post('/reset-password', [AuthController::class, 'resetPassword']);
         // Developer details
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
         // Resend email verification

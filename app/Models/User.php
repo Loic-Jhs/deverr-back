@@ -18,7 +18,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -44,6 +44,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = config('app.front_url').'/reset-password/'.$token;
+        $this->notify(new ResetPasswordNotification($url));
+    }
 
     public function complaints(): HasMany
     {
@@ -76,7 +82,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             return true;
         } else {
             Auth::logout();
-
             return false;
         }
     }

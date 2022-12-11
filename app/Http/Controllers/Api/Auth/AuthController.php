@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRegister\ForgotPasswordRequest;
 use App\Http\Requests\LoginRegister\LoginUserRequest;
+use App\Http\Requests\LoginRegister\ResetPasswordRequest;
 use App\Http\Requests\LoginRegister\StoreNewUserRequest;
 use App\Models\Developer;
 use App\Models\User;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -97,32 +99,28 @@ class AuthController extends Controller
 
         return $status === Password::RESET_LINK_SENT
             ? response()->json("Un email de réinitialisation de mot de passe à été envoyé.", 200)
-            : response()->json("Cet email n'est pas enregistré dans notre base de données.", 404);
+            : response()->json("Veuillez réessayer dans quelques instants s'il vous plaît.", 404);
     }
 
 //    https://www.youtube.com/watch?v=AaXm2MiIgpI
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
-            $request->validate([
-                'token' => 'required',
-                'email' => 'required|email',
-                'password' => 'required|min:8|confirmed',
-            ]);
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+                $user->save();
+                $user->tokens()->delete();
+                event(new PasswordReset($user));
+            }
+        );
 
-            $status = Password::reset(
-                $request->only('email', 'password', 'password_confirmation', 'token'),
-                function ($user, $password) {
-                    $user->forceFill([
-                        'password' => Hash::make($password)
-                    ])->setRememberToken(Str::random(60));
-                    $user->save();
-
-                    event(new PasswordReset($user));
-                }
-            );
-
-            return $status === Password::PASSWORD_RESET
-                ? redirect()->route('login')->with('status', __($status))
-                : back()->withErrors(['email' => [__($status)]]);
+        if ($status === Password::PASSWORD_RESET) {
+            return response()->json("Votre mot de passe a bien été réinitialisé.", 200);
+        } else {
+            return response()->json("Une erreur est survenue, veuillez réessayer.", 404);
+        }
     }
 }
