@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserProfile\AddStackRequest;
 use App\Http\Requests\UserProfile\UpdatePasswordRequest;
 use App\Http\Requests\UserProfile\UserProfileRequest;
 use App\Http\Resources\Profile\DeveloperProfileResource;
 use App\Http\Resources\Profile\UserProfileResource;
 use App\Models\Developer;
+use App\Models\DeveloperStack;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -68,7 +71,7 @@ class ProfileController extends Controller
         }
 
         return response()->json([
-            'message' => 'Votre profil a été mis à jour avec succè, un email de vérification vous a été envoyé.',
+            'message' => 'Votre profil a été mis à jour avec succès, un email de vérification vous a été envoyé.',
         ]);
     }
 
@@ -102,4 +105,86 @@ class ProfileController extends Controller
             'message' => 'Votre compte a été supprimé avec succès',
         ]);
     }
+
+    /*
+     * @param  AddStackRequest  $request
+     * @return JsonResponse
+     */
+    public function addStack(AddStackRequest $request): JsonResponse
+    {
+        // check if the developer already added this stack
+        $alreadyExists = DeveloperStack::where('developer_id', auth()->user()->developer->id)
+            ->where('stack_id', $request->stack_id)
+            ->first();
+
+        if ($alreadyExists) {
+            return response()->json([
+                'message' => 'Vous avez déjà ajouté cette compétence',
+            ], 400);
+        }
+
+        $dev_stack = DeveloperStack::create([
+            'developer_id' => auth()->user()->developer->id,
+            'stack_id' => $request->stack_id,
+            'stack_experience' => $request->stack_experience,
+            'is_primary' => $request->is_primary,
+        ]);
+
+        return response()->json([
+            'message' => 'La Compétence '.$dev_stack->stack->name.' a bien été ajoutée',
+        ]);
+//        // if the developer wants to update the is_primary stack of this stack
+//        if ($request->is_primary) {
+//            // check if the developer has already a primary stack
+//            $alreadyPrimary = DeveloperStack::where('developer_id', auth()->user()->developer->id)
+//                ->where('is_primary', true)
+//                ->first();
+//
+//            // if he has, update it to false
+//            if ($alreadyPrimary) {
+//                $alreadyPrimary->update([
+//                    'is_primary' => false,
+//                ]);
+//            }
+//
+//            // edit the stack to set it as primary
+//            ->update([
+//                'is_primary' => true,
+//            ]);
+//        }
+    }
+
+    // Update the is_primary stack for a developer
+    public function updatePrimaryStack(Request $request)
+    {
+        // Retrieve the developer and the new stack to set as is_primary
+        $developer = auth()->user()->developer;
+        $stack = DeveloperStack::where('stack_id', $request->input('stack_id'))->where('developer_id', $developer->id)->first();
+
+        if (! $stack) {
+            return response()->json([
+                'message' => "Vous n'avez pas cette compétence",
+            ], 400);
+        }
+
+        // If the developer already has a primary stack, update it to false
+        $oldPrimaryStack = $stack->where('is_primary', true)->first();
+        if ($oldPrimaryStack) {
+            $oldPrimaryStack::query()->update([
+                'is_primary' => false,
+            ]);
+
+            $oldPrimaryStack->save();
+        }
+
+        // Set the new stack as is_primary for the developer
+        $stack->is_primary = true;
+        $stack->save();
+
+        return response()->json([
+            'message' => 'Successfully updated is_primary stack for developer.'
+        ]);
+    }
+
+
 }
