@@ -46,7 +46,12 @@ class Developer extends Model
 
     public function stacks(): BelongsToMany
     {
-        return $this->belongsToMany(Stack::class, 'developer_stacks', 'developer_id', 'stack_id');
+        return $this->belongsToMany(Stack::class, 'developer_stacks', 'developer_id', 'stack_id')->withPivot('stack_experience', 'is_primary');
+    }
+
+    public function primaryStack(): BelongsToMany
+    {
+        return $this->belongsToMany(Stack::class, 'developer_stacks', 'developer_id', 'stack_id')->wherePivot('is_primary', true);
     }
 
     public function reviews(): HasManyThrough

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Developer;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RandomDevelopersResource;
 use App\Models\Developer;
+use App\Models\DeveloperStack;
 use Illuminate\Http\JsonResponse;
 
 class RandomDevsController extends Controller
@@ -17,14 +18,19 @@ class RandomDevsController extends Controller
         // 6 développeurs random,
         // qui ont des reviews >= 3 OU qui n'ont pas de reviews mais pas de plaintes,
         // qui ont forcément au moins une techno de renseignée.
-        $randomDevelopers = Developer::with('user', 'developerStacks', 'complaints', 'stacks')
-            ->whereHas('stacks')
-            ->withWhereHas('reviews', function($query) {
-                return $query->where('rating', '>=', 3);
+
+        $randomDevelopers = Developer::
+            with('reviews', 'user')
+            ->withWhereHas('primaryStack')
+            ->where(function ($query) {
+                $query->whereHas('reviews', function ($query) {
+                    $query->where('rating', '>=', 3);
+                })
+                ->orWhereDoesntHave('reviews')
+                ->whereDoesntHave('complaints');
             })
-            ->orWhereDoesntHave('complaints')
-            ->inRandomOrder()
             ->take(6)
+            ->inRandomOrder()
             ->get();
 
         // On retourne les développeurs sous forme de ressources,

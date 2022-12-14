@@ -23,9 +23,9 @@ class Stack extends Model
         'updated_at',
     ];
 
-    public function developerStack(): HasMany
+    public function stack(): belongsToMany
     {
-        return $this->hasMany(Stack::class);
+        return $this->belongsToMany(Developer::class)->withPivot('stack_experience', 'is_primary');
     }
 
     public function developers(): BelongsToMany

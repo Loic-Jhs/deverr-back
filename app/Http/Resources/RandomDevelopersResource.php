@@ -14,9 +14,9 @@ class RandomDevelopersResource extends JsonResource
      *
      *
      * @param  Request  $request
-     * @return array|Arrayable|JsonSerializable
+     * @return array
      */
-    public function toArray($request): array|JsonSerializable|Arrayable
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -25,8 +25,8 @@ class RandomDevelopersResource extends JsonResource
             'avatar' => $this->avatar,
             'average_rating' => $this->reviews->avg('rating'),
             'stack' => [
-                'name' => $this->stacks ? $this->stacks->first()->name: null,
-                'logo' => $this->stacks ? $this->stacks->first()->logo : null,
+                'name' => $this->primaryStack->first()->name,
+                'logo' => $this->primaryStack->first()->logo,
             ]
         ];
     }
