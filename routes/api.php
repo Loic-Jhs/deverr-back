@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
 use App\Http\Controllers\Api\Stripe\StripeController;
+use App\Http\Controllers\Api\Prestation\AllPrestationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -113,5 +114,7 @@ Route::middleware('jsonOnly')->group(function () {
         Route::get('/payment-success/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'success']);
         // Payment canceled
         Route::get('/payment-canceled/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
+
+        Route::get('/all-prestations', [AllPrestationsController::class, 'index']);
     });
 });
