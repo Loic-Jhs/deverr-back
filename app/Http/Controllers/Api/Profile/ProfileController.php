@@ -133,25 +133,6 @@ class ProfileController extends Controller
         return response()->json([
             'message' => 'La Compétence '.$dev_stack->stack->name.' a bien été ajoutée',
         ]);
-//        // if the developer wants to update the is_primary stack of this stack
-//        if ($request->is_primary) {
-//            // check if the developer has already a primary stack
-//            $alreadyPrimary = DeveloperStack::where('developer_id', auth()->user()->developer->id)
-//                ->where('is_primary', true)
-//                ->first();
-//
-//            // if he has, update it to false
-//            if ($alreadyPrimary) {
-//                $alreadyPrimary->update([
-//                    'is_primary' => false,
-//                ]);
-//            }
-//
-//            // edit the stack to set it as primary
-//            ->update([
-//                'is_primary' => true,
-//            ]);
-//        }
     }
 
     // Update the is_primary stack for a developer
