@@ -15,6 +15,7 @@
         "stripe/stripe-php": "^9.8"
     },
     "require-dev": {
+        "enlightn/enlightn": "^2.1",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
