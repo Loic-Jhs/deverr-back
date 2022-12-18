@@ -9,11 +9,11 @@ use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
 use App\Http\Controllers\Api\Developer\StackController;
 use App\Http\Controllers\Api\DeveloperPrestation\DeveloperPrestationController;
-use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\DeveloperPrestation\OrderController;
+use App\Http\Controllers\Api\Prestation\AllPrestationsController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
 use App\Http\Controllers\Api\Stripe\StripeController;
-use App\Http\Controllers\Api\Prestation\AllPrestationsController;
 use Illuminate\Support\Facades\Route;
 
 /*

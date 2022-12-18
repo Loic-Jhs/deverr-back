@@ -55,9 +55,9 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
     'front_url' => env('FRONT_URL', 'http://localhost'),
     'asset_url' => env('ASSET_URL'),
+    'stripe_api_key' => env('STRIPE_API_KEY'),
 
     /*
     |--------------------------------------------------------------------------

@@ -20,20 +20,20 @@ class StackController extends Controller
      */
     public function storeStack(StoreStackRequest $request): JsonResponse
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $developer = User::where('role', '=', '1')->get('role');
         if ($developer) {
             $stack = Stack::create([
-                'name' => ucfirst($request->name),
+                'name' => ucfirst($request->input('name')),
             ]);
 
             return response()->json([
                 'message' => sprintf('La stack %s a bien été créée', $stack->name),
             ], 201);
+        } else {
+            return response()->json([
+                'message' => "Cette action n'est pas autorisée",
+            ]);
         }
-
-        return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ]);
     }
 
     /**
@@ -42,7 +42,7 @@ class StackController extends Controller
      */
     public function editStack(UpdateStackRequest $request): JsonResponse
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $developer = User::where('role', '=', '1')->get('role');
         if ($developer) {
             $stack = Stack::where('id', $request->id)->first();
 
@@ -58,11 +58,11 @@ class StackController extends Controller
             return response()->json([
                 'message' => sprintf('La stack %s a bien été modifiée en %s', $oldStackName, $stack->name),
             ], 200);
+        } else {
+            return response()->json([
+                'message' => "Cette action n'est pas autorisée",
+            ]);
         }
-
-        return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ]);
     }
 
     /**
@@ -71,7 +71,7 @@ class StackController extends Controller
      */
     public function deleteStack($id)
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $developer = User::where('role', '=', '1')->get('role');
         if ($developer) {
             $stack = Stack::find($id);
 
@@ -84,11 +84,11 @@ class StackController extends Controller
             return response()->json([
                 'message' => 'Stack supprimée avec succès',
             ], 200);
+        } else {
+            return response()->json([
+                'message' => "Cette action n'est pas autorisée",
+            ]);
         }
-
-        return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ]);
     }
 
     /**

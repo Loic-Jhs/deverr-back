@@ -13,7 +13,7 @@ class DeveloperPrestationController extends Controller
 {
     public function storeDevPrestation(StoreRequestDevPrestation $request): JsonResponse
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $developer = User::where('role', '=', '1')->get('role');
 
         if ($developer) {
             $devPrestation = DeveloperPrestation::create([
@@ -35,7 +35,7 @@ class DeveloperPrestationController extends Controller
 
     public function editDevPrestation(UpdateRequestDevPrestation $request): JsonResponse
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $developer = User::where('role', '=', '1')->get('role');
 
         if ($developer) {
             $devPrestation = DeveloperPrestation::where('id', $request->id)->first();
@@ -44,16 +44,16 @@ class DeveloperPrestationController extends Controller
                 abort(404, 'La prestation du développeur est introuvable');
             }
 
-            $devPrestation->update($request->all());
+            $devPrestation->update($request->validated());
 
             return response()->json([
                 'message' => sprintf('La prestation du développeur ayant l\'id %s a bien été modifiée', $devPrestation->id),
             ], 200);
+        } else {
+            return response()->json([
+                'message' => "Cette action n'est pas autorisée",
+            ], 403);
         }
-
-        return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ], 403);
     }
 
     /**
@@ -62,7 +62,7 @@ class DeveloperPrestationController extends Controller
      */
     public function deleteDevPrestation($id)
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $developer = User::where('role', '=', '1')->get('role');
 
         if ($developer) {
             $devPrestation = DeveloperPrestation::find($id);
@@ -76,10 +76,10 @@ class DeveloperPrestationController extends Controller
             return response()->json([
                 'message' => 'Prestation du développeur supprimée avec succès',
             ], 200);
+        } else {
+            return response()->json([
+                'message' => "Cette action n'est pas autorisée",
+            ], 403);
         }
-
-        return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ], 403);
     }
 }
