@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\DeveloperPrestation;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backoffice\DevPrestation\StoreRequestDevPrestation;
-use App\Http\Requests\Backoffice\DevPrestation\UpdateRequestDevPrestation;
+use App\Http\Requests\DevPrestation\UpdateRequestDevPrestation;
+use App\Http\Requests\DevPrestation\StoreRequestDevPrestation;
 use App\Models\DeveloperPrestation;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -13,47 +13,31 @@ class DeveloperPrestationController extends Controller
 {
     public function storeDevPrestation(StoreRequestDevPrestation $request): JsonResponse
     {
-        $developer = User::all('role')->where('role', '=', '1');
-
-        if ($developer) {
-            $devPrestation = DeveloperPrestation::create([
-                'developer_id' => $request->developer_id,
-                'prestation_type_id' => $request->prestation_type_id,
-                'description' => $request->description,
-                'price' => $request->price,
-            ]);
-
-            return response()->json([
-                'message' => sprintf('La prestation du développeur ayant l\'id %s a bien été créée', $devPrestation->id),
-            ], 201);
-        }
+        DeveloperPrestation::query()->create([
+            'developer_id' => auth()->user()->developer->id,
+            'prestation_type_id' => $request->prestation_type_id,
+            'description' => $request->description,
+            'price' => $request->price,
+        ]);
 
         return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ], 403);
+            'message' => "Prestation enregistrée",
+        ], 201);
     }
 
     public function editDevPrestation(UpdateRequestDevPrestation $request): JsonResponse
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $devPrestation = DeveloperPrestation::where('id', $request->id)->first();
 
-        if ($developer) {
-            $devPrestation = DeveloperPrestation::where('id', $request->id)->first();
-
-            if (! $devPrestation) {
-                abort(404, 'La prestation du développeur est introuvable');
-            }
-
-            $devPrestation->update($request->all());
-
-            return response()->json([
-                'message' => sprintf('La prestation du développeur ayant l\'id %s a bien été modifiée', $devPrestation->id),
-            ], 200);
+        if (! $devPrestation) {
+            abort(404, 'La prestation du développeur est introuvable');
         }
 
+        $devPrestation->update($request->only('prestation_type_id', 'description', 'price'));
+
         return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ], 403);
+            'message' => "Prestation modifiée",
+        ], 200);
     }
 
     /**
@@ -62,24 +46,16 @@ class DeveloperPrestationController extends Controller
      */
     public function deleteDevPrestation($id)
     {
-        $developer = User::all('role')->where('role', '=', '1');
+        $devPrestation = DeveloperPrestation::find($id)->where('developer_id', auth()->user()->developer->id)->first();
 
-        if ($developer) {
-            $devPrestation = DeveloperPrestation::find($id);
-
-            if (! $devPrestation) {
-                abort(404, 'Prestation du développeur introuvable');
-            }
-
-            $devPrestation->delete();
-
-            return response()->json([
-                'message' => 'Prestation du développeur supprimée avec succès',
-            ], 200);
+        if (! $devPrestation) {
+            abort(404, 'Prestation introuvable');
         }
 
+        $devPrestation->delete();
+
         return response()->json([
-            'message' => "Cette action n'est pas autorisée",
-        ], 403);
+            'message' => 'Prestation supprimée avec succès',
+        ], 200);
     }
 }
