@@ -66,15 +66,9 @@ class Developer extends Model
         );
     }
 
-    public function developerPrestations(): HasManyThrough
+    public function developerPrestations(): HasMany
     {
-        return $this->hasManyThrough(DeveloperPrestation::class,
-            PrestationType::class,
-            'id', // Foreign key on the developer_prestations table
-            'prestation_type_id',
-            'id',
-            'id'
-        );
+        return $this->hasMany(DeveloperPrestation::class);
     }
 
     public function complaints(): HasManyThrough
