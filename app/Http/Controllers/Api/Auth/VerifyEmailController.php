@@ -34,7 +34,7 @@ class VerifyEmailController extends Controller
             event(new Verified($user));
         }
 
-        return view('mails/verified-account', compact('user'));
+        return view('mails/verified-email/verified-account', compact('user'));
     }
 
     /**
