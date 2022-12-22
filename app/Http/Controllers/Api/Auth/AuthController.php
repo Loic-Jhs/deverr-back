@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRegister\LoginUserRequest;
 use App\Http\Requests\LoginRegister\ResetPasswordRequest;
 use App\Http\Requests\LoginRegister\StoreNewUserRequest;
 use App\Models\Developer;
+use App\Models\DeveloperStack;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
@@ -28,18 +29,18 @@ class AuthController extends Controller
     public function register(StoreNewUserRequest $request): JsonResponse
     {
         $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
             'role' => '0',
         ]);
 
         if ($request->has('years_of_experience') && $request->has('description')) {
-            Developer::create([
+            $developer = Developer::create([
                 'user_id' => $user->id,
-                'years_of_experience' => $request->years_of_experience,
-                'description' => $request->description,
+                'years_of_experience' => $request->input('years_of_experience'),
+                'description' => $request->input('description'),
             ]);
         }
 
@@ -62,7 +63,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = User::where('email', $request->input('email'))->firstOrFail();
 
         $token = explode('|', $user->createToken('auth_token')->plainTextToken);
 
@@ -102,7 +103,6 @@ class AuthController extends Controller
             : response()->json("Veuillez réessayer dans quelques instants s'il vous plaît.", 404);
     }
 
-//    https://www.youtube.com/watch?v=AaXm2MiIgpI
     public function resetPassword(ResetPasswordRequest $request)
     {
         $status = Password::reset(

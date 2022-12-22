@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 // Middleware for all routes to only return JSON
 Route::middleware('jsonOnly')->group(function () {
     // CONNECTED AND EMAIL VERIFIED
-    Route::middleware(['auth:sanctum'])->group(function () {
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // connected as admin
         Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
             // list of users
