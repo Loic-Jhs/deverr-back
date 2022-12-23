@@ -14,7 +14,7 @@
         <h1>Votre email a été vérifié avec succès !</h1>
         <h2> Nous sommes heureux de vous accueillir sur notre plateforme. <br> Deverr </h2>
         <button id="button">
-            <a href="{{ config('app.front_url') }}">
+            <a href="{{ config('app.front_url') . '/login' }}">
                 Se connecter
             </a>
         </button>
