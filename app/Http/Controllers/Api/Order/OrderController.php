@@ -75,7 +75,7 @@ class OrderController extends Controller
         Mail::to($order->user->email)->send(new SendConfirmationOderMail($dataDev));
 
         if ($request->mail) {
-            return redirect()->to(env('FRONT_URL').'/login');
+            return redirect()->to(config('app.front_url').'/login');
         }
 
         return response()->json([
@@ -104,7 +104,7 @@ class OrderController extends Controller
         Mail::to($order->user->email)->send(new SendRejectedOrderMail($dataDev));
 
         if ($request->mail) {
-            return redirect()->to(env('FRONT_URL').'/login');
+            return redirect()->to(config('app.front_url').'/login');
         }
 
         return response()->json([
