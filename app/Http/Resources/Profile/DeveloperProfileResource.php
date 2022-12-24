@@ -33,6 +33,16 @@ class DeveloperProfileResource extends JsonResource
                         'logo' => $stack->logo,
                     ];
                 }) : null,
+            'prestations' => $this->developer->developerPrestations ?
+                $this->developer->developerPrestations
+                ->map(function ($prestation) {
+                    return [
+                        'id' => $prestation->id,
+                        'prestation_type_id' => $prestation->prestationType->name,
+                        'description' => $prestation->description,
+                        'price' => $prestation->price,
+                    ];
+                }) : null,
         ];
     }
 }

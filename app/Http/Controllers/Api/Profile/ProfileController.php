@@ -27,16 +27,12 @@ class ProfileController extends Controller
      */
     public function index($id = null): JsonResponse
     {
-        $user = User::query()->find($id);
+        $user = $id ? User::query()->find($id) : auth()->user();
 
         if (! $user) {
             return response()->json([
                 'message' => 'Utilisateur introuvable',
             ], 404);
-        }
-
-        if ($id == null) {
-            $id = auth()->user()->id;
         }
 
         if ($user->role == '1') {
