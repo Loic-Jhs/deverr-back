@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DevPrestation\StoreRequestDevPrestation;
+use App\Http\Requests\DevPrestation\UpdateRequestDevPrestation;
 use App\Http\Requests\UserProfile\AddStackRequest;
 use App\Http\Requests\UserProfile\UpdatePasswordRequest;
 use App\Http\Requests\UserProfile\UserProfileRequest;
 use App\Http\Resources\Profile\DeveloperProfileResource;
 use App\Http\Resources\Profile\UserProfileResource;
 use App\Models\Developer;
+use App\Models\DeveloperPrestation;
 use App\Models\DeveloperStack;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -106,7 +109,8 @@ class ProfileController extends Controller
         ]);
     }
 
-    /*
+    /**
+     * Add a new stack to the developer
      * @param  AddStackRequest  $request
      * @return JsonResponse
      */
@@ -114,7 +118,7 @@ class ProfileController extends Controller
     {
         // check if the developer already added this stack
         $alreadyExists = DeveloperStack::where('developer_id', auth()->user()->developer->id)
-            ->where('stack_id', $request->stack_id)
+            ->where('stack_id', $request->input('stack_id'))
             ->first();
 
         if ($alreadyExists) {
@@ -125,9 +129,9 @@ class ProfileController extends Controller
 
         $dev_stack = DeveloperStack::create([
             'developer_id' => auth()->user()->developer->id,
-            'stack_id' => $request->stack_id,
-            'stack_experience' => $request->stack_experience,
-            'is_primary' => $request->is_primary,
+            'stack_id' => $request->input('stack_id'),
+            'stack_experience' => $request->input('stack_experience'),
+            'is_primary' => $request->input('is_primary'),
         ]);
 
         return response()->json([
@@ -135,12 +139,17 @@ class ProfileController extends Controller
         ]);
     }
 
-    // Update the is_primary stack for a developer
-    public function updatePrimaryStack(Request $request)
+    /**
+     * Update the primary stack
+     *
+     * @param $id
+     * @return JsonResponse
+     */
+    public function updatePrimaryStack($id)
     {
         // Retrieve the developer and the new stack to set as is_primary
         $developer = auth()->user()->developer;
-        $stack = DeveloperStack::where('stack_id', $request->input('stack_id'))->where('developer_id', $developer->id)->first();
+        $stack = DeveloperStack::where('stack_id', $id)->where('developer_id', $developer->id)->first();
 
         if (! $stack) {
             return response()->json([
@@ -154,18 +163,85 @@ class ProfileController extends Controller
             $oldPrimaryStack::query()->update([
                 'is_primary' => false,
             ]);
-
-            $oldPrimaryStack->save();
         }
 
-        // Set the new stack as is_primary for the developer
-        $stack->is_primary = true;
-        $stack->save();
+        // update the stack to be primary
+        DeveloperStack::query()->where('stack_id', $stack->stack_id)->update([
+            'is_primary' => true,
+        ]);
 
         return response()->json([
-            'message' => 'Successfully updated is_primary stack for developer.'
+            'message' => 'Compétence principale mise à jour avec succès',
         ]);
     }
 
+    /**
+     * @param  StoreRequestDevPrestation  $request
+     * @return JsonResponse
+     */
+    public function storeDeveloperPrestation(StoreRequestDevPrestation $request): JsonResponse
+    {
+        DeveloperPrestation::query()->create([
+            'developer_id' => auth()->user()->developer->id,
+            'prestation_type_id' => $request->input('prestation_type_id'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+        ]);
+
+        return response()->json([
+            'message' => "Prestation enregistrée",
+        ], 201);
+    }
+
+    /**
+     * @param UpdateRequestDevPrestation $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function editDeveloperPrestation(UpdateRequestDevPrestation $request, $id): JsonResponse
+    {
+        if (auth()->user()->developer->id === DeveloperPrestation::find($id)->developer_id) {
+            DeveloperPrestation::find($id)->update([
+                'developer_id' => auth()->user()->developer->id,
+                'prestation_type_id' => $request->input('prestation_type_id'),
+                'description' => $request->input('description'),
+                'price' => $request->input('price'),
+            ]);
+
+            return response()->json([
+                'message' => "Prestation modifiée",
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Vous n'avez pas le droit de modifier cette prestation",
+            ], 403);
+        }
+    }
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function deleteDeveloperPrestation($id)
+    {
+        // delete the developer prestation
+        $devPrestation = DeveloperPrestation::find($id);
+
+        if (! $devPrestation) {
+            return response()->json([
+                'message' => "Cette prestation n'existe pas",
+            ], 404);
+        }
+
+        if ($devPrestation->developer_id === auth()->user()->developer->id) {
+            $devPrestation->delete();
+            return response()->json([
+                'message' => 'Prestation supprimée avec succès',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Vous n'avez pas le droit de supprimer cette prestation",
+            ], 403);
+        }
+    }
 
 }

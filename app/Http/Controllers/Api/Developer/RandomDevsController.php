@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Developer;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RandomDevelopersResource;
 use App\Models\Developer;
-use App\Models\DeveloperStack;
 use Illuminate\Http\JsonResponse;
 
 class RandomDevsController extends Controller

@@ -6,14 +6,14 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevelopersController;
 use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
+use App\Http\Controllers\Api\Developer\DeveloperPrestationController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
 use App\Http\Controllers\Api\Developer\StackController;
-use App\Http\Controllers\Api\DeveloperPrestation\DeveloperPrestationController;
 use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Prestation\AllPrestationsController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
 use App\Http\Controllers\Api\Stripe\StripeController;
-use App\Http\Controllers\Api\Prestation\AllPrestationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,8 +58,15 @@ Route::middleware('jsonOnly')->group(function () {
             Route::delete('/delete', [ProfileController::class, 'delete']);
 
             Route::post('/add-stack', [ProfileController::class, 'addStack']);
-            Route::put('/edit-primary-stack/', [ProfileController::class, 'updatePrimaryStack']);
-            Route::delete('/delete-stack/{stack_id}', [StackController::class, 'deleteDevStack']);
+            Route::put('/edit-primary-stack/{stack_id}', [ProfileController::class, 'updatePrimaryStack']);
+            Route::delete('/delete-stack/{stack_id}', [StackController::class, 'deleteStack']);
+
+            // Developer prestations management on profile
+            Route::group(['prefix' => 'developer-prestations'], function () {
+                Route::post('/store', [DeveloperPrestationController::class, 'storeDeveloperPrestation']);
+                Route::patch('/edit/{id}', [DeveloperPrestationController::class, 'editDeveloperPrestation']);
+                Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDeveloperPrestation']);
+            });
         });
 
         Route::group(['prefix' => 'order'], function () {
@@ -68,19 +75,14 @@ Route::middleware('jsonOnly')->group(function () {
             Route::get('/dev-prestations/{developer_id}', [OrderController::class, 'index']);
         });
 
-        // Stacks management for developer
-        Route::group(['prefix' => 'stacks'], function () {
-            Route::post('/store', [StackController::class, 'storeStack']);
-            Route::put('/edit', [StackController::class, 'editStack']);
-            Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
-        });
+        //// Stacks management for developer
+        //Route::group(['prefix' => 'stacks'], function () {
+        //    Route::post('/store', [StackController::class, 'storeStack']);
+        //    Route::put('/edit', [StackController::class, 'editStack']);
+        //    Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
+        //});
 
-        // Developer prestations management for developer
-        Route::group(['prefix' => 'developer-prestations'], function () {
-            Route::post('/store', [DeveloperPrestationController::class, 'storeDevPrestation']);
-            Route::patch('/edit/{id}', [DeveloperPrestationController::class, 'editDevPrestation']);
-            Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
-        });
+
     });
 
     Route::get('/stacks/all', [StackController::class, 'allStack']);

@@ -8,7 +8,6 @@ use App\Http\Requests\LoginRegister\LoginUserRequest;
 use App\Http\Requests\LoginRegister\ResetPasswordRequest;
 use App\Http\Requests\LoginRegister\StoreNewUserRequest;
 use App\Models\Developer;
-use App\Models\DeveloperStack;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
@@ -92,7 +91,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function forgotPassword(ForgotPasswordRequest $request): RedirectResponse|JsonResponse
+    /**
+     * @param ForgotPasswordRequest $request
+     * @return JsonResponse
+     */
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
         $status = Password::sendResetLink(
             $request->only('email')
@@ -103,6 +106,10 @@ class AuthController extends Controller
             : response()->json("Veuillez réessayer dans quelques instants s'il vous plaît.", 404);
     }
 
+    /**
+     * @param ResetPasswordRequest $request
+     * @return JsonResponse
+     */
     public function resetPassword(ResetPasswordRequest $request)
     {
         $status = Password::reset(

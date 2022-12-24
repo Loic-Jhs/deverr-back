@@ -26,7 +26,6 @@ class DeveloperDetailsController extends Controller
             ], 404);
         }
 
-        return new JsonResponse(
-            DeveloperDetailsResource::collection($developer), 200);
+        return new JsonResponse(DeveloperDetailsResource::collection($developer), 200);
     }
 }

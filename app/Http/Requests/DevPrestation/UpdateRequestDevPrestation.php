@@ -33,12 +33,9 @@ class UpdateRequestDevPrestation extends FormRequest
     public function messages(): array
     {
         return [
-            'description.required' => 'La description est obligatoire',
-            'description.string' => 'La description doit être une chaîne de caractères',
-            'description.max' => 'La description ne doit pas dépasser 255 caractères',
-            'prestation_type_id.required' => 'Le type de prestation est obligatoire',
             'prestation_type_id.exists' => 'Le type de prestation n\'existe pas',
-            'price.required' => 'Le prix est obligatoire',
+            'description.max' => 'La description ne doit pas dépasser 255 caractères',
+            'description.string' => 'La description doit être une chaîne de caractères',
             'price.int' => 'Le prix doit être un nombre entier',
         ];
     }
