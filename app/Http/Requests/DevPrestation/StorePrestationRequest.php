@@ -4,14 +4,14 @@ namespace App\Http\Requests\DevPrestation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequestDevPrestation extends FormRequest
+class StorePrestationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }

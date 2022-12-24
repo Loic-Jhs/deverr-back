@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\UserProfile;
+namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +11,7 @@ class UpdatePasswordRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class UpdatePasswordRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'current_password' => 'required|exists:users,password',
@@ -30,7 +30,10 @@ class UpdatePasswordRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    /**
+     * @return array<string, mixed>
+     */
+    public function messages(): array
     {
         return [
             'current_password.exists' => 'Le mot de passe actuel est incorrect',

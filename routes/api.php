@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevelopersController;
 use App\Http\Controllers\Api\Developer\DeveloperDetailsController;
-use App\Http\Controllers\Api\Developer\DeveloperPrestationController;
 use App\Http\Controllers\Api\Developer\RandomDevsController;
 use App\Http\Controllers\Api\Developer\StackController;
 use App\Http\Controllers\Api\Order\OrderController;
@@ -30,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('jsonOnly')->group(function () {
     // CONNECTED AND EMAIL VERIFIED
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+
+        // TODO : remove this and use Filament instead
         // connected as admin
         Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
             // list of users
@@ -50,22 +51,27 @@ Route::middleware('jsonOnly')->group(function () {
 
         Route::get('/logout', [AuthController::class, 'logout']);
 
-        // connected as user
+        // Profile Routes
         Route::group(['prefix' => 'profile'], function () {
             Route::get('/', [ProfileController::class, 'index']);
             Route::put('/update', [ProfileController::class, 'update']);
             Route::put('/update-password', [ProfileController::class, 'updatePassword']);
             Route::delete('/delete', [ProfileController::class, 'delete']);
 
-            Route::post('/add-stack', [ProfileController::class, 'addStack']);
-            Route::put('/edit-primary-stack/{stack_id}', [ProfileController::class, 'updatePrimaryStack']);
-            Route::delete('/delete-stack/{stack_id}', [StackController::class, 'deleteStack']);
+            // Stacks management on profile
+            Route::group(['prefix' => 'stacks'], function () {
+                Route::post('/store', [ProfileController::class, 'addStack']);
+                //TODO : add edit stack
+                Route::put('/edit-experience/{stack_id}', [ProfileController::class, 'editStackExperience']);
+                Route::put('/edit-primary/{stack_id}', [ProfileController::class, 'editPrimaryStack']);
+                Route::delete('/delete/{stack_id}', [ProfileController::class, 'deleteStack']);
+            });
 
-            // Developer prestations management on profile
-            Route::group(['prefix' => 'developer-prestations'], function () {
-                Route::post('/store', [DeveloperPrestationController::class, 'storeDeveloperPrestation']);
-                Route::patch('/edit/{id}', [DeveloperPrestationController::class, 'editDeveloperPrestation']);
-                Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDeveloperPrestation']);
+            // Prestations management on profile
+            Route::group(['prefix' => 'prestations'], function () {
+                Route::post('/store', [ProfileController::class, 'storePrestation']);
+                Route::patch('/edit/{id}', [ProfileController::class, 'editPrestation']);
+                Route::delete('/delete/{id}', [ProfileController::class, 'deletePrestation']);
             });
         });
 
@@ -74,37 +80,44 @@ Route::middleware('jsonOnly')->group(function () {
             Route::post('/store', [OrderController::class, 'store']);
             Route::get('/dev-prestations/{developer_id}', [OrderController::class, 'index']);
         });
-
-        //// Stacks management for developer
-        //Route::group(['prefix' => 'stacks'], function () {
-        //    Route::post('/store', [StackController::class, 'storeStack']);
-        //    Route::put('/edit', [StackController::class, 'editStack']);
-        //    Route::delete('/delete/{id}', [StackController::class, 'deleteStack']);
-        //});
-
-
     });
-
-    Route::get('/stacks/all', [StackController::class, 'allStack']);
-
+    // TODO: check these routes
     Route::get('/order/prestation-accepted/{order_id}', [OrderController::class, 'prestationAccepted']);
     Route::get('/order/prestation-rejected/{order_id}', [OrderController::class, 'prestationRejected']);
     Route::get('/order/prestation-finished/{order_id}', [OrderController::class, 'prestationFinished']);
 
     // NOT CONNECTED
     Route::middleware(['guest'])->group(function () {
+
+        // Authentication Routes + password reset
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
         Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
         // Developer details
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
+
         // Resend email verification
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
+
+        // homepage with random developers
         Route::get('/random-developers', [RandomDevsController::class, 'getSixRandomDevelopers']);
+
+        // list of all developers
         Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevelopers']);
+
+        // profile
         Route::get('/profile/{id}', [ProfileController::class, 'index']);
+
+        // get developer details as a user
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
+
+        // Get all prestations available so a developer can add them to his profile
+        Route::get('/all-prestations', [AllPrestationsController::class, 'index']);
+
+        // Get all stacks available so a developer can add them to his profile
+        Route::get('/all-stacks', [StackController::class, 'index']);
 
         // Create stripe session for payment
         Route::match(['get', 'post'], '/order/create-session/{id}', [
@@ -117,6 +130,5 @@ Route::middleware('jsonOnly')->group(function () {
         // Payment canceled
         Route::get('/payment-canceled/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
 
-        Route::get('/all-prestations', [AllPrestationsController::class, 'index']);
     });
 });

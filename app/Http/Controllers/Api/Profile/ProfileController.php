@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DevPrestation\StoreRequestDevPrestation;
-use App\Http\Requests\DevPrestation\UpdateRequestDevPrestation;
-use App\Http\Requests\UserProfile\AddStackRequest;
-use App\Http\Requests\UserProfile\UpdatePasswordRequest;
-use App\Http\Requests\UserProfile\UserProfileRequest;
+use App\Http\Requests\DevPrestation\StorePrestationRequest;
+use App\Http\Requests\DevPrestation\UpdatePrestationRequest;
+use App\Http\Requests\Profile\Developer\AddStackRequest;
+use App\Http\Requests\Profile\Developer\EditStackExperienceRequest;
+use App\Http\Requests\Profile\UpdatePasswordRequest;
+use App\Http\Requests\Profile\UserProfileRequest;
 use App\Http\Resources\Profile\DeveloperProfileResource;
 use App\Http\Resources\Profile\UserProfileResource;
 use App\Models\Developer;
@@ -26,7 +27,8 @@ class ProfileController extends Controller
      */
     public function index($id = null): JsonResponse
     {
-        $user = User::find($id);
+        $user = User::query()->find($id);
+
         if (! $user) {
             return response()->json([
                 'message' => 'Utilisateur introuvable',
@@ -55,10 +57,10 @@ class ProfileController extends Controller
         // his old email in case he changes it
         $oldEmail = $user->email;
 
-        $developer = Developer::where('user_id', $user->id)->first();
+        $developer = Developer::query()->where('user_id', $user->id)->first();
 
         // update the user
-        $user->update($request->all());
+        $user->update($request->only('firstname', 'lastname', 'email'));
 
         // update the developer if he is one
         if ($developer) {
@@ -66,15 +68,19 @@ class ProfileController extends Controller
         }
 
         // if the developer changed his email, update email_verified_at to null
-        if ($oldEmail !== $request->email && $request->email !== null) {
+        if ($oldEmail !== $request->input('email') && $request->input('email') !== null) {
             $user->update([
                 'email_verified_at' => null,
             ]);
             $user->sendEmailVerificationNotification();
+
+            return response()->json([
+                'message' => 'Votre profil a été mis à jour avec succès, un email de vérification vous a été envoyé.',
+            ]);
         }
 
         return response()->json([
-            'message' => 'Votre profil a été mis à jour avec succès, un email de vérification vous a été envoyé.',
+            'message' => 'Votre profil a été mis à jour avec succès.',
         ]);
     }
 
@@ -87,7 +93,7 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         $user->update([
-            'password' => Hash::make(request('password')),
+            'password' => Hash::make($request->input('password')),
         ]);
 
         return response()->json([
@@ -117,7 +123,7 @@ class ProfileController extends Controller
     public function addStack(AddStackRequest $request): JsonResponse
     {
         // check if the developer already added this stack
-        $alreadyExists = DeveloperStack::where('developer_id', auth()->user()->developer->id)
+        $alreadyExists = DeveloperStack::query()->where('developer_id', auth()->user()->developer->id)
             ->where('stack_id', $request->input('stack_id'))
             ->first();
 
@@ -126,8 +132,17 @@ class ProfileController extends Controller
                 'message' => 'Vous avez déjà ajouté cette compétence',
             ], 400);
         }
+        // check if the developer adds a new stack as primary
+        if ($request->input('is_primary')) {
+            // set the old one to false
+            DeveloperStack::query()->where('developer_id', auth()->user()->developer->id)
+                ->where('is_primary', true)
+                ->update([
+                    'is_primary' => false,
+                ]);
+        }
 
-        $dev_stack = DeveloperStack::create([
+        $dev_stack = DeveloperStack::query()->create([
             'developer_id' => auth()->user()->developer->id,
             'stack_id' => $request->input('stack_id'),
             'stack_experience' => $request->input('stack_experience'),
@@ -140,20 +155,48 @@ class ProfileController extends Controller
     }
 
     /**
+     * @param EditStackExperienceRequest $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function editStackExperience(EditStackExperienceRequest $request, $id): JsonResponse
+    {
+        $stack = DeveloperStack::query()
+            ->where('stack_id', $id)
+            ->where('developer_id', auth()->user()->developer->id)
+            ->first();
+
+        if (! $stack) {
+            return response()->json([
+                'message' => 'Compétence introuvable',
+            ], 404);
+        }
+
+        $stack->update([
+            'stack_experience' => $request->input('stack_experience'),
+        ]);
+
+        return response()->json([
+            'message' => 'Compétence mise à jour avec succès',
+        ]);
+    }
+
+
+    /**
      * Update the primary stack
      *
      * @param $id
      * @return JsonResponse
      */
-    public function updatePrimaryStack($id)
+    public function editPrimaryStack($id)
     {
         // Retrieve the developer and the new stack to set as is_primary
         $developer = auth()->user()->developer;
-        $stack = DeveloperStack::where('stack_id', $id)->where('developer_id', $developer->id)->first();
+        $stack = DeveloperStack::query()->where('stack_id', $id)->where('developer_id', $developer->id)->first();
 
         if (! $stack) {
             return response()->json([
-                'message' => "Vous n'avez pas cette compétence",
+                'message' => "Compétence introuvable",
             ], 400);
         }
 
@@ -175,11 +218,28 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function deleteStack($id)
+    {
+        $stack = DeveloperStack::query()->where('stack_id', $id)->where('developer_id', auth()->user()->developer->id);
+
+        if (! $stack) {
+            return response()->json([
+                'message' => 'Compétence introuvable',
+            ], 404);
+        }
+
+        $stack->delete();
+
+        return response()->json([
+            'message' => 'Compétence supprimée avec succès',
+        ]);
+    }
+
     /**
-     * @param  StoreRequestDevPrestation  $request
+     * @param  StorePrestationRequest  $request
      * @return JsonResponse
      */
-    public function storeDeveloperPrestation(StoreRequestDevPrestation $request): JsonResponse
+    public function storePrestation(StorePrestationRequest $request): JsonResponse
     {
         DeveloperPrestation::query()->create([
             'developer_id' => auth()->user()->developer->id,
@@ -194,14 +254,14 @@ class ProfileController extends Controller
     }
 
     /**
-     * @param UpdateRequestDevPrestation $request
+     * @param UpdatePrestationRequest $request
      * @param $id
      * @return JsonResponse
      */
-    public function editDeveloperPrestation(UpdateRequestDevPrestation $request, $id): JsonResponse
+    public function editPrestation(UpdatePrestationRequest $request, $id): JsonResponse
     {
-        if (auth()->user()->developer->id === DeveloperPrestation::find($id)->developer_id) {
-            DeveloperPrestation::find($id)->update([
+        if (auth()->user()->developer->id === DeveloperPrestation::query()->find($id)->developer_id) {
+            DeveloperPrestation::query()->find($id)->update([
                 'developer_id' => auth()->user()->developer->id,
                 'prestation_type_id' => $request->input('prestation_type_id'),
                 'description' => $request->input('description'),
@@ -221,10 +281,9 @@ class ProfileController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function deleteDeveloperPrestation($id)
+    public function deletePrestation($id)
     {
-        // delete the developer prestation
-        $devPrestation = DeveloperPrestation::find($id);
+        $devPrestation = DeveloperPrestation::query()->find($id);
 
         if (! $devPrestation) {
             return response()->json([

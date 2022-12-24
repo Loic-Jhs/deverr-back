@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Api\Developer;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DevPrestation\StoreRequestDevPrestation;
-use App\Http\Requests\DevPrestation\UpdateRequestDevPrestation;
+use App\Http\Requests\DevPrestation\StorePrestationRequest;
+use App\Http\Requests\DevPrestation\UpdatePrestationRequest;
 use App\Models\DeveloperPrestation;
 use Illuminate\Http\JsonResponse;
 
 class DeveloperPrestationController extends Controller
 {
     /**
-     * @param  StoreRequestDevPrestation  $request
+     * @param  StorePrestationRequest  $request
      * @return JsonResponse
      */
-    public function storeDeveloperPrestation(StoreRequestDevPrestation $request): JsonResponse
+    public function storeDeveloperPrestation(StorePrestationRequest $request): JsonResponse
     {
         DeveloperPrestation::query()->create([
             'developer_id' => auth()->user()->developer->id,
@@ -29,11 +29,11 @@ class DeveloperPrestationController extends Controller
     }
 
     /**
-     * @param UpdateRequestDevPrestation $request
+     * @param UpdatePrestationRequest $request
      * @param $id
      * @return JsonResponse
      */
-    public function editDeveloperPrestation(UpdateRequestDevPrestation $request, $id): JsonResponse
+    public function editDeveloperPrestation(UpdatePrestationRequest $request, $id): JsonResponse
     {
         if (auth()->user()->developer->id === DeveloperPrestation::find($id)->developer_id) {
             DeveloperPrestation::find($id)->update([

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\BackOffice\Stack;
+namespace App\Http\Requests\Profile\Developer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStackRequest extends FormRequest
+class EditStackExperienceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,22 +24,15 @@ class UpdateStackRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'logo' => 'string',
+            'stack_experience' => 'required|integer',
         ];
     }
 
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
     public function messages(): array
     {
         return [
-            'name.required' => 'Le nom de la stack est requis',
-            'name.max' => 'Le nom de la stack est trop long',
-            'name.string' => 'Le nom de la stack est invalide',
+            'stack_experience.required' => "L'expérience est obligatoire",
+            'stack_experience.integer' => "L'expérience doit être un nombre entier",
         ];
     }
 }
