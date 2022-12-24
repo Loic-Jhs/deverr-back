@@ -19,8 +19,8 @@ class UpdateRequestDevPrestation extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'nullable|string|max:255',
             'prestation_type_id' => 'nullable|exists:prestation_types,id',
+            'description' => 'nullable|string|max:255',
             'price' => 'nullable|int',
         ];
     }

@@ -78,7 +78,7 @@ Route::middleware('jsonOnly')->group(function () {
         // Developer prestations management for developer
         Route::group(['prefix' => 'developer-prestations'], function () {
             Route::post('/store', [DeveloperPrestationController::class, 'storeDevPrestation']);
-            Route::put('/edit', [DeveloperPrestationController::class, 'editDevPrestation']);
+            Route::patch('/edit/{id}', [DeveloperPrestationController::class, 'editDevPrestation']);
             Route::delete('/delete/{id}', [DeveloperPrestationController::class, 'deleteDevPrestation']);
         });
     });

@@ -25,37 +25,55 @@ class DeveloperPrestationController extends Controller
         ], 201);
     }
 
-    public function editDevPrestation(UpdateRequestDevPrestation $request): JsonResponse
+    public function editDevPrestation(UpdateRequestDevPrestation $request, $id): JsonResponse
     {
-        $devPrestation = DeveloperPrestation::where('id', $request->id)->first();
+        if (auth()->user()->developer->id === DeveloperPrestation::find($id)->developer_id) {
+            DeveloperPrestation::find($id)->update([
+                'developer_id' => auth()->user()->developer->id,
+                'prestation_type_id' => $request->input('prestation_type_id'),
+                'description' => $request->input('description'),
+                'price' => $request->input('price'),
+            ]);
 
-        if (! $devPrestation) {
-            abort(404, 'La prestation du développeur est introuvable');
+            return response()->json([
+                'message' => "Prestation modifiée",
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Vous n'avez pas le droit de modifier cette prestation",
+            ], 403);
         }
-
-        $devPrestation->update($request->only('prestation_type_id', 'description', 'price'));
-
-        return response()->json([
-            'message' => "Prestation modifiée",
-        ], 200);
     }
-
     /**
      * @param $id
      * @return JsonResponse
      */
     public function deleteDevPrestation($id)
     {
-        $devPrestation = DeveloperPrestation::find($id)->where('developer_id', auth()->user()->developer->id)->first();
+    //    $devPrestation = DeveloperPrestation::find($id)->where('developer_id', auth()->user()->developer->id)->first();
+    //
+    //    if (! $devPrestation) {
+    //        abort(404, 'Prestation introuvable');
+    //    }
+    //
+    //    $devPrestation->delete();
+    //
+    //    return response()->json([
+    //        'message' => 'Prestation supprimée avec succès',
+    //    ], 200);
 
-        if (! $devPrestation) {
-            abort(404, 'Prestation introuvable');
+        // delete the developer prestation
+        $devPrestation = DeveloperPrestation::findOrFail($id);
+
+        if ($devPrestation->developer_id === auth()->user()->developer->id) {
+            $devPrestation->delete();
+            return response()->json([
+                'message' => 'Prestation supprimée avec succès',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Vous n'avez pas le droit de supprimer cette prestation",
+            ], 403);
         }
-
-        $devPrestation->delete();
-
-        return response()->json([
-            'message' => 'Prestation supprimée avec succès',
-        ], 200);
     }
 }
