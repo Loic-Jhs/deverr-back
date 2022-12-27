@@ -38,7 +38,8 @@ class DeveloperProfileResource extends JsonResource
                 ->map(function ($prestation) {
                     return [
                         'id' => $prestation->id,
-                        'prestation_type_id' => $prestation->prestationType->name,
+                        'prestation_type_id' => $prestation->prestation_type_id,
+                        'prestation_type_name' => $prestation->prestationType->name,
                         'description' => $prestation->description,
                         'price' => $prestation->price,
                     ];
