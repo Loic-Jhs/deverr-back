@@ -23,16 +23,15 @@ use Illuminate\Support\Facades\Hash;
 class ProfileController extends Controller
 {
     /**
-     * @param $id
      * @return JsonResponse
      */
     public function index(): JsonResponse
     {
         $user = Auth::user();
 
-        if ($user->user_role == '1') {
+        if ($user->role == '1') {
             return response()->json(DeveloperProfileResource::make($user), 200);
-        } elseif($user->user_role == '0') {
+        } elseif($user->role == '0') {
             return response()->json(UserProfileResource::make($user), 200);
         } else {
             return response()->json(['message' => 'Utilisateur introuvable'], 404);
@@ -56,11 +55,9 @@ class ProfileController extends Controller
         $user->update($request->only('firstname', 'lastname', 'email'));
 
         // update the developer if he is one
-        if ($developer) {
-            $developer->update($request->only('description', 'years_of_experience', 'avatar'));
-        }
+        $developer?->update($request->only('description', 'years_of_experience', 'avatar'));
 
-        // if the developer changed his email, update email_verified_at to null
+        // if the user changed his email, update email_verified_at to null
         if ($oldEmail !== $request->input('email') && $request->input('email') !== null) {
             $user->update([
                 'email_verified_at' => null,
