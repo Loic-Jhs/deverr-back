@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
+            $table->foreignId('order_id')->constrained();
             $table->boolean('is_user_complaining')->comment('0: developer, 1: user');
             $table->string('complaint', 1000);
             $table->boolean('status')->comment('0 : En cours | 1 : Résolue');

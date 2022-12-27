@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('developer_id')->nullable();
-            $table->unsignedBigInteger('developer_prestation_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('developer_id')->constrained();
+            $table->foreignId('developer_prestation_id')->constrained();
             $table->string('instructions', 1500)->nullable();
             $table->boolean('is_payed')->default(0);
             $table->string('stripe_session_id')->nullable();

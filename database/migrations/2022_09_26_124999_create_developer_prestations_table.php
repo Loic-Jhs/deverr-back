@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('developer_prestations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('developer_id');
-            $table->unsignedBigInteger('prestation_type_id');
+            $table->foreignId('developer_id')->constrained();
+            $table->foreignId('prestation_type_id')->constrained();
             $table->string('description', 255);
             $table->double('price', 10, 2);
             $table->timestamps();
