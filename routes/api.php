@@ -107,9 +107,6 @@ Route::middleware('jsonOnly')->group(function () {
         // list of all developers
         Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevelopers']);
 
-        // profile
-        Route::get('/profile/{id}', [ProfileController::class, 'index']);
-
         // get developer details as a user
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
 

@@ -17,6 +17,7 @@ use App\Models\DeveloperStack;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -25,20 +26,16 @@ class ProfileController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function index($id = null): JsonResponse
+    public function index(): JsonResponse
     {
-        $user = $id ? User::query()->find($id) : auth()->user();
+        $user = Auth::user();
 
-        if (! $user) {
-            return response()->json([
-                'message' => 'Utilisateur introuvable',
-            ], 404);
-        }
-
-        if ($user->role == '1') {
+        if ($user->user_role == '1') {
             return response()->json(DeveloperProfileResource::make($user), 200);
-        } else {
+        } elseif($user->user_role == '0') {
             return response()->json(UserProfileResource::make($user), 200);
+        } else {
+            return response()->json(['message' => 'Utilisateur introuvable'], 404);
         }
     }
 
