@@ -34,7 +34,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('user_id')->sortable()->label('id Utilisateur'),
                 Tables\Columns\TextColumn::make('developer_id')->sortable()->label('id Développeur'),
                 Tables\Columns\TextColumn::make('developer_prestation_id')->sortable()->label('id presta dev'),
-                Tables\Columns\TextColumn::make('is_payed')->sortable()->label('Payé ?'),
+                Tables\Columns\TextColumn::make('is_paid')->sortable()->label('Payé ?'),
                 Tables\Columns\TextColumn::make('is_accepted_by_developer')->sortable()->label('Accepté par le développeur ?'),
                 Tables\Columns\TextColumn::make('reference')->sortable(),
             ])

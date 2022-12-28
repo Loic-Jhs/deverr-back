@@ -39,7 +39,7 @@ class PaymentController extends Controller
     public function success($stripeSessionId, $developerPrestationId): JsonResponse
     {
         Order::where('developer_prestation_id', $developerPrestationId)->update([
-            'is_payed' => true,
+            'is_paid' => true,
             'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
             'stripe_session_id' => $stripeSessionId,
         ]);
@@ -60,7 +60,7 @@ class PaymentController extends Controller
     public function canceled($stripeSessionId, $developerPrestationId): JsonResponse
     {
         Order::where('developer_prestation_id', $developerPrestationId)->update([
-            'is_payed' => false,
+            'is_paid' => false,
             'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
             'stripe_session_id' => $stripeSessionId,
         ]);

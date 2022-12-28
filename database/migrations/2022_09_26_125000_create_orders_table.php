@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('developer_id')->constrained();
             $table->foreignId('developer_prestation_id')->constrained();
             $table->string('instructions', 1500)->nullable();
-            $table->boolean('is_payed')->default(0);
+            $table->boolean('is_paid')->default(0);
             $table->string('stripe_session_id')->nullable();
             $table->string('reference')->nullable();
             $table->timestamps();

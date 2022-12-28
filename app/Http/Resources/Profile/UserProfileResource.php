@@ -27,7 +27,7 @@ class UserProfileResource extends JsonResource
                     'updated_at' => date_format($order->updated_at, 'd/m/Y'),
                     'developer' => $order->developer->user->lastname.' '.$order->developer->user->firstname,
                     'is_finished' => $order->is_finished,
-                    'is_payed' => $order->is_payed,
+                    'is_paid' => $order->is_paid,
                     'is_accepted_by_developer' => $order->is_accepted_by_developer,
                     'prestation_name' => $order->developerPrestation->prestationType->name,
                     'price' => $order->developerPrestation->price,

@@ -65,7 +65,7 @@ class Order {
   user_id: bigIntUnsigned
   developer_id: bigIntUnsigned
   developer_prestation_id: bigIntUnsigned
-  is_payed: tinyInt
+  is_paid: tinyInt
   is_accepted_by_developer: tinyInt
   stripe_session_id: varchar
   reference: varchar

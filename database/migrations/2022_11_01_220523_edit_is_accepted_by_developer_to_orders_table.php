@@ -17,7 +17,7 @@ return new class extends Migration
             $table->dropColumn('is_accepted_by_developer');
         });
         Schema::table('orders', function (Blueprint $table) {
-            $table->boolean('is_accepted_by_developer')->default(null)->after('is_payed')->nullable();
+            $table->boolean('is_accepted_by_developer')->default(null)->after('is_paid')->nullable();
         });
     }
 
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->dropColumn('is_accepted_by_developer');
         });
         Schema::table('orders', function (Blueprint $table) {
-            $table->boolean('is_accepted_by_developer')->default(null)->after('is_payed');
+            $table->boolean('is_accepted_by_developer')->default(null)->after('is_paid');
         });
     }
 };

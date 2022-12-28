@@ -19,7 +19,7 @@ class OrdersResource extends JsonResource
             'user_fullname' => $this->user->lastname.' '.$this->user->firstname,
             'created_at' => $this->created_at,
             'instructions' => $this->instructions,
-            'is_payed' => $this->is_payed,
+            'is_paid' => $this->is_paid,
             'is_accepted_by_developer' => $this->is_accepted_by_developer,
             'is_finished' => $this->is_finished,
             'price' => $this->developerPrestation->price,

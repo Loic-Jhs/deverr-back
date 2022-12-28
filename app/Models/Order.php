@@ -23,7 +23,7 @@ class Order extends Model
         'instructions',
         'is_finished',
         'is_accepted_by_developer',
-        'is_payed',
+        'is_paid',
         'stripe_session_id',
         'reference',
         'created_at',
