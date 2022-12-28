@@ -61,7 +61,6 @@ Route::middleware('jsonOnly')->group(function () {
             // Stacks management on profile
             Route::group(['prefix' => 'stacks'], function () {
                 Route::post('/store', [ProfileController::class, 'addStack']);
-                //TODO : add edit stack
                 Route::put('/edit-experience/{stack_id}', [ProfileController::class, 'editStackExperience']);
                 Route::put('/edit-primary/{stack_id}', [ProfileController::class, 'editPrimaryStack']);
                 Route::delete('/delete/{stack_id}', [ProfileController::class, 'deleteStack']);

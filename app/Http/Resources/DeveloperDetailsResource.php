@@ -26,6 +26,8 @@ class DeveloperDetailsResource extends JsonResource
                 return [
                     'id' => $stack->id,
                     'name' => $stack->name,
+                    'stack_experience' => $stack->pivot->stack_experience,
+                    'is_primary' => $stack->pivot->is_primary,
                     'logo' => $stack->logo,
                 ];
             }) : null,
