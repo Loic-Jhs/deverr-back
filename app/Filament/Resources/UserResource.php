@@ -65,10 +65,10 @@ class UserResource extends Resource
         ];
     }
 
-    public static function getWidgets(): array
-    {
-        return [
-            StatsOverview::class,
-        ];
-    }
+    //public static function getWidgets(): array
+    //{
+    //    return [
+    //        StatsOverview::class,
+    //    ];
+    //}
 }
