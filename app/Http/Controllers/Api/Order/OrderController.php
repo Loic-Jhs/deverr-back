@@ -58,7 +58,7 @@ class OrderController extends Controller
      * @param  Request  $request
      * @return JsonResponse|RedirectResponse
      */
-    public function prestationAccepted(Request $request): jsonResponse | RedirectResponse
+    public function prestationAccepted(Request $request): jsonResponse|RedirectResponse
     {
         Order::find($request->order_id)->update([
             'is_accepted_by_developer' => true,
@@ -87,7 +87,7 @@ class OrderController extends Controller
      * @param  Request  $request
      * @return JsonResponse|RedirectResponse
      */
-    public function prestationRejected(Request $request): JsonResponse | RedirectResponse
+    public function prestationRejected(Request $request): JsonResponse|RedirectResponse
     {
         Order::find($request->order_id)->update([
             'is_accepted_by_developer' => false,

@@ -18,8 +18,7 @@ class RandomDevsController extends Controller
         // qui ont des reviews >= 3 OU qui n'ont pas de reviews mais pas de plaintes,
         // qui ont forcément au moins une techno de renseignée.
 
-        $randomDevelopers = Developer::
-            with('reviews', 'user')
+        $randomDevelopers = Developer::with('reviews', 'user')
             ->withWhereHas('primaryStack')
             ->where(function ($query) {
                 $query->whereHas('reviews', function ($query) {

@@ -28,6 +28,7 @@ class UsersChart extends LineChartWidget
             )
             ->perMonth()
             ->count();
+
         return [
             'datasets' => [
                 [

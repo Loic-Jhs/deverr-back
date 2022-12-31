@@ -24,12 +24,12 @@ class DeveloperPrestationController extends Controller
         ]);
 
         return response()->json([
-            'message' => "Prestation enregistrée",
+            'message' => 'Prestation enregistrée',
         ], 201);
     }
 
     /**
-     * @param UpdatePrestationRequest $request
+     * @param  UpdatePrestationRequest  $request
      * @param $id
      * @return JsonResponse
      */
@@ -44,7 +44,7 @@ class DeveloperPrestationController extends Controller
             ]);
 
             return response()->json([
-                'message' => "Prestation modifiée",
+                'message' => 'Prestation modifiée',
             ], 200);
         } else {
             return response()->json([
@@ -52,6 +52,7 @@ class DeveloperPrestationController extends Controller
             ], 403);
         }
     }
+
     /**
      * @param $id
      * @return JsonResponse
@@ -63,6 +64,7 @@ class DeveloperPrestationController extends Controller
 
         if ($devPrestation->developer_id === auth()->user()->developer->id) {
             $devPrestation->delete();
+
             return response()->json([
                 'message' => 'Prestation supprimée avec succès',
             ], 200);

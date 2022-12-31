@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\PrestationController;
-use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevelopersController;
@@ -29,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('jsonOnly')->group(function () {
     // CONNECTED AND EMAIL VERIFIED
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-
         Route::get('/logout', [AuthController::class, 'logout']);
 
         // Profile Routes
@@ -68,7 +65,6 @@ Route::middleware('jsonOnly')->group(function () {
 
     // NOT CONNECTED
     Route::middleware(['guest'])->group(function () {
-
         // Authentication Routes + password reset
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
@@ -106,6 +102,5 @@ Route::middleware('jsonOnly')->group(function () {
         Route::get('/payment-success/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'success']);
         // Payment canceled
         Route::get('/payment-canceled/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
-
     });
 });

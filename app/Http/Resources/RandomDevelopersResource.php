@@ -2,10 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use JsonSerializable;
 
 class RandomDevelopersResource extends JsonResource
 {
@@ -27,7 +25,7 @@ class RandomDevelopersResource extends JsonResource
             'stack' => [
                 'name' => $this->primaryStack->first()->name,
                 'logo' => $this->primaryStack->first()->logo,
-            ]
+            ],
         ];
     }
 }

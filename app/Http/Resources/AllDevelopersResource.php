@@ -23,7 +23,7 @@ class AllDevelopersResource extends JsonResource
             'description' => $this->description,
             'average_rating' => $this->reviews->count() > 0 ? number_format($this->reviews->avg('rating'), 1) : null,
             'reviews_number' => $this->reviews->count(),
-            'stacks' =>  $this->stacks->map(function ($stack) {
+            'stacks' => $this->stacks->map(function ($stack) {
                 return [
                     'id' => $stack->id,
                     'name' => $stack->name,

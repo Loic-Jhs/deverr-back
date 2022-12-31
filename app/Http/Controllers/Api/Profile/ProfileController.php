@@ -17,7 +17,6 @@ use App\Models\DeveloperStack;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -32,7 +31,7 @@ class ProfileController extends Controller
 
         if ($user->role == '1') {
             return response()->json(DeveloperProfileResource::make($user), 200);
-        } elseif($user->role == '0') {
+        } elseif ($user->role == '0') {
             return response()->json(UserProfileResource::make($user), 200);
         } else {
             return response()->json(['message' => 'Utilisateur introuvable'], 404);
@@ -100,16 +99,14 @@ class ProfileController extends Controller
         $user = Auth::user();
         $isDeveloper = Developer::query()->where('user_id', $user->id)->first();
 
-
         $developerHasActiveOrder = Order::query()
             ->where('developer_id', $isDeveloper->id)
             ->where('is_finished', false)
             ->first();
 
-        if ($developerHasActiveOrder)
-        {
+        if ($developerHasActiveOrder) {
             return response()->json([
-                'message' => 'Vous ne pouvez pas supprimer votre compte lorsque vous avez une commande en cours !'
+                'message' => 'Vous ne pouvez pas supprimer votre compte lorsque vous avez une commande en cours !',
             ]);
         }
 
@@ -117,7 +114,7 @@ class ProfileController extends Controller
 
         if ($developerHAsNotBeenPaid) {
             return response()->json([
-                'message' => 'Vous ne pouvez pas supprimer votre compte, un client ne vous a pas encore payé !'
+                'message' => 'Vous ne pouvez pas supprimer votre compte, un client ne vous a pas encore payé !',
             ]);
         }
 
@@ -142,6 +139,7 @@ class ProfileController extends Controller
 
     /**
      * Add a new stack to the developer
+     *
      * @param  AddStackRequest  $request
      * @return JsonResponse
      */
@@ -180,7 +178,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @param EditStackExperienceRequest $request
+     * @param  EditStackExperienceRequest  $request
      * @param $id
      * @return JsonResponse
      */
@@ -206,7 +204,6 @@ class ProfileController extends Controller
         ]);
     }
 
-
     /**
      * Update the primary stack
      *
@@ -221,7 +218,7 @@ class ProfileController extends Controller
 
         if (! $stack) {
             return response()->json([
-                'message' => "Compétence introuvable",
+                'message' => 'Compétence introuvable',
             ], 400);
         }
 
@@ -274,12 +271,12 @@ class ProfileController extends Controller
         ]);
 
         return response()->json([
-            'message' => "Prestation enregistrée",
+            'message' => 'Prestation enregistrée',
         ], 201);
     }
 
     /**
-     * @param UpdatePrestationRequest $request
+     * @param  UpdatePrestationRequest  $request
      * @param $id
      * @return JsonResponse
      */
@@ -294,7 +291,7 @@ class ProfileController extends Controller
             ]);
 
             return response()->json([
-                'message' => "Prestation modifiée",
+                'message' => 'Prestation modifiée',
             ], 200);
         } else {
             return response()->json([
@@ -302,6 +299,7 @@ class ProfileController extends Controller
             ], 403);
         }
     }
+
     /**
      * @param $id
      * @return JsonResponse
@@ -318,6 +316,7 @@ class ProfileController extends Controller
 
         if ($devPrestation->developer_id === auth()->user()->developer->id) {
             $devPrestation->delete();
+
             return response()->json([
                 'message' => 'Prestation supprimée avec succès',
             ], 200);
@@ -327,5 +326,4 @@ class ProfileController extends Controller
             ], 403);
         }
     }
-
 }

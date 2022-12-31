@@ -17,7 +17,7 @@ class AllDevelopersController extends Controller
     public function getAllDevelopers(): JsonResponse
     {
         // Récupérer tous les développeurs avec leurs plaintes, leurs technos, leurs prestations, leurs notes
-        $allDevelopers = Developer::with( 'complaints', 'reviews')
+        $allDevelopers = Developer::with('complaints', 'reviews')
             ->withWhereHas('stacks')
             ->withWhereHas('developerPrestations')
             ->withWhereHas('user', function ($query) {

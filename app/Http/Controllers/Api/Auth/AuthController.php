@@ -12,7 +12,6 @@ use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -92,7 +91,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @param ForgotPasswordRequest $request
+     * @param  ForgotPasswordRequest  $request
      * @return JsonResponse
      */
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
@@ -102,12 +101,12 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-            ? response()->json("Un email de réinitialisation de mot de passe à été envoyé.", 200)
+            ? response()->json('Un email de réinitialisation de mot de passe à été envoyé.', 200)
             : response()->json("Veuillez réessayer dans quelques instants s'il vous plaît.", 404);
     }
 
     /**
-     * @param ResetPasswordRequest $request
+     * @param  ResetPasswordRequest  $request
      * @return JsonResponse
      */
     public function resetPassword(ResetPasswordRequest $request)
@@ -116,7 +115,7 @@ class AuthController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => Hash::make($password),
                 ])->setRememberToken(Str::random(60));
                 $user->save();
                 $user->tokens()->delete();
@@ -125,9 +124,9 @@ class AuthController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return response()->json("Votre mot de passe a bien été réinitialisé.", 200);
+            return response()->json('Votre mot de passe a bien été réinitialisé.', 200);
         } else {
-            return response()->json("Une erreur est survenue, veuillez réessayer.", 404);
+            return response()->json('Une erreur est survenue, veuillez réessayer.', 404);
         }
     }
 }

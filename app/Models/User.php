@@ -82,6 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             return true;
         } else {
             Auth::logout();
+
             return false;
         }
     }
