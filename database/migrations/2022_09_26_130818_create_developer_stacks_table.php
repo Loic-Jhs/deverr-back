@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('developer_stacks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('developer_id')->constrained();
+            $table->foreignId('developer_id')->constrained()->cascadeOnDelete();
             $table->foreignId('stack_id')->constrained();
             $table->integer('stack_experience');
             $table->boolean('is_primary')->default(0);

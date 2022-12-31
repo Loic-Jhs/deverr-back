@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('from_user_id')->constrained('users', 'id');
-            $table->foreignId('to_developer_id')->constrained('developers', 'id');
+            $table->unsignedBigInteger('from_user_id')->nullable();
+            $table->unsignedBigInteger('to_developer_id')->nullable();
             $table->string('message', 1000);
             $table->timestamps();
+
+            $table->foreign('from_user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('to_developer_id')->references('id')->on('developers')->onDelete('set null');
         });
     }
 

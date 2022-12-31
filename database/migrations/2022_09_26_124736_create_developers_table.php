@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('developers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('description', 500)->nullable();
             $table->string('avatar')->default(asset('/images/defaultProfile.png'));
             $table->integer('years_of_experience');

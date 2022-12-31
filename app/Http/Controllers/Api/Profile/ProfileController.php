@@ -14,6 +14,7 @@ use App\Http\Resources\Profile\UserProfileResource;
 use App\Models\Developer;
 use App\Models\DeveloperPrestation;
 use App\Models\DeveloperStack;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -96,7 +97,41 @@ class ProfileController extends Controller
      */
     public function delete(): JsonResponse
     {
-        $user = auth()->user();
+        $user = Auth::user();
+        $isDeveloper = Developer::query()->where('user_id', $user->id)->first();
+
+
+        $developerHasActiveOrder = Order::query()
+            ->where('developer_id', $isDeveloper->id)
+            ->where('is_finished', false)
+            ->first();
+
+        if ($developerHasActiveOrder)
+        {
+            return response()->json([
+                'message' => 'Vous ne pouvez pas supprimer votre compte lorsque vous avez une commande en cours !'
+            ]);
+        }
+
+        $developerHAsNotBeenPaid = Order::query()->where('is_paid', false)->first();
+
+        if ($developerHAsNotBeenPaid) {
+            return response()->json([
+                'message' => 'Vous ne pouvez pas supprimer votre compte, un client ne vous a pas encore payé !'
+            ]);
+        }
+
+        // if the user is also a developer
+        if ($isDeveloper) {
+            // delete all his prestations
+            DeveloperPrestation::query()->where('developer_id', $user->id)->delete();
+
+            // delete all his stacks
+            DeveloperStack::query()->where('developer_id', $user->id)->delete();
+
+            // delete the developer
+            $isDeveloper->delete();
+        }
 
         $user->delete();
 

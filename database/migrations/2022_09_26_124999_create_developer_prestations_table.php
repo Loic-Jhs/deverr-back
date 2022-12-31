@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('developer_prestations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('developer_id')->constrained();
+            $table->foreignId('developer_id')->constrained()->cascadeOnDelete();
             $table->foreignId('prestation_type_id')->constrained();
             $table->string('description', 255);
             $table->double('price', 10, 2);
