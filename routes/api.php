@@ -30,25 +30,6 @@ Route::middleware('jsonOnly')->group(function () {
     // CONNECTED AND EMAIL VERIFIED
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-        // TODO : remove this and use Filament instead
-        // connected as admin
-        Route::group(['prefix' => 'admin', 'middleware' => 'can:isAdmin'], function () {
-            // list of users
-            Route::group(['prefix' => 'users'], function () {
-                Route::get('/', [UserController::class, 'users']);
-                Route::post('/store', [UserController::class, 'storeUser']);
-                Route::put('/edit', [UserController::class, 'editUser']);
-                Route::delete('/delete/{id}', [UserController::class, 'deleteUser']);
-            });
-            // Prestations CRUD
-            Route::group(['prefix' => 'prestations'], function () {
-                Route::get('/', [PrestationController::class, 'prestations']);
-                Route::post('/store', [PrestationController::class, 'storePrestation']);
-                Route::put('/edit', [PrestationController::class, 'editPrestation']);
-                Route::delete('/delete/{id}', [PrestationController::class, 'deletePrestation']);
-            });
-        });
-
         Route::get('/logout', [AuthController::class, 'logout']);
 
         // Profile Routes
