@@ -24,15 +24,15 @@ class DeveloperProfileResource extends JsonResource
             'avatar' => $this->developer->avatar,
             'description' => $this->developer->description,
             'years_of_experience' => $this->developer->years_of_experience,
-            'stacks' => $this->developer->stacks ?
-                $this->developer->stacks
-                ->map(function ($stack) {
-                    return [
-                        'id' => $stack->id,
-                        'name' => $stack->name,
-                        'logo' => $stack->logo,
-                    ];
-                }) : null,
+            'stacks' => $this->developer->stacks ? $this->developer->stacks->map(function ($stack) {
+                return [
+                    'id' => $stack->id,
+                    'name' => $stack->name,
+                    'stack_experience' => $stack->pivot->stack_experience,
+                    'is_primary' => $stack->pivot->is_primary,
+                    'logo' => $stack->logo,
+                ];
+            }) : null,
             'prestations' => $this->developer->developerPrestations ?
                 $this->developer->developerPrestations
                 ->map(function ($prestation) {
