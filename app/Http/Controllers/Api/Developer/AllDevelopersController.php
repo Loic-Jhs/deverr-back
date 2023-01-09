@@ -18,6 +18,7 @@ class AllDevelopersController extends Controller
     {
         // Récupérer tous les développeurs avec leurs plaintes, leurs technos, leurs prestations, leurs notes
         $allDevelopers = Developer::with('complaints', 'reviews')
+            ->whereNot('id', auth()->user()->id)
             ->withWhereHas('stacks')
             ->withWhereHas('developerPrestations')
             ->withWhereHas('user', function ($query) {
