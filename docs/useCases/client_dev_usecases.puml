@@ -1,15 +1,17 @@
 @startuml Client
 left to right direction
 
-:Client: as client
-:Developer: as dev
+actor client
+actor developer
 
 package Application {
-    (Ask for a new mission) .> (Pays)
-    (Pays) .> (Receives a mail about the new mission)
-    (Ask for a new mission) <-- client
-    (Receives a mail about the new mission) --> dev
-    (Pays) .> (Receives a mail to confirm the payment)
-    (Receives a mail to confirm the payment) --> client
+    client --> (asks a new mission)
+    (asks a new mission) -> (sends mail to refuse/accept the mission)
+    (sends mail to refuse/accept the mission) ...> developer : Can refuse/accept the new mission
+    (accepts new mission) <- developer
+    (denies new mission) <- developer
+    (accepts new mission) .> (finished the mission)
+    (finished the mission) -> (sends mail to the user that the mission is finished)
+    (sends mail to the user that the mission is finished) ...> client
 }
 @enduml

@@ -15,13 +15,13 @@ end box
 U -> A : clicks on the view
 activate A
 
-A -> B : Fetch all devs
+A -> B : Fetch all developers
 activate B
 
-B -> C : Request all devs
+B -> C : Request all developers
 activate C
 
-C  --> B : Return all devs
+C  --> B : Returns all developers
 deactivate C
 
 B --> A : Request returned

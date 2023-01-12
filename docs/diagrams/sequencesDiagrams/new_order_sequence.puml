@@ -1,8 +1,8 @@
 @startuml
 autonumber
 
-actor Customer as U
-actor Dev as V
+actor Client as U
+actor Developer as V
 box "Front-end"
 participant View as A
 end box
@@ -14,21 +14,21 @@ participant DB as C
 end box
 
 activate A
-U -> A : Clicks on a dev profile
-A -> B : requests the dev information
+U -> A : Clicks on a developer profile
+A -> B : requests the developer information
 activate B
-B --> A : Returns the dev information
+B --> A : Returns the developer information
 deactivate B
-A --> U : Returns the dev information to the view
+A --> U : Returns the developer information to the view
 U -> A : Clicks to ask for a prestation
 A --> U : Returns a modal
-U -> A : Sends the message to the dev
+U -> A : Sends the message to the developer
 A -> B : Creates a new prestation
 activate B
 B -> C : Stores in the database
 B --> A : API returns the message to the view
 deactivate B
-B -> D : gives the email of the dev
+B -> D : sends the email of the developer
 activate D
 A --> U : "New prestation sent !"
 D --> V : "New prestation from DEVERR !"

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Profile\Developer;
 
+
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class AddStackRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class AddStackRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('isDeveloper');
     }
 
     /**
