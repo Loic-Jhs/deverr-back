@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Developer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AllDevelopersResource;
+use App\Http\Resources\AllDevelopersResourceCollection;
 use App\Models\Developer;
 use Illuminate\Http\JsonResponse;
 
@@ -12,23 +13,22 @@ class AllDevelopersController extends Controller
     /**
      * Get all developers
      *
-     * @return JsonResponse
+     * @return AllDevelopersResourceCollection
      */
-    public function getAllDevelopers(): JsonResponse
+    public function getAllDevelopers(): AllDevelopersResourceCollection
     {
         // Récupérer tous les développeurs avec leurs plaintes, leurs technos, leurs prestations, leurs notes
-        $allDevelopers = Developer::with('complaints', 'reviews')
+        $allDevelopers = Developer::query()->with('complaints', 'reviews')
             ->withWhereHas('stacks')
             ->withWhereHas('developerPrestations')
             ->withWhereHas('user', function ($query) {
                 return $query->where('email_verified_at', '!=', null);
             })
-            ->get();
+            ->paginate(10);
 
-        return response()->json(
-            // On retourne les développeurs sous forme de ressources,
-            // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
-            AllDevelopersResource::collection($allDevelopers),
-            200);
+        // On retourne les développeurs sous forme de ressources,
+        // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
+        // (cette ressource est une collection pour pouvoir paginer les données, les autres ressources sont différentes)
+        return new AllDevelopersResourceCollection($allDevelopers);
     }
 }
