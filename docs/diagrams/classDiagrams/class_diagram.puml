@@ -46,8 +46,8 @@ class DeveloperStack {
   id: bigIntUnsigned
   developer_id: bigIntUnsigned
   stack_id: bigIntUnsigned
-  stack_experience: int
   is_primary: tinyInt
+  stack_experience: int
   created_at: timestamp
   updated_at: timestamp
 }
@@ -87,6 +87,7 @@ class Message {
   id: bigIntUnsigned
   from_used_id: bigIntUnsigned
   to_user_id: bigIntUnsigned
+  message: varchar
   created_at: timestamp
   updated_at: timestamp
 }

@@ -10,7 +10,7 @@ package users {
 package Application {
     users --> (Sends a message to ask for help)
     (Sends a message to ask for help) --> admin
-    admin .> (Sends a message to the person in the error)
-    (Sends a message to the person in the error) --> users
+    admin .> (Sends a message to the person at fault)
+    (Sends a message to the person at fault) --> users
 }
 @enduml

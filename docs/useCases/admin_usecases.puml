@@ -1,17 +1,22 @@
 @startuml Client
 left to right direction
 
-:Admin: as admin
+:Administrator: as admin
 
 package Application {
-    usecase "Connection" as connection
-    usecase "Add a new admin" as add_admin
-    usecase "Moderation" as moderation
-    usecase "Handle a dispute between if a developer or a client has a problem" as handle_dispute
+    usecase auth as "Authentification"
+    usecase moderation
+    usecase handleDispute as "Handle disputes"
+    usecase backOffice as "Back-Office
+    --
+    Stacks
+    Orders
+    Users
+    Prestation types"
 }
 
-admin --> connection
+admin --> auth
 admin --> moderation
-admin --> handle_dispute
-admin --> add_admin
+admin --> handleDispute
+admin --> backOffice
 @enduml
