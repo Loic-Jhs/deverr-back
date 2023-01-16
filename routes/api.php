@@ -79,7 +79,7 @@ Route::middleware('jsonOnly')->group(function () {
         // Resend email verification
         Route::post('/new-email-verification', [VerifyEmailController::class, 'resendEmailVerification'])->name('verification.send');
         Route::get('/random-users', [RandomDevsController::class, 'getSixRandomUsers']);
-        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
+
         Route::get('/profile/{id}', [ProfileController::class, 'index']);
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
 
@@ -94,4 +94,6 @@ Route::middleware('jsonOnly')->group(function () {
         // Payment canceled
         Route::get('/payment-canceled/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
     });
+
+    Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
 });
