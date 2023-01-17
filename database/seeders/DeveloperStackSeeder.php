@@ -16,7 +16,7 @@ class DeveloperStackSeeder extends Seeder
      */
     public function run()
     {
-        // developer_id: de 1 à 8
+        // developer_id: de 1 à 10
         // stack_id: de 1 à 11
 
         DB::table('developer_stacks')->insert([
@@ -193,6 +193,46 @@ class DeveloperStackSeeder extends Seeder
                 'stack_id' => 2,
                 'stack_experience' => 15,
                 'is_primary' => 1,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id' => 9,
+                'stack_id' => 7,
+                'stack_experience' => 12,
+                'is_primary' => 1,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id' => 9,
+                'stack_id' => 2,
+                'stack_experience' => 2,
+                'is_primary' => 0,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id' => 9,
+                'stack_id' => 4,
+                'stack_experience' => 4,
+                'is_primary' => 0,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id' => 10,
+                'stack_id' => 5,
+                'stack_experience' => 9,
+                'is_primary' => 1,
+                'created_at' => '2022-09-25 10:50:12',
+                'updated_at' => '2022-09-26 15:25:52',
+            ],
+            [
+                'developer_id' => 10,
+                'stack_id' => 7,
+                'stack_experience' => 4,
+                'is_primary' => 0,
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],

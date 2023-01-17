@@ -34,7 +34,7 @@ class VerifyEmailController extends Controller
             event(new Verified($user));
         }
 
-        return view('verified-account', compact('user'));
+        return view('mails/verified-email/verified-account', compact('user'));
     }
 
     /**
@@ -44,7 +44,7 @@ class VerifyEmailController extends Controller
     public function resendEmailVerification(ResendEmailVerificationRequest $request): JsonResponse
     {
         // get the user by email
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->input('email'))->first();
 
         // resend the verification email
         $user->sendEmailVerificationNotification();

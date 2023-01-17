@@ -21,7 +21,9 @@ class Order extends Model
         'developer_id',
         'developer_prestation_id',
         'instructions',
-        'is_payed',
+        'is_finished',
+        'is_accepted_by_developer',
+        'is_paid',
         'stripe_session_id',
         'reference',
         'created_at',
@@ -52,5 +54,4 @@ class Order extends Model
     {
         return $this->hasOne(Complaint::class);
     }
-
 }

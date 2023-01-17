@@ -17,6 +17,12 @@ jobs:
       DB_DATABASE: ${{secrets.DB_DATABASE}}
       DB_USERNAME: ${{secrets.DB_USERNAME}}
       DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      MAIL_MAILER: smtp
+      MAIL_HOST: smtp.mailtrap.io
+      MAIL_PORT: 2525
+      MAIL_USERNAME: 3829308a8128d8
+      MAIL_PASSWORD: 7b65ca0d7370c3
+      MAIL_ENCRYPTION: tls
 
     services:
       mariadb:

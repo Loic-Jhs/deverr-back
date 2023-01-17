@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\PrestationType;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,14 +14,11 @@ class ComplaintSeeder extends Seeder
      */
     public function run()
     {
-        // user_id: de 16 à 25
-        // order_id: de 1 à 5
-
         DB::table('complaints')->insert([
             [
                 'order_id' => 1,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => "C'est grave non ?",
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
@@ -31,7 +26,7 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 2,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => "T'es certain d'être développeur ?",
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
@@ -39,7 +34,7 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 3,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => 'Le site ne fonctionne plus, et impossible de joindre le développeur',
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
@@ -47,7 +42,7 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 4,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => "Une catastrophe, le site n'est pas terminée et je rencontre divers problèmes",
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
@@ -55,11 +50,11 @@ class ComplaintSeeder extends Seeder
             [
                 'order_id' => 5,
                 'is_user_complaining' => rand(0, 1),
-                'complaint' => fake()->realTextBetween(15, 100),
+                'complaint' => "Je n'ai pas reçu de paiement pour ma prestation",
                 'status' => rand(0, 1),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
-            ]
+            ],
         ]);
     }
 }

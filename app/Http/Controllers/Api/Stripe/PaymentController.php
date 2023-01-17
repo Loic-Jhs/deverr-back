@@ -10,26 +10,25 @@ use Illuminate\Http\JsonResponse;
 
 class PaymentController extends Controller
 {
-
     /**
      * @param $id
-     * @return JsonResponse
+     * @return View
      */
-    public function recapDeveloperPrestation($id): JsonResponse
+    public function recapDeveloperPrestation($id): View
     {
         $developerPrestation = DeveloperPrestation::where('id', $id)->first();
-        $devFullName = $developerPrestation->developer->user->firstname . ' ' . $developerPrestation->developer->user->lastname;
+        //$devFullName = $developerPrestation->developer->user->firstname . ' ' . $developerPrestation->developer->user->lastname;
 
-        return new JsonResponse([
+        /*return new JsonResponse([
             'developerPrestationId'    => $developerPrestation->id,
             'developerPrestationName'  => $developerPrestation->prestationType->name,
             'developerFullName'        => $devFullName,
             'developerPrestationPrice' => $developerPrestation->price,
-        ]);
-
-        /*return view('recap', [
-            'developerPrestation' => $developerPrestation,
         ]);*/
+
+        return view('recap', [
+            'developerPrestation' => $developerPrestation,
+        ]);
     }
 
     /**
@@ -40,16 +39,16 @@ class PaymentController extends Controller
     public function success($stripeSessionId, $developerPrestationId): JsonResponse
     {
         Order::where('developer_prestation_id', $developerPrestationId)->update([
-            'is_payed' => true,
-            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d') . '-' . uniqid()),
-            'stripe_session_id' => $stripeSessionId
+            'is_paid' => true,
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
+            'stripe_session_id' => $stripeSessionId,
         ]);
 
         $orderStripeSessionId = Order::where('stripe_session_id', $stripeSessionId)->first();
 
         return new JsonResponse([
-            'message' => 'Payment Success',
-            'order'   => $orderStripeSessionId,
+            'message' => 'Paiement accepté',
+            'order' => $orderStripeSessionId,
         ]);
     }
 
@@ -61,16 +60,16 @@ class PaymentController extends Controller
     public function canceled($stripeSessionId, $developerPrestationId): JsonResponse
     {
         Order::where('developer_prestation_id', $developerPrestationId)->update([
-            'is_payed' => true,
-            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d') . '-' . uniqid()),
-            'stripe_session_id' => $stripeSessionId
+            'is_paid' => false,
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
+            'stripe_session_id' => $stripeSessionId,
         ]);
 
         $orderStripeSessionId = Order::where('stripe_session_id', $stripeSessionId)->first();
 
         return new JsonResponse([
-            'message' => 'Payment canceled',
-            'order'   => $orderStripeSessionId,
+            'message' => 'Échec du paiement',
+            'order' => $orderStripeSessionId,
         ]);
     }
 }

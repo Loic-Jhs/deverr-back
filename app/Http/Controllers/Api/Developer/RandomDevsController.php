@@ -12,21 +12,27 @@ class RandomDevsController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getSixRandomUsers(): JsonResponse
+    public function getSixRandomDevelopers(): JsonResponse
     {
-        // 6 développeurs random, qui ont des reviews >= 3 ou qui n'ont pas de reviews mais pas de plaintes
-        $randomDevelopers = Developer::with('user', 'developerStacks', 'complaints', 'reviews')
-            ->whereHas('stacks')
-            ->whereHas('reviews', function ($query) {
-                $query->where('rating', '>=', 3);
+        // 6 développeurs random,
+        // qui ont des reviews >= 3 OU qui n'ont pas de reviews mais pas de plaintes,
+        // qui ont forcément au moins une techno de renseignée.
+
+        $randomDevelopers = Developer::with('reviews', 'user')
+            ->withWhereHas('primaryStack')
+            ->where(function ($query) {
+                $query->whereHas('reviews', function ($query) {
+                    $query->where('rating', '>=', 3);
+                })
+                ->orWhereDoesntHave('reviews')
+                ->whereDoesntHave('complaints');
             })
-            ->orWhereDoesntHave('complaints')
-            ->inRandomOrder()
             ->take(6)
+            ->inRandomOrder()
             ->get();
 
         // On retourne les développeurs sous forme de ressources,
         // pour pouvoir retourner les données exactement comme on le souhaite dans l'API.
-        return response()->json(RandomDevelopersResource::collection($randomDevelopers),200);
+        return response()->json(RandomDevelopersResource::collection($randomDevelopers), 200);
     }
 }

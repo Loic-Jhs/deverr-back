@@ -3,8 +3,6 @@
 namespace App\Http\Requests\BackOffice\Stack;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rules\File;
 
 class UpdateStackRequest extends FormRequest
 {
@@ -15,7 +13,7 @@ class UpdateStackRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('isAdmin');
+        return true;
     }
 
     /**
@@ -27,9 +25,7 @@ class UpdateStackRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'logo' => [
-                File::types(['png', 'jpg', 'svg']),
-            ],
+            'logo' => 'string',
         ];
     }
 

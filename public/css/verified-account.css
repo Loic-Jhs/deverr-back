@@ -1,0 +1,121 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background: white;
+    box-sizing: border-box;
+}
+
+#content {
+    font: 20px Nunito, sans-serif;
+    color: #00a92a;
+    background: #FFF;
+    width: 95%;
+    max-width: 600px;
+    margin: 100px auto;
+    text-align: center;
+    padding: 40px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#logo {
+    width: 100px;
+    border-radius: 50%;
+}
+
+h1 {
+    margin: 30px 0 0;
+}
+
+h2 {
+    line-height: 2em;
+}
+
+#button {
+    text-decoration: none;
+    color: #FFF;
+    font: 1.2rem Nunito, sans-serif;
+    background: #1D9BF0;
+    padding: 20px;
+    border-radius: 5px;
+    transition: .5s, color .10s;
+    -webkit-transition: .5s, color .10s;
+    -moz-transition: .5s, color .10s;
+}
+
+#button:hover {
+    cursor: pointer;
+    background: #005FEE;
+    box-shadow: 0 8px 8px 0 #000000,0 4px 4px 0 #000000;
+    transform: translate(0px,3px);
+    -webkit-transform: translate(0px,3px);
+    -moz-transform:translate(0px,3px);
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.btn {
+    position: relative;
+
+    display: block;
+    margin: 30px auto;
+    padding: 0;
+
+    overflow: hidden;
+
+    border-width: 0;
+    outline: none;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+
+    background-color: #17819B;
+    color: #ecf0f1;
+
+    transition: background-color .3s;
+}
+
+.btn:hover, .btn:focus {
+    background-color: #17819B;
+}
+
+.btn > * {
+    position: relative;
+}
+
+.btn span {
+    display: block;
+    padding: 12px 24px;
+}
+
+.btn:before {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: block;
+    width: 0;
+    padding-top: 0;
+
+    border-radius: 100%;
+
+    background-color: rgba(57, 175, 205, .3);
+
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.btn:active:before {
+    width: 120%;
+    padding-top: 120%;
+
+    transition: width .2s ease-out, padding-top .2s ease-out;
+}

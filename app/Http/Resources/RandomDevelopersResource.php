@@ -2,11 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Review;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use JsonSerializable;
 
 class RandomDevelopersResource extends JsonResource
 {
@@ -15,9 +12,9 @@ class RandomDevelopersResource extends JsonResource
      *
      *
      * @param  Request  $request
-     * @return array|Arrayable|JsonSerializable
+     * @return array
      */
-    public function toArray($request): array|JsonSerializable|Arrayable
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -25,7 +22,10 @@ class RandomDevelopersResource extends JsonResource
             'lastname' => $this->user->lastname,
             'avatar' => $this->avatar,
             'average_rating' => $this->reviews->avg('rating'),
-            'stack' => $this->developerStacks->first() ? $this->developerStacks->firstWhere('is_primary', 1)->stack->name : null,
+            'stack' => [
+                'name' => $this->primaryStack->first()->name,
+                'logo' => $this->primaryStack->first()->logo,
+            ],
         ];
     }
 }

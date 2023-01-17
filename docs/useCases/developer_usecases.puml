@@ -4,21 +4,26 @@ left to right direction
 :Developer: as dev
 
 package Application {
-    usecase "Inscription" as inscription
-    usecase "Connection" as connection
-    usecase "Acception new mission" as accept_mission
-    usecase "Add type of developer" as add_type_of_developer
-    usecase "Add number of years as a developer" as add_number_of_years
-    usecase see_profile as  "see his profile
-    usecase "Send message to admin" as send_message_to_admin
+    usecase modify as "Modify his profile
     --
-    modify his profile"
+    Add a new prestation
+    Modify a prestation
+    Delete a prestation
+    Add a new stack
+    Delete a stack
+    Modify his description"
+
+
+    usecase missions as "
+    Missions
+    --
+    See new missions
+    See missions in progress
+    See finished missions
+    Set a mission to ''finished''
+    "
+
+    dev -> modify
+    dev --> missions
 }
-dev --> connection
-dev --> inscription
-dev --> accept_mission
-dev --> add_type_of_developer
-dev -> add_number_of_years
-dev -> see_profile
-dev --> send_message_to_admin
 @enduml

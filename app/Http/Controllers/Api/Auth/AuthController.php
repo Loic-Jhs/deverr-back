@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRegister\ForgotPasswordRequest;
 use App\Http\Requests\LoginRegister\LoginUserRequest;
+use App\Http\Requests\LoginRegister\ResetPasswordRequest;
 use App\Http\Requests\LoginRegister\StoreNewUserRequest;
 use App\Models\Developer;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -21,21 +26,27 @@ class AuthController extends Controller
      */
     public function register(StoreNewUserRequest $request): JsonResponse
     {
+        if ($request->has('years_of_experience') && $request->has('description')) {
+            $user = User::create([
+                'firstname' => $request->input('firstname'),
+                'lastname' => $request->input('lastname'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+                'role' => '1',
+            ]);
 
-        $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => "0",
-        ]);
-
-        if ($request->has('years_of_experience') && $request->has('description'))
-        {
             Developer::create([
                 'user_id' => $user->id,
-                'years_of_experience' => $request->years_of_experience,
-                'description' => $request->description,
+                'years_of_experience' => $request->input('years_of_experience'),
+                'description' => $request->input('description'),
+            ]);
+        } else {
+            $user = User::create([
+                'firstname' => $request->input('firstname'),
+                'lastname' => $request->input('lastname'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+                'role' => '0',
             ]);
         }
 
@@ -58,13 +69,19 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = User::where('email', $request->input('email'))->firstOrFail();
 
         $token = explode('|', $user->createToken('auth_token')->plainTextToken);
 
         return response()->json([
             'access_token' => $token[1],
             'token_type' => 'Bearer',
+            'user_info' => [
+                'user_id' => $user->id,
+                'developer_id' => $user->developer->id ?? null,
+                'user_role' => $user->role,
+            ],
+
         ], 200);
     }
 
@@ -79,5 +96,45 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'disconnected',
         ]);
+    }
+
+    /**
+     * @param  ForgotPasswordRequest  $request
+     * @return JsonResponse
+     */
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
+    {
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? response()->json('Un email de réinitialisation de mot de passe à été envoyé.', 200)
+            : response()->json("Veuillez réessayer dans quelques instants s'il vous plaît.", 404);
+    }
+
+    /**
+     * @param  ResetPasswordRequest  $request
+     * @return JsonResponse
+     */
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                ])->setRememberToken(Str::random(60));
+                $user->save();
+                $user->tokens()->delete();
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return response()->json('Votre mot de passe a bien été réinitialisé.', 200);
+        } else {
+            return response()->json('Une erreur est survenue, veuillez réessayer.', 404);
+        }
     }
 }

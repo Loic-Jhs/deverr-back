@@ -14,74 +14,70 @@ class StackSeeder extends Seeder
      */
     public function run()
     {
-        $logo = [
-            asset('images/stack_logo/php.png'),
-            asset('images/stack_logo/js.png'),
-        ];
         DB::table('stacks')->insert([
             [
                 'name' => 'PHP',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/PHP.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'Symfony',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/SYMFONY.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'Laravel',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/Laravel.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'React',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/logo-react.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'Angular',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/angular.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'HTML',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/html.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'CSS',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/css.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'Python',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/python.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'Flutter',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/flutter.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'JavaScript',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/js_logo.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],
             [
                 'name' => 'React Native',
-                'logo' => $logo[rand(0, 1)],
+                'logo' => asset('images/stack_logo/logo-react.svg'),
                 'created_at' => '2022-09-25 10:50:12',
                 'updated_at' => '2022-09-26 15:25:52',
             ],

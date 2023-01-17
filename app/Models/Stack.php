@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Stack extends Model
 {
@@ -22,8 +22,13 @@ class Stack extends Model
         'updated_at',
     ];
 
-    public function developerStack(): HasMany
+    public function stack(): belongsToMany
     {
-        return $this->hasMany(Stack::class);
+        return $this->belongsToMany(Developer::class)->withPivot('stack_experience', 'is_primary');
+    }
+
+    public function developers(): BelongsToMany
+    {
+        return $this->belongsToMany(Developer::class);
     }
 }

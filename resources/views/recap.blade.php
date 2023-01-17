@@ -12,7 +12,7 @@
 <div class="card" style="width: 22rem;">
     <div class="card-body">
         <h5 class="card-title">Prestation </h5>
-        <h6 class="card-subtitle mb-2 text-muted"><span style="font-size: 4rem">💶</span></h6>
+        <h6 class="card-subtitle mb-2 text-muted"><span style="font-size: 8rem">💶</span></h6>
         <p class="card-text">Prestation réalisée : {{ $developerPrestation->prestationType->name }}</p>
         <p>Nom complet du dev : {{ $developerPrestation->developer->user->firstname .' '. $developerPrestation->developer->user->lastname }}</p>
         <p>Prix de la prestation : {{ $developerPrestation->price }}€</p>
@@ -32,7 +32,8 @@
 
 
 <script type="text/javascript">
-    const stripe = Stripe("pk_test_51LvRpVGm3pNtvPq2yw4FJAidMlz7WBk3lx0fjxuc8doN0Zhk7RK9x4RHO42KVQLKoSYlJ6cbCQpBXMcd7guJ7cWt00s0z2mpMO");
+    const pk_stripe = '{{ env('PUBLIC_KEY_STRIPE') }}';
+    const stripe = Stripe(pk_stripe);
     const checkoutButton = document.getElementById("checkout-button");
     let prestationId = document.querySelector('input[name="prestation_id"]').value;
 

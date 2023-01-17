@@ -6,15 +6,17 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "ext-http": "*",
-        "filament/filament": "^2.16",
+        "filament/filament": "^2.0",
+        "flowframe/laravel-trend": "^0.1.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "livewire/livewire": "^2.10",
         "stripe/stripe-php": "^9.8"
     },
     "require-dev": {
+        "enlightn/enlightn": "^2.1",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",

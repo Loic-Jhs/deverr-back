@@ -84,9 +84,9 @@ class UserController extends Controller
             abort(404, 'Utilisateur introuvable');
         }
 
-        $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
-        $user->email = $request->email;
+        $user->firstname = $request->input('firstname');
+        $user->lastname = $request->input('lastname');
+        $user->email = $request->input('email');
 
         if ($user->role_id == 2) {
             $dev = $user->developer();

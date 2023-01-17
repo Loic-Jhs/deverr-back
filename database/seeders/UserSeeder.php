@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'firstname' => fake()->firstName(),
                 'lastname' => fake()->lastName(),
-                'role' => "2",
+                'role' => '2',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'firstname' => fake()->firstName(),
                 'lastname' => fake()->lastName(),
-                'role' => "0",
+                'role' => '0',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'firstname' => fake()->firstName(),
                 'lastname' => fake()->lastName(),
-                'role' => "1",
+                'role' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

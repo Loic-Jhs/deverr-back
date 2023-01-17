@@ -23,12 +23,13 @@ Back-end developers :
 Git master :
 - Ethan Eldib
 
-## Au clonage du projet:
+## Au clonage du projet :
 
 - `docker run --rm -it -v $PWD:/app loan91/tools:composer81 install` <== permet d'installer les dépendances sans avoir à se soucier de la version de composer
 - Copier le .env.example en .env 
 - modifier le .env avec: 
     ```
+    FRONT_URL=the_url_of_the_front_end
     DB_CONNECTION=mysql
     DB_HOST=mariadb
     DB_PORT=3306
