@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Developer\RandomDevsController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 use App\Http\Controllers\Api\Stripe\PaymentController;
 use App\Http\Controllers\Api\Stripe\StripeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,13 +62,13 @@ Route::middleware('jsonOnly')->group(function () {
         });
 
         Route::get('/logout', [AuthController::class, 'logout']);
-
         // connected as user
         Route::group(['prefix' => 'profile'], function () {
             Route::put('/update', [ProfileController::class, 'update']);
             Route::put('/update-password', [ProfileController::class, 'updatePassword']);
             Route::delete('/delete', [ProfileController::class, 'delete']);
         });
+        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
     });
 
     // NOT CONNECTED
@@ -82,7 +83,6 @@ Route::middleware('jsonOnly')->group(function () {
 
         Route::get('/profile/{id}', [ProfileController::class, 'index']);
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
-
         // Create stripe session for payment
         Route::match(['get', 'post'], '/order/create-session/{id}', [
             StripeController::class, 'createSession'
@@ -93,7 +93,11 @@ Route::middleware('jsonOnly')->group(function () {
         Route::get('/payment-success/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'success']);
         // Payment canceled
         Route::get('/payment-canceled/{stripeSessionId}/{developerPrestationId}', [PaymentController::class, 'canceled']);
+        Route::get('/all-developers-invite', [AllDevelopersController::class, 'getAllDevs']);
     });
 
-    Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs']);
+
+
+//        Route::get('/all-developers', [AllDevelopersController::class, 'getAllDevs'])->middleware(['guest']);
+
 });

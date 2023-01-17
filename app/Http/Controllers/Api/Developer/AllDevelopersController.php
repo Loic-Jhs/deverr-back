@@ -16,11 +16,11 @@ class AllDevelopersController extends Controller
      */
     public function getAllDevs(): JsonResponse
     {
-        if(auth()->check() && auth()->user()->role == "2"){
+        if(isset(auth()->user()->developer)) {
             // get all developers id, firstname, lastname, created_at,
             // with their ratings summed, their stack, their devPrestations
             $allDevelopers = Developer::with('user', 'developerStacks', 'complaints', 'reviews', 'developerPrestations')
-                ->where('developer_id', '!=', auth()->user()->developer->id)
+                ->where('developers.id', '!=', auth()->user()->developer->id)
                 ->get();
         } else {
             $allDevelopers = Developer::with('user', 'developerStacks', 'complaints', 'reviews', 'developerPrestations')
