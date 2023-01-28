@@ -16,20 +16,19 @@ class StripeController extends Controller
         $DOMAIN = config('app.front_url');
         Stripe::setApiKey(config('app.stripe_api_secret_key'));
 
-        $developerPrestation = DeveloperPrestation::where('id', $id)->first();
-        $devPrestationIdInOrder = Order::where('developer_prestation_id', $id)->first();
+        $order = Order::where('id', $id)->first();
         $user = auth()->user();
 
         $checkout_session = Session::create([
-            'customer_email' => $user ?: $developerPrestation->developer->user->email,
+            'customer_email' => $user ?: $order->developerPrestation->developer->user->email,
             'payment_method_types' => ['card'],
             'line_items' => [
                 [
                     'price_data' => [
                         'currency' => 'eur',
-                        'unit_amount' => (float) $developerPrestation->price * 100,
+                        'unit_amount' => (float) $order->developerPrestation->price * 100,
                         'product_data' => [
-                            'name' => 'Paiement pour la prestation : '.$developerPrestation->prestationType->name,
+                            'name' => 'Paiement pour la prestation : '.$order->developerPrestation->prestationType->name,
                             'images' => [$DOMAIN.'/public/images/deverr.jng'],
                         ],
                     ],
@@ -37,8 +36,8 @@ class StripeController extends Controller
                 ],
             ],
             'mode' => 'payment',
-            'success_url' => $DOMAIN.'/payment-success/{CHECKOUT_SESSION_ID}/'.$devPrestationIdInOrder['developer_prestation_id'],
-            'cancel_url' => $DOMAIN.'/payment-canceled/{CHECKOUT_SESSION_ID}/'.$devPrestationIdInOrder['developer_prestation_id'],
+            'success_url' => $DOMAIN.'/payment-success/{CHECKOUT_SESSION_ID}/'.$order['developer_prestation_id'],
+            'cancel_url' => $DOMAIN.'/payment-canceled/{CHECKOUT_SESSION_ID}/'.$order['developer_prestation_id'],
         ]);
 
         return new JsonResponse([

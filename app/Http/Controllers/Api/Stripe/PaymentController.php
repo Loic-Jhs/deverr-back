@@ -14,21 +14,21 @@ class PaymentController extends Controller
      * @param $id
      * @return View
      */
-    public function recapDeveloperPrestation($id): View
+    public function recapDeveloperPrestation($id): JsonResponse
     {
-        $developerPrestation = DeveloperPrestation::where('id', $id)->first();
-        //$devFullName = $developerPrestation->developer->user->firstname . ' ' . $developerPrestation->developer->user->lastname;
+        $order = Order::where('id', $id)->first();
+        $devFullName = $order->developerPrestation->developer->user->firstname . ' ' . $order->developerPrestation->developer->user->lastname;
 
-        /*return new JsonResponse([
-            'developerPrestationId'    => $developerPrestation->id,
-            'developerPrestationName'  => $developerPrestation->prestationType->name,
+        return new JsonResponse([
+            'developerPrestationId'    => $order->developerPrestation->id,
+            'developerPrestationName'  => $order->developerPrestation->prestationType->name,
             'developerFullName'        => $devFullName,
-            'developerPrestationPrice' => $developerPrestation->price,
-        ]);*/
-
-        return view('recap', [
-            'developerPrestation' => $developerPrestation,
+            'developerPrestationPrice' => $order->developerPrestation->price,
         ]);
+
+        /*return view('recap', [
+            'developerPrestation' => $order->developerPrestation,
+        ]);*/
     }
 
     /**
