@@ -47,3 +47,7 @@ Git master :
     `./vendor/bin/sail down -v`
  Essayer de re-build 
  Relancer avec `./vendor/bin/sail up -d`
+ 
+ 
+ ## Mailing
+ Pour accéder au mails envoyés par l'application, il suffit de se rendre sur l'adresse suivante: https://mailosaur.com/
