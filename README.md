@@ -24,7 +24,7 @@ Git master :
 - Ethan Eldib
 
 ## Au clonage du projet :
-
+test auto deploy
 - `docker run --rm -it -v $PWD:/app loan91/tools:composer81 install` <== permet d'installer les dépendances sans avoir à se soucier de la version de composer
 - Copier le .env.example en .env 
 - modifier le .env avec: 
