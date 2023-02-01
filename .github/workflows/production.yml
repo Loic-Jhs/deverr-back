@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
-  Push to production:
+  Push_to_production:
     runs-on: ubuntu-22.04
 
     env:
@@ -68,7 +68,7 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         script: ./updateApi.sh > logApiUpdate.log 2>&1
 
-  laravel-tests:
+  run_tests:
     runs-on: ubuntu-22.04
 
     env:
