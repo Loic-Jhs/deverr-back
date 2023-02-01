@@ -5,13 +5,16 @@ actor client
 actor developer
 
 package Application {
-    client --> (asks a new mission)
+    client -left-> (asks a new mission)
     (asks a new mission) -> (sends mail to refuse/accept the mission)
     (sends mail to refuse/accept the mission) ...> developer : Can refuse/accept the new mission
-    (accepts new mission) <- developer
+    (accepts new mission) <-- developer
     (denies new mission) <- developer
+    (denies new mission) -> (sends mail to the user that the mission is denied)
+    (sends mail to the user that the mission is denied) ..> client
     (accepts new mission) .> (finished the mission)
     (finished the mission) -> (sends mail to the user that the mission is finished)
-    (sends mail to the user that the mission is finished) ...> client
+    (sends mail to the user that the mission is finished) -> (client pays)
+    (client pays) ...> client
 }
 @enduml
