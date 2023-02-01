@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
-  run tests:
+  run-tests:
     runs-on: ubuntu-22.04
 
     env:
