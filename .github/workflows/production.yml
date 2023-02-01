@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
-      APP_URL: "https://api.deverr.fr"
+      APP_URL: ${{secrets.APP_URL}}
       DB_CONNECTION: ${{secrets.DB_CONNECTION}}
       DB_HOST: ${{secrets.DB_HOST}}
       DB_DATABASE: ${{secrets.DB_DATABASE}}
