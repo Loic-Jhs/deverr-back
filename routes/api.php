@@ -67,7 +67,7 @@ Route::middleware('jsonOnly')->group(function () {
     // NOT CONNECTED
     Route::middleware(['guest'])->group(function () {
         // Delete a user by his email. see test formClient.cy.js
-        Route::delete('delete-user-by-email', [UserController::class, 'deleteUserByEmail']);
+        Route::delete('delete-user-by-email/{email}', [UserController::class, 'deleteUserByEmail']);
 
         // Authentication Routes + password reset
         Route::post('/login', [AuthController::class, 'login']);
