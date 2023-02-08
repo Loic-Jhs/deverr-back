@@ -132,7 +132,7 @@ class UserController extends Controller
             abort(404, 'Utilisateur introuvable');
         }
 
-        $user->delete();
+        $user->forceDelete();
 
         return response()->json([
             'message' => 'Utilisateur supprimé avec succès',
