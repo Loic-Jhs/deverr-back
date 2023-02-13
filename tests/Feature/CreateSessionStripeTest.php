@@ -12,7 +12,8 @@ uses(RefreshDatabase::class);
 
 it('should return 200 when a customer clicks on the payment button to be redirected to the Stripe Page', function () {
 
-    Stripe::setApiKey(env('SECRET_KEY_STRIPE'));
+    /*Stripe::setApiKey(env('SECRET_KEY_STRIPE'));*/
+    Stripe::setApiKey('sk_test_51LvRpVGm3pNtvPq2Cf4hl95LApSmGx9Zdz5oyrmsJzMIGOoiVzOX0w5lvn3O9WlmKU2mCvPh57oPDLF4CRUUrD60009lXMzhVb');
 
     $order = new Order;
     $order->id = 1411;
