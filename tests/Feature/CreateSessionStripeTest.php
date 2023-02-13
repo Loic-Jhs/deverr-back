@@ -3,7 +3,6 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\Api\Stripe\StripeController;
 use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Stripe\Stripe;
