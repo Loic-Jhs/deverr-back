@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreNewOderRequest;
+use App\Http\Resources\OrderDetailsResource;
 use App\Http\Resources\OrdersResource;
 use App\Mail\SendConfirmationOderMail;
 use App\Mail\SendFinishedOrderMail;
@@ -26,6 +27,43 @@ class OrderController extends Controller
         $developerPrestations = Order::where('developer_id', $request->developer_id)->orderBy('created_at')->get();
 
         return response()->json(OrdersResource::collection($developerPrestations), 200);
+    }
+
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function getOrderValidatedPayment($id): JsonResponse
+    {
+        $order = Order::where('id', $id)->get();
+
+        $stripeSessionId = \request('CHECKOUT_SESSION_ID');
+
+        Order::where('developer_prestation_id', $id)->update([
+            'is_paid' => true,
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
+            'stripe_session_id' => $stripeSessionId,
+        ]);
+
+        return new JsonResponse(OrderDetailsResource::collection($order), 200);
+    }
+
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function getOrderRejectedPayment($id): JsonResponse
+    {
+        $order = Order::where('id', $id)->get();
+
+        $stripeSessionId = \request('CHECKOUT_SESSION_ID');
+
+        Order::where('developer_prestation_id', $id)->update([
+            'reference' => str_replace([' ', '-'], '', now()->format('Y-m-d').'-'.uniqid()),
+            'stripe_session_id' => $stripeSessionId,
+        ]);
+
+        return new JsonResponse(OrderDetailsResource::collection($order), 200);
     }
 
     /**

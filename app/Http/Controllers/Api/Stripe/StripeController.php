@@ -29,7 +29,7 @@ class StripeController extends Controller
                         'unit_amount' => (float) $order->developerPrestation->price * 100,
                         'product_data' => [
                             'name' => 'Paiement pour la prestation : '.$order->developerPrestation->prestationType->name,
-                            'images' => [$DOMAIN.'/public/images/deverr.jng'],
+                            'images' => [$DOMAIN.'/public/images/deverr.jpg'],
                         ],
                     ],
                     'quantity' => 1,

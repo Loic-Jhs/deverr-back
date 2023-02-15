@@ -90,6 +90,10 @@ Route::middleware('jsonOnly')->group(function () {
         // get developer details as a user
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
 
+        // Details for payment
+        Route::get('/order-payed/{id}', [OrderController::class, 'getOrderValidatedPayment']);
+        Route::get('/order-rejected/{id}', [OrderController::class, 'getOrderRejectedPayment']);
+
         // Get all prestations available so a developer can add them to his profile
         Route::get('/all-prestations', [AllPrestationsController::class, 'index']);
 
