@@ -17,6 +17,7 @@ jobs:
       DB_DATABASE: ${{secrets.DB_DATABASE}}
       DB_USERNAME: ${{secrets.DB_USERNAME}}
       DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      SECRET_KEY_STRIPE: ${{secrets.SECRET_KEY_STRIPE}}
 
     services:
       mariadb:
