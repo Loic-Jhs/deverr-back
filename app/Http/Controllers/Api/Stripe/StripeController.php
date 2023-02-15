@@ -14,6 +14,8 @@ class StripeController extends Controller
     public function createSession($id): JsonResponse
     {
         $DOMAIN = config('app.front_url');
+        $DOMAIN_API = env('APP_URL');
+
         Stripe::setApiKey(config('app.stripe_api_secret_key'));
 
         $order = Order::where('id', $id)->first();
@@ -29,7 +31,7 @@ class StripeController extends Controller
                         'unit_amount' => (float) $order->developerPrestation->price * 100,
                         'product_data' => [
                             'name' => 'Paiement pour la prestation : '.$order->developerPrestation->prestationType->name,
-                            'images' => [$DOMAIN.'/public/images/deverr.jpg'],
+                            'images' => [$DOMAIN_API.'/images/deverrLogo.png'],
                         ],
                     ],
                     'quantity' => 1,
