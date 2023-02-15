@@ -119,4 +119,23 @@ class UserController extends Controller
             'message' => 'Utilisateur supprimé avec succès',
         ], 200);
     }
+
+    /**
+     * @param $email
+     * @return JsonResponse
+     */
+    public function deleteUserByEmail($email)
+    {
+        $user = User::where('email', $email)->first();
+
+        if (! $user) {
+            abort(404, 'Utilisateur introuvable');
+        }
+
+        $user->forceDelete();
+
+        return response()->json([
+            'message' => 'Utilisateur supprimé avec succès',
+        ], 200);
+    }
 }

@@ -39,7 +39,7 @@
                                         style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                     <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                                         Bonjour {{ $data['user_fullname'] }}, <br><br>
-                                        Mauvause nouvelle ... La prestation "{{ $data['prestationTypeName'] }}" a été refusée par {{ $data['developer_fullname'] }}.
+                                        Mauvaise nouvelle ... La prestation "{{ $data['prestationTypeName'] }}" a été refusée par {{ $data['developer_fullname'] }}.
                                     </p>
                                     <a href="{{ env("FRONT_URL") }}/login" style="background:#50BFDF;text-decoration:none !important; font-weight:500; margin-top:35px; color:#ffffff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Deverr</a>
                                 </td>

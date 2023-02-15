@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Developer\AllDevelopersController;
@@ -66,6 +67,9 @@ Route::middleware('jsonOnly')->group(function () {
 
     // NOT CONNECTED
     Route::middleware(['guest'])->group(function () {
+        // Delete a user by his email. see test formClient.cy.js
+        Route::delete('delete-user-by-email/{email}', [UserController::class, 'deleteUserByEmail']);
+
         // Authentication Routes + password reset
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
@@ -86,6 +90,10 @@ Route::middleware('jsonOnly')->group(function () {
 
         // get developer details as a user
         Route::get('/developer/{id}', [DeveloperDetailsController::class, 'developerDetails']);
+
+        // Details for payment
+        Route::get('/order-payed/{id}', [OrderController::class, 'getOrderValidatedPayment']);
+        Route::get('/order-rejected/{id}', [OrderController::class, 'getOrderRejectedPayment']);
 
         // Get all prestations available so a developer can add them to his profile
         Route::get('/all-prestations', [AllPrestationsController::class, 'index']);
