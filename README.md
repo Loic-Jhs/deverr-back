@@ -20,8 +20,7 @@
 ## Au cas où si mariadb bug:
     `./vendor/bin/sail down -v`
  Essayer de re-build et relancer la commande `./vendor/bin/sail up -d`
- 
- 
+
  ## Mailing
  Pour accéder au mails envoyés par l'application, il suffit de se rendre sur l'adresse suivante: https://mailosaur.com/ 
  OU sur le port `localhost:8025`
